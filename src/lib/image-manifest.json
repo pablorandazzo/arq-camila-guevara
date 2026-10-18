@@ -1,0 +1,798 @@
+{
+  "/assets/images/1657797466-rhe_alphabeta-building_2nd-visit_001.jpg": {
+    "width": 4252,
+    "height": 2835,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1657797466-rhe_alphabeta-building_2nd-visit_001-f8ca6c4dea-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1657797466-rhe_alphabeta-building_2nd-visit_001-f8ca6c4dea-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1657797466-rhe_alphabeta-building_2nd-visit_001-f8ca6c4dea-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1657797466-rhe_alphabeta-building_2nd-visit_001-f8ca6c4dea-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1657797662-dl-rhe-ts-1388-print.jpg": {
+    "width": 2500,
+    "height": 1667,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1657797662-dl-rhe-ts-1388-print-958b42a9f4-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1657797662-dl-rhe-ts-1388-print-958b42a9f4-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1657797662-dl-rhe-ts-1388-print-958b42a9f4-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1657797662-dl-rhe-ts-1388-print-958b42a9f4-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1657797867-aerial-3-copy.jpg": {
+    "width": 3504,
+    "height": 2336,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1657797867-aerial-3-copy-3189e2f67a-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1657797867-aerial-3-copy-3189e2f67a-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1657797867-aerial-3-copy-3189e2f67a-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1657797867-aerial-3-copy-3189e2f67a-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659430118-hero.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659430118-hero-157e9b3e84-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659430118-hero-157e9b3e84-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659430118-hero-157e9b3e84-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659430118-hero-157e9b3e84-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659430558-masterplan2-1.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659430558-masterplan2-1-c050134979-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659430558-masterplan2-1-c050134979-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659430558-masterplan2-1-c050134979-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659430558-masterplan2-1-c050134979-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659438972-dl-rhe-ubs-0255-print-cropped.jpg": {
+    "width": 2539,
+    "height": 2570,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659438972-dl-rhe-ubs-0255-print-cropped-5997cf0621-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659438972-dl-rhe-ubs-0255-print-cropped-5997cf0621-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659438972-dl-rhe-ubs-0255-print-cropped-5997cf0621-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659438972-dl-rhe-ubs-0255-print-cropped-5997cf0621-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659449884-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659449884-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-6699cc2fdf-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659449884-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-6699cc2fdf-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659449884-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-6699cc2fdf-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659449884-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-6699cc2fdf-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659450440-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659450440-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-50bd68d4dc-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659450440-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-50bd68d4dc-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659450440-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-50bd68d4dc-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659450440-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-50bd68d4dc-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659948013-lawn-homes-1.jpg": {
+    "width": 2940,
+    "height": 2210,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659948013-lawn-homes-1-3af7695686-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659948013-lawn-homes-1-3af7695686-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659948013-lawn-homes-1-3af7695686-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659948013-lawn-homes-1-3af7695686-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659948214-jed_view_01-f08-1-1.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659948214-jed_view_01-f08-1-1-bace85cddc-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659948214-jed_view_01-f08-1-1-bace85cddc-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659948214-jed_view_01-f08-1-1-bace85cddc-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659948214-jed_view_01-f08-1-1-bace85cddc-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659948645-rhe_pa_05-1.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659948645-rhe_pa_05-1-9b9fdd7a6d-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659948645-rhe_pa_05-1-9b9fdd7a6d-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659948645-rhe_pa_05-1-9b9fdd7a6d-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659948645-rhe_pa_05-1-9b9fdd7a6d-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659949646-studio-rhe_zil-pasyon-island-1-1-1.jpg": {
+    "width": 2940,
+    "height": 2206,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659949646-studio-rhe_zil-pasyon-island-1-1-1-6000794b10-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659949646-studio-rhe_zil-pasyon-island-1-1-1-6000794b10-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659949646-studio-rhe_zil-pasyon-island-1-1-1-6000794b10-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659949646-studio-rhe_zil-pasyon-island-1-1-1-6000794b10-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659949784-felicite_aerial_view5-6793-original-1.jpg": {
+    "width": 1400,
+    "height": 1051,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659949784-felicite_aerial_view5-6793-original-1-eb6064deb2-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659949784-felicite_aerial_view5-6793-original-1-eb6064deb2-1280.webp"
+      },
+      {
+        "width": 1400,
+        "src": "/assets/images/optimized/1659949784-felicite_aerial_view5-6793-original-1-eb6064deb2-1400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659950206-dl-rhe-pr-3720-online-1-1.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659950206-dl-rhe-pr-3720-online-1-1-5bfae9d311-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659950206-dl-rhe-pr-3720-online-1-1-5bfae9d311-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659950206-dl-rhe-pr-3720-online-1-1-5bfae9d311-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659950206-dl-rhe-pr-3720-online-1-1-5bfae9d311-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1659952417-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1659952417-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-d5e7293b19-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1659952417-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-d5e7293b19-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1659952417-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-d5e7293b19-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1659952417-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1-d5e7293b19-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1660813591-home-image.jpg": {
+    "width": 1880,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1660813591-home-image-e9a984d8db-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1660813591-home-image-e9a984d8db-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1660813591-home-image-e9a984d8db-1600.webp"
+      },
+      {
+        "width": 1880,
+        "src": "/assets/images/optimized/1660813591-home-image-e9a984d8db-1880.webp"
+      }
+    ]
+  },
+  "/assets/images/1663676587-studio-rhe-istanbul-06-1.jpg": {
+    "width": 3000,
+    "height": 2651,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1663676587-studio-rhe-istanbul-06-1-77f84eaf8a-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1663676587-studio-rhe-istanbul-06-1-77f84eaf8a-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1663676587-studio-rhe-istanbul-06-1-77f84eaf8a-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1663676587-studio-rhe-istanbul-06-1-77f84eaf8a-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1663677706-01_dl-rhe-nhouse-ext-6191_r4_option_1-online_flipped.jpg": {
+    "width": 2488,
+    "height": 1900,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1663677706-01_dl-rhe-nhouse-ext-6191_r4_option_1-online_flipped-de563f5248-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1663677706-01_dl-rhe-nhouse-ext-6191_r4_option_1-online_flipped-de563f5248-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1663677706-01_dl-rhe-nhouse-ext-6191_r4_option_1-online_flipped-de563f5248-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1663677706-01_dl-rhe-nhouse-ext-6191_r4_option_1-online_flipped-de563f5248-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1663679919-01_huckltreewest-studiorhe-01.jpg": {
+    "width": 2500,
+    "height": 1538,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1663679919-01_huckltreewest-studiorhe-01-a67c717530-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1663679919-01_huckltreewest-studiorhe-01-a67c717530-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1663679919-01_huckltreewest-studiorhe-01-a67c717530-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1663679919-01_huckltreewest-studiorhe-01-a67c717530-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1665158307-studio-rhe-hero.jpg": {
+    "width": 3720,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1665158307-studio-rhe-hero-063b95ffe5-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1665158307-studio-rhe-hero-063b95ffe5-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1665158307-studio-rhe-hero-063b95ffe5-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1665158307-studio-rhe-hero-063b95ffe5-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1665487849-plan_zil_pasyon.jpg": {
+    "width": 1400,
+    "height": 990,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1665487849-plan_zil_pasyon-86de3153a0-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1665487849-plan_zil_pasyon-86de3153a0-1280.webp"
+      },
+      {
+        "width": 1400,
+        "src": "/assets/images/optimized/1665487849-plan_zil_pasyon-86de3153a0-1400.webp"
+      }
+    ]
+  },
+  "/assets/images/1665495268-studio-rhe-lido-01-manuel.jpg": {
+    "width": 7640,
+    "height": 3708,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1665495268-studio-rhe-lido-01-manuel-2f9b7ebeed-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1665495268-studio-rhe-lido-01-manuel-2f9b7ebeed-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1665495268-studio-rhe-lido-01-manuel-2f9b7ebeed-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1665495268-studio-rhe-lido-01-manuel-2f9b7ebeed-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1665559885-zil-pasyon-r1_1-2.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1665559885-zil-pasyon-r1_1-2-b0170ff253-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1665559885-zil-pasyon-r1_1-2-b0170ff253-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1665559885-zil-pasyon-r1_1-2-b0170ff253-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1665559885-zil-pasyon-r1_1-2-b0170ff253-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1665559919-four-bedroom_residence_entrance_evening-1.jpg": {
+    "width": 1400,
+    "height": 1051,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1665559919-four-bedroom_residence_entrance_evening-1-29a9160db4-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1665559919-four-bedroom_residence_entrance_evening-1-29a9160db4-1280.webp"
+      },
+      {
+        "width": 1400,
+        "src": "/assets/images/optimized/1665559919-four-bedroom_residence_entrance_evening-1-29a9160db4-1400.webp"
+      }
+    ]
+  },
+  "/assets/images/1665560150-dl-rhe-zp-0213-online_cropped-1-2.jpg": {
+    "width": 1400,
+    "height": 1051,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1665560150-dl-rhe-zp-0213-online_cropped-1-2-d712938cb9-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1665560150-dl-rhe-zp-0213-online_cropped-1-2-d712938cb9-1280.webp"
+      },
+      {
+        "width": 1400,
+        "src": "/assets/images/optimized/1665560150-dl-rhe-zp-0213-online_cropped-1-2-d712938cb9-1400.webp"
+      }
+    ]
+  },
+  "/assets/images/1665999669-lansdowne-459.jpg": {
+    "width": 3000,
+    "height": 2000,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1665999669-lansdowne-459-ae88958186-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1665999669-lansdowne-459-ae88958186-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1665999669-lansdowne-459-ae88958186-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1665999669-lansdowne-459-ae88958186-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1665999727-dl-rhe-gb-0977-online.jpg": {
+    "width": 2143,
+    "height": 2500,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1665999727-dl-rhe-gb-0977-online-01e39afc6b-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1665999727-dl-rhe-gb-0977-online-01e39afc6b-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1665999727-dl-rhe-gb-0977-online-01e39afc6b-1600.webp"
+      },
+      {
+        "width": 2143,
+        "src": "/assets/images/optimized/1665999727-dl-rhe-gb-0977-online-01e39afc6b-2143.webp"
+      }
+    ]
+  },
+  "/assets/images/1665999986-aerial-3.jpg": {
+    "width": 3504,
+    "height": 2336,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1665999986-aerial-3-8efef94317-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1665999986-aerial-3-8efef94317-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1665999986-aerial-3-8efef94317-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1665999986-aerial-3-8efef94317-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1667210128-studio-rhe-roots-barn-aerial-1.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1667210128-studio-rhe-roots-barn-aerial-1-6647ca783b-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1667210128-studio-rhe-roots-barn-aerial-1-6647ca783b-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1667210128-studio-rhe-roots-barn-aerial-1-6647ca783b-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1667210128-studio-rhe-roots-barn-aerial-1-6647ca783b-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1674043319-beach-residence-2-copy.jpg": {
+    "width": 3840,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1674043319-beach-residence-2-copy-8e800f3e02-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1674043319-beach-residence-2-copy-8e800f3e02-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1674043319-beach-residence-2-copy-8e800f3e02-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1674043319-beach-residence-2-copy-8e800f3e02-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1674050240-dl-rhe-wl-4358-1.jpg": {
+    "width": 2940,
+    "height": 2208,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1674050240-dl-rhe-wl-4358-1-f17f5cb929-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1674050240-dl-rhe-wl-4358-1-f17f5cb929-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1674050240-dl-rhe-wl-4358-1-f17f5cb929-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1674050240-dl-rhe-wl-4358-1-f17f5cb929-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/1674061021-studio-rhe-zil-residences-02-1.jpg": {
+    "width": 1400,
+    "height": 1051,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1674061021-studio-rhe-zil-residences-02-1-f688345e42-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1674061021-studio-rhe-zil-residences-02-1-f688345e42-1280.webp"
+      },
+      {
+        "width": 1400,
+        "src": "/assets/images/optimized/1674061021-studio-rhe-zil-residences-02-1-f688345e42-1400.webp"
+      }
+    ]
+  },
+  "/assets/images/1674061166-three-bedroom_residence_dining_room-evening-7883-original-1.jpg": {
+    "width": 1400,
+    "height": 1051,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1674061166-three-bedroom_residence_dining_room-evening-7883-original-1-bd793c291d-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1674061166-three-bedroom_residence_dining_room-evening-7883-original-1-bd793c291d-1280.webp"
+      },
+      {
+        "width": 1400,
+        "src": "/assets/images/optimized/1674061166-three-bedroom_residence_dining_room-evening-7883-original-1-bd793c291d-1400.webp"
+      }
+    ]
+  },
+  "/assets/images/1674212795-studio-rhe-zil-residences-07-1-copy.jpg": {
+    "width": 1400,
+    "height": 1073,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1674212795-studio-rhe-zil-residences-07-1-copy-226b29d02c-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1674212795-studio-rhe-zil-residences-07-1-copy-226b29d02c-1280.webp"
+      },
+      {
+        "width": 1400,
+        "src": "/assets/images/optimized/1674212795-studio-rhe-zil-residences-07-1-copy-226b29d02c-1400.webp"
+      }
+    ]
+  },
+  "/assets/images/1674213225-four-bedroom_residence_living_and_dining_room-7852-original-1-copy.jpg": {
+    "width": 1400,
+    "height": 1073,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1674213225-four-bedroom_residence_living_and_dining_room-7852-original-1-copy-910b8eb469-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1674213225-four-bedroom_residence_living_and_dining_room-7852-original-1-copy-910b8eb469-1280.webp"
+      },
+      {
+        "width": 1400,
+        "src": "/assets/images/optimized/1674213225-four-bedroom_residence_living_and_dining_room-7852-original-1-copy-910b8eb469-1400.webp"
+      }
+    ]
+  },
+  "/assets/images/1674213505-studio-rhe-zil-residences-09-1-copy.jpg": {
+    "width": 1400,
+    "height": 1030,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1674213505-studio-rhe-zil-residences-09-1-copy-61fe065146-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1674213505-studio-rhe-zil-residences-09-1-copy-61fe065146-1280.webp"
+      },
+      {
+        "width": 1400,
+        "src": "/assets/images/optimized/1674213505-studio-rhe-zil-residences-09-1-copy-61fe065146-1400.webp"
+      }
+    ]
+  },
+  "/assets/images/1720629688-5138_main-house-external-view_240410.jpg": {
+    "width": 2500,
+    "height": 1563,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/1720629688-5138_main-house-external-view_240410-864725a55e-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/1720629688-5138_main-house-external-view_240410-864725a55e-1280.webp"
+      },
+      {
+        "width": 1600,
+        "src": "/assets/images/optimized/1720629688-5138_main-house-external-view_240410-864725a55e-1600.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/assets/images/optimized/1720629688-5138_main-house-external-view_240410-864725a55e-2400.webp"
+      }
+    ]
+  },
+  "/assets/images/rhe-contact-hero.jpg": {
+    "width": 1572,
+    "height": 2128,
+    "sources": [
+      {
+        "width": 640,
+        "src": "/assets/images/optimized/rhe-contact-hero-a9d8d54b2e-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/images/optimized/rhe-contact-hero-a9d8d54b2e-1280.webp"
+      },
+      {
+        "width": 1572,
+        "src": "/assets/images/optimized/rhe-contact-hero-a9d8d54b2e-1572.webp"
+      }
+    ]
+  }
+}

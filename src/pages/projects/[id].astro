@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import ContentSections from '../../components/ContentSections.astro';
+import { imageProps } from '../../lib/images';
 export async function getStaticPaths() {
   const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
   return projects.map((project, index) => ({ params: { id: project.id }, props: { project, nextProject: projects[(index + 1) % projects.length] } }));
@@ -14,14 +15,14 @@ const labels = project.data.language === 'en'
 <SiteLayout title={project.data.title} description={project.data.description || project.data.title}>
   <main class="page project-detail--editorial" data-project-story lang={project.data.language} transition:name="project-page" transition:animate="none">
     <div class="project-story-scroll" id="project-story-scroll">
-      <figure class="project-story-hero" transition:name="project-hero" transition:animate="none"><img src={project.data.image} alt={project.data.alt} fetchpriority="high" decoding="async" /></figure>
+      <figure class="project-story-hero" transition:name="project-hero" transition:animate="none"><img {...imageProps(project.data.image, '100vw')} alt={project.data.alt} fetchpriority="high" decoding="async" /></figure>
       <div class="project-story-mobile-copy">
         <h1>{project.data.title}</h1>
         {project.data.description && <p>{project.data.description}</p>}
         {project.data.location && <p class="project-story-location"><span>{labels.location}</span><span>{project.data.location}</span></p>}
       </div>
       <ContentSections sections={project.data.sections} context="story" />
-      <a class="project-story-next-image" href={`/projects/${nextProject.id}/`} aria-label={`${labels.next}: ${nextProject.data.title}`}><img src={nextProject.data.image} alt={nextProject.data.alt} loading="lazy" /></a>
+      <a class="project-story-next-image" href={`/projects/${nextProject.id}/`} aria-label={`${labels.next}: ${nextProject.data.title}`}><img {...imageProps(nextProject.data.image, '100vw')} alt={nextProject.data.alt} loading="lazy" decoding="async" /></a>
       <a class="project-story-mobile-next" href={`/projects/${nextProject.id}/`}><span>{labels.next}</span><h2>{nextProject.data.title}</h2></a>
     </div>
     <aside class="project-story-aside">

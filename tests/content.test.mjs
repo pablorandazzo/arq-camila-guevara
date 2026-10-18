@@ -6,6 +6,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 const root = new URL('../', import.meta.url);
 const site = JSON.parse(await readFile(new URL('../src/content/site.json', import.meta.url), 'utf8'));
+const images = JSON.parse(await readFile(new URL('../src/lib/image-manifest.json', import.meta.url), 'utf8'));
 const catalogs = {};
 for (const kind of ['projects']) {
   const dir = new URL(`../src/content/${kind}/`, import.meta.url);
@@ -258,7 +259,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     const project = catalogs.projects.find(item => item.id === id);
     assert.ok(homepage.includes(`href="/projects/${id}/"`), `homepage links to ${id}`);
     assert.ok(homepage.includes(project.title), `homepage displays ${project.title}`);
-    assert.ok(homepage.includes(`src="${project.image}"`), `homepage displays the cover for ${id}`);
+    assert.ok(homepage.includes(`src="${images[project.image].sources.at(-1).src}"`), `homepage displays the optimized cover for ${id}`);
   }
   assert.match(homepage, /class="home-hero-actions"/, 'the homepage hero shows its primary actions');
   assert.match(homepage, /href="\/contact\/"[^>]*>Contactarme<\/a>/, 'Contactarme points to the existing contact route');
@@ -280,16 +281,14 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     const titles = catalogs.projects.filter(project => project.category === category).map(project => project.title);
     assert.equal((html.match(/class="project-choice/g) || []).length, titles.length, category);
     for (const title of titles) assert.ok(html.includes(title), title);
-    assert.match(html, /<img src="\/assets\/images\/[^\"]+"[^>]*loading="eager"[^>]*fetchpriority="high"/);
-    assert.equal((html.match(/loading="eager"/g) || []).length, titles.length, category);
-    assert.equal((html.match(/data-src="\/assets\/images\//g) || []).length, titles.length - 1, category);
+    assert.match(html, /<img src="\/assets\/images\/optimized\/[^\"]+\.webp"[^>]*fetchpriority="high"/);
+    assert.equal((html.match(/data-src="\/assets\/images\/optimized\//g) || []).length, titles.length - 1, category);
     assert.equal((html.match(/class="projects-mobile-list"/g) || []).length, 1, category);
     assert.equal((html.match(/loading="lazy"/g) || []).length, titles.length, category);
   }
   const listing = await readFile(new URL('../dist/projects/index.html', import.meta.url), 'utf8');
   assert.equal((listing.match(/class="project-choice/g) || []).length, catalogs.projects.length);
-  assert.equal((listing.match(/loading="eager"/g) || []).length, catalogs.projects.length);
-  assert.equal((listing.match(/data-src="\/assets\/images\//g) || []).length, catalogs.projects.length - 1);
+  assert.equal((listing.match(/data-src="\/assets\/images\/optimized\//g) || []).length, catalogs.projects.length - 1);
   assert.equal((listing.match(/loading="lazy"/g) || []).length, catalogs.projects.length);
   assert.match(listing, /href="\/projects\/" aria-current="page"/);
   const detail = await readFile(new URL('../dist/projects/zil-residences/index.html', import.meta.url), 'utf8');
@@ -297,7 +296,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   const residence = catalogs.projects.find(project => project.id === 'zil-residences');
   assert.equal(residence.sections.length, 9, 'Zil Residences includes the complete reference gallery');
   for (const image of [residence.image, ...residence.sections.map(item => item.image)]) {
-    assert.ok(detail.includes(`src="${image}"`), `missing project image: ${image}`);
+    assert.ok(detail.includes(`src="${images[image].sources.at(-1).src}"`), `missing optimized project image: ${image}`);
   }
   assert.match(detail, /class="project-story-mobile-copy"/);
   assert.match(detail, /class="project-story-aside"/);

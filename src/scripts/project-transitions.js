@@ -4,28 +4,13 @@ const projectPath = /^\/projects\/[a-z0-9-]+\/?$/i;
 const warmedRoutes = new Map();
 let navigationPending = false;
 
-function warmProject(url) {
+function warmProject(url, anchor) {
   const key = url.href;
   if (warmedRoutes.has(key)) return warmedRoutes.get(key);
-
-  const preparation = fetch(key, { credentials: 'same-origin' })
-    .then((response) => {
-      if (!response.ok) throw new Error(`Project prefetch failed: ${response.status}`);
-      return response.text();
-    })
-    .then(async (html) => {
-      const page = new DOMParser().parseFromString(html, 'text/html');
-      const hero = page.querySelector('.project-story-hero img');
-      if (!hero?.getAttribute('src')) throw new Error('Project hero image is missing');
-
-      const image = new Image();
-      image.decoding = 'async';
-      image.fetchPriority = 'high';
-      image.src = new URL(hero.getAttribute('src'), url).href;
-      await image.decode().catch(() => undefined);
-    })
-    .catch(() => undefined);
-
+  // Project cards already display the destination hero. Decode that image without
+  // fetching the destination HTML a second time before ClientRouter navigates.
+  const image = anchor?.querySelector('img');
+  const preparation = image?.src && image.decode ? image.decode().catch(() => undefined) : Promise.resolve();
   warmedRoutes.set(key, preparation);
   return preparation;
 }
@@ -40,7 +25,7 @@ function projectUrlFrom(anchor) {
 function warmFromEvent(event) {
   const anchor = event.target.closest?.('a[href]');
   const url = projectUrlFrom(anchor);
-  if (url && url.pathname !== window.location.pathname) void warmProject(url);
+  if (url && url.pathname !== window.location.pathname) void warmProject(url, anchor);
 }
 
 document.addEventListener('pointerover', warmFromEvent, { passive: true });
@@ -58,7 +43,7 @@ document.addEventListener('click', async (event) => {
   document.documentElement.dataset.projectNavigating = 'true';
 
   try {
-    const prepared = warmProject(url);
+    const prepared = warmProject(url, anchor);
     await Promise.race([prepared, new Promise((resolve) => window.setTimeout(resolve, 700))]);
     await navigate(url.href);
   } catch {

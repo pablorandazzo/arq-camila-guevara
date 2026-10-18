@@ -37,13 +37,16 @@ function prototypeAssets() {
             if (!(await stat(file)).isFile()) return next();
             const ext = file.split('.').pop()?.toLowerCase();
             res.setHeader('Content-Type', ({ jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', svg: 'image/svg+xml', webp: 'image/webp', woff2: 'font/woff2', css: 'text/css', js: 'text/javascript' })[ext] || 'application/octet-stream');
+            if (/^\/images\/optimized\/[^/]+-[a-f0-9]{10}-\d+\.webp$/.test(pathname) || /^\/fonts\/[^/]+\.[a-f0-9]{7}\.woff2$/.test(pathname)) {
+              res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+            }
             createReadStream(file).pipe(res);
           } catch { next(); }
         });
       },
       'astro:build:done': async ({ dir }) => {
         const output = new URL(dir);
-        await cp(resolve('assets'), new URL('assets/', output), { recursive: true, filter: (path) => !path.endsWith('site.js') });
+        await cp(resolve('assets'), new URL('assets/', output), { recursive: true, filter: (path) => !path.endsWith('site.js') && !/[/\\]images[/\\][^/\\]+\.(?:jpe?g|png)$/i.test(path) });
         await copyFile(resolve('favicon.ico'), new URL('favicon.ico', output));
         for (const name of [...Object.keys(legacyPages), 'project']) {
           const ids = name === 'project' ? await entryIds('projects') : [];

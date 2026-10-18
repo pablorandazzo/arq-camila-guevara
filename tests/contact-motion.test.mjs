@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { runInNewContext } from 'node:vm';
 
-const script = await readFile(new URL('../assets/interaction.js', import.meta.url), 'utf8');
+const script = await readFile(new URL('../assets/contact-interaction.js', import.meta.url), 'utf8');
 
 test('contact keeps background inert through exit, restores scroll and focus, and interrupts a closing panel', () => {
   const events = new Map();
@@ -34,7 +34,7 @@ test('contact keeps background inert through exit, restores scroll and focus, an
     addEventListener: on('window'), scrollTo(_x, y) { this.scrollY = y; } };
   let timer;
   const frames = [];
-  runInNewContext(script, { document, window, location: { search: '' },
+  runInNewContext(`${script.replace('export function initContact', 'function initContact')}\ninitContact({ aborted: false });`, { document, window, location: { search: '' },
     requestAnimationFrame(fn) { frames.push(fn); },
     setTimeout(fn) { timer = fn; return 1; }, clearTimeout() { timer = null; } });
   events.get('opener:click')();

@@ -194,7 +194,7 @@ test('project preview waits for decoding, ignores stale selections and retains t
 
   const first = handlers.get('1:click')();
   assert.equal(images[1].src, '/image-1.jpg');
-  assert.equal(images[2].src, '/image-2.jpg', 'desktop preloads intermediate images for long travel');
+  assert.equal(images[2].src, undefined, 'unselected previews do not download before selection');
   assert.equal(stack.style.transform, undefined, 'preview stays visible until decode');
   const second = handlers.get('2:click')();
   images[1].naturalWidth = 100;

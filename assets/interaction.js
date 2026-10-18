@@ -313,7 +313,8 @@
     pauseHomeScroll = () => { if (raf) cancelAnimationFrame(raf); raf = 0; target = scroller.scrollLeft; };
     const updateProgress = () => {
       const range = document.documentElement.scrollHeight - window.innerHeight;
-      if (progress) progress.textContent = String(Math.round((desktop.matches ? scroller.scrollLeft / (maxScroll() || 1) : window.scrollY / (range || 1)) * 100));
+      const value = String(Math.round((desktop.matches ? scroller.scrollLeft / (maxScroll() || 1) : window.scrollY / (range || 1)) * 100));
+      if (progress && progress.textContent !== value) progress.textContent = value;
     };
     listen(desktop, 'change', () => { pauseHomeScroll(); updateProgress(); });
     listen(reducedMotion, 'change', () => {
@@ -344,7 +345,8 @@
   if (progress && !scroller) {
     const updateProgress = () => {
       const range = document.documentElement.scrollHeight - window.innerHeight;
-      progress.textContent = String(Math.round(window.scrollY / (range || 1) * 100));
+      const value = String(Math.round(window.scrollY / (range || 1) * 100));
+      if (progress.textContent !== value) progress.textContent = value;
     };
     listen(window, 'scroll', updateProgress, { passive: true });
     updateProgress();
@@ -390,19 +392,13 @@
   const choices = [...document.querySelectorAll('.project-choice')];
   const stack = document.getElementById('project-image-stack');
   const projectLinks = [...(stack?.querySelectorAll('.project-image-link') || [])];
-  const projectDesktop = window.matchMedia('(min-width: 769px)');
-  const loadProjectStack = () => {
-    if (!stack || !projectDesktop.matches) return;
-    projectLinks.forEach((link) => {
-      const image = link.querySelector('img');
-      if (image.dataset.src) {
-        image.src = image.dataset.src;
-        delete image.dataset.src;
-      }
-    });
+  const loadPreview = (image) => {
+    if (!image?.dataset.src) return;
+    image.srcset = image.dataset.srcset;
+    image.src = image.dataset.src;
+    delete image.dataset.srcset;
+    delete image.dataset.src;
   };
-  loadProjectStack();
-  listen(projectDesktop, 'change', loadProjectStack);
   const legacyFilter = stack ? new URLSearchParams(location.search).get('filter') : null;
   if (stack && ['resorts', 'commercial'].includes(legacyFilter)) {
     location.replace(`/projects/${legacyFilter}/`);
@@ -443,10 +439,7 @@
     if (!projectLinks[index] || button.closest('li').hidden) return;
     const version = ++selectionVersion;
     const image = projectLinks[index].querySelector('img');
-    if (image.dataset.src) {
-      image.src = image.dataset.src;
-      delete image.dataset.src;
-    }
+    loadPreview(image);
     if (index !== selectedProject) {
       try {
         if (!image.complete || !image.naturalWidth) await image.decode();
@@ -472,78 +465,7 @@
     showProject(selectedProject);
   });
 
-  const dialog = document.querySelector('.contact-dialog');
-  const opener = document.querySelector('[data-open-contact]');
-  const dialogBackground = [...document.body.children].filter(element => element !== dialog && element.tagName !== 'SCRIPT');
-  const dialogPreviousInert = new Map();
-  let dialogScroll;
-  let dialogTimer;
-  const finishDialogClose = () => {
-    if (!dialog?.classList.contains('is-closing')) return;
-    clearTimeout(dialogTimer);
-    dialog.classList.remove('is-closing');
-    dialog.inert = true;
-    dialogBackground.forEach(element => { element.inert = dialogPreviousInert.get(element) ?? false; });
-    dialogPreviousInert.clear();
-    document.body.classList.remove('contact-open');
-    document.body.style.position = dialogScroll.position;
-    document.body.style.top = dialogScroll.top;
-    document.body.style.width = dialogScroll.width;
-    window.scrollTo(0, dialogScroll.y);
-    dialogScroll = null;
-    opener?.focus({ preventScroll: true });
-  };
-  const closeDialog = () => {
-    if (!dialog?.classList.contains('is-open')) return;
-    dialog.classList.remove('is-open');
-    dialog.classList.add('is-closing');
-    if (reducedMotion.matches) finishDialogClose();
-    else dialogTimer = setTimeout(finishDialogClose, mobile.matches ? 600 : 420);
-  };
-  opener?.addEventListener('click', () => {
-    if (!dialog || dialog.classList.contains('is-open')) return;
-    clearTimeout(dialogTimer);
-    dialog.classList.remove('is-closing');
-    if (!dialogScroll) {
-      dialogScroll = { y: window.scrollY, position: document.body.style.position, top: document.body.style.top, width: document.body.style.width };
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${dialogScroll.y}px`;
-      document.body.style.width = '100%';
-      dialogBackground.forEach(element => { dialogPreviousInert.set(element, element.inert); element.inert = true; });
-    }
-    dialog.inert = false;
-    document.body.classList.add('contact-open');
-    dialog.classList.add('is-open');
-    requestAnimationFrame(() => {
-      if (dialog.classList.contains('is-open')) dialog.querySelector('.dialog-close')?.focus({ preventScroll: true });
-    });
-  });
-  dialog?.addEventListener('transitionend', (event) => {
-    if (event.target === dialog.querySelector('.dialog-body') && event.propertyName === 'transform') finishDialogClose();
-  });
-  listen(reducedMotion, 'change', () => {
-    if (reducedMotion.matches) finishDialogClose();
-  });
-  dialog?.querySelector('.dialog-close')?.addEventListener('click', closeDialog);
-  dialog?.addEventListener('click', (event) => { if (event.target === dialog || event.target.classList.contains('dialog-backdrop')) closeDialog(); });
-  listen(window, 'pageshow', (event) => { if (event.persisted && dialogScroll) { dialog.classList.add('is-closing'); finishDialogClose(); } });
-  listen(document, 'keydown', (event) => {
-    if (event.key === 'Escape' && dialog?.classList.contains('is-open')) closeDialog();
-    if (event.key === 'Tab' && dialog?.classList.contains('is-open')) {
-      const focusable = [...dialog.querySelectorAll('button, input, textarea')];
-      const first = focusable[0], last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-    }
-  });
-  document.querySelector('#contact-form')?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    if (!form.reportValidity()) return;
-    const data = new FormData(form);
-    const subject = encodeURIComponent(String(data.get('subject') || 'Consulta de proyecto'));
-    const body = encodeURIComponent(`${data.get('message')}\n\n${data.get('name')}\n${data.get('email')}`);
-    document.querySelector('.form-message').textContent = 'Se abrirá tu aplicación de correo para enviar la consulta.';
-    location.href = `mailto:${form.dataset.recipient}?subject=${subject}&body=${body}`;
-  });
+  if (document.querySelector('.contact-dialog')) {
+    import('/assets/contact-interaction.js').then(({ initContact }) => initContact(controller.signal));
+  }
 })();

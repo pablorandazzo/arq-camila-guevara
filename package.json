@@ -3,6 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prepare:images": "node scripts/prepare-images.mjs",
+    "predev": "npm run prepare:images",
+    "prebuild": "npm run prepare:images",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -14,6 +17,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.5",
+    "sharp": "^0.35.5",
     "typescript": "^5.9.0"
   }
 }
