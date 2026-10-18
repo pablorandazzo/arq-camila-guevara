@@ -15,7 +15,7 @@ const filters = [
 <main class="page projects-view">
   <div class="projects-photo">
     <div class="project-image-stack" id="project-image-stack">
-      {projects.map((project, index) => { const image = imageProps(project.data.image, '(max-width: 768px) 100vw, 55vw'); return <a class="project-image-link" href={`/projects/${project.id}/`} tabindex={index === 0 ? 0 : -1} aria-hidden={index === 0 ? undefined : 'true'}><img src={index === 0 ? image.src : undefined} srcset={index === 0 ? image.srcset : undefined} data-src={index === 0 ? undefined : image.src} data-srcset={index === 0 ? undefined : image.srcset} sizes={image.sizes} width={image.width} height={image.height} alt={project.data.alt} decoding="async" fetchpriority={index === 0 ? 'high' : 'low'} /></a>; })}
+      {projects.map((project, index) => { const image = imageProps(project.data.image, '(max-width: 768px) 100vw, 55vw'); return <a class="project-image-link" href={`/projects/${project.id}/`} aria-label={`Acceder al proyecto: ${project.data.title}`} tabindex={index === 0 ? 0 : -1} aria-hidden={index === 0 ? undefined : 'true'}><img src={index === 0 ? image.src : undefined} srcset={index === 0 ? image.srcset : undefined} data-src={index === 0 ? undefined : image.src} data-srcset={index === 0 ? undefined : image.srcset} sizes={image.sizes} width={image.width} height={image.height} alt={project.data.alt} decoding="async" fetchpriority={index === 0 ? 'high' : 'low'} /><span class="project-access-label" aria-hidden="true">Acceder al proyecto</span></a>; })}
     </div>
   </div>
   <div class="projects-browser">
