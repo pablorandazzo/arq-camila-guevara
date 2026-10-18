@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+
+const { category = 'all' } = Astro.props;
+const projects = (await getCollection('projects'))
+  .filter(project => category === 'all' || project.data.category === category)
+  .sort((a, b) => a.data.order - b.data.order);
+const filters = [
+  { id: 'all', label: 'Todos', href: '/projects/' },
+  { id: 'resorts', label: 'Turísticos', href: '/projects/resorts/' },
+  { id: 'commercial', label: 'Comerciales', href: '/projects/commercial/' },
+];
+---
+<main class="page projects-view">
+  <div class="projects-photo">
+    <div class="project-image-stack" id="project-image-stack">
+      {projects.map((project, index) => <a class="project-image-link" href={`/projects/${project.id}/`} tabindex={index === 0 ? 0 : -1} aria-hidden={index === 0 ? undefined : 'true'}><img src={index === 0 ? project.data.image : undefined} data-src={index === 0 ? undefined : project.data.image} alt={project.data.alt} loading="eager" decoding="async" fetchpriority={index === 0 ? 'high' : 'low'} /></a>)}
+    </div>
+  </div>
+  <div class="projects-browser">
+    <nav class="filters" aria-label="Filtrar proyectos">
+      {filters.map(filter => <a class:list={['filter', { 'is-active': category === filter.id }]} href={filter.href} aria-current={category === filter.id ? 'page' : undefined}>{filter.label}</a>)}
+    </nav>
+    <ul class="project-list">
+      {projects.map((project, index) => <li><button class:list={['project-choice', { 'is-active': index === 0 }]} type="button" aria-pressed={index === 0 ? 'true' : 'false'} data-index={index} data-category={project.data.category}>{project.data.title}</button><noscript><a href={`/projects/${project.id}/`}>{project.data.title}</a></noscript></li>)}
+    </ul>
+  </div>
+  <div class="projects-mobile-list">
+    {projects.map(project => <article><a href={`/projects/${project.id}/`}><div class="card-image"><img src={project.data.image} alt={project.data.alt} loading="lazy" decoding="async" /></div><div class="card-caption"><h2>{project.data.title}</h2><span class="text-link">Ver proyecto</span></div></a></article>)}
+  </div>
+</main>
+<noscript><style>.project-choice{display:none}.project-list a{font-family:var(--serif);font-size:clamp(32px,3vw,58px)}</style></noscript>

@@ -1,0 +1,354 @@
+{
+  "schema": "open-design.design-manifest.v1",
+  "title": "27467c0d-2a19-4115-ba6a-4837cd9cd9a8",
+  "entryFile": "index.html",
+  "sourceFiles": {
+    "all": [
+      "about.html",
+      "article.html",
+      "assets/fonts/Reckless-Light.c765955.woff2",
+      "assets/fonts/Reckless-RegularItalic.65b7f41.woff2",
+      "assets/fonts/SuisseIntl-Regular-WebM.128e425.woff2",
+      "assets/fonts/SuisseIntl-SemiBold-WebM.edb2568.woff2",
+      "assets/images/1657797466-rhe_alphabeta-building_2nd-visit_001.jpg",
+      "assets/images/1657797662-dl-rhe-ts-1388-print.jpg",
+      "assets/images/1657797867-aerial-3-copy.jpg",
+      "assets/images/1659430118-hero.jpg",
+      "assets/images/1659430558-masterplan2-1.jpg",
+      "assets/images/1659438972-dl-rhe-ubs-0255-print-cropped.jpg",
+      "assets/images/1659449884-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1.jpg",
+      "assets/images/1659450440-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1.jpg",
+      "assets/images/1659948013-lawn-homes-1.jpg",
+      "assets/images/1659948214-jed_view_01-f08-1-1.jpg",
+      "assets/images/1659948645-rhe_pa_05-1.jpg",
+      "assets/images/1659949269-zil-pasyon-resort-villa_5-2.jpg",
+      "assets/images/1659949646-studio-rhe_zil-pasyon-island-1-1-1.jpg",
+      "assets/images/1659950206-dl-rhe-pr-3720-online-1-1.jpg",
+      "assets/images/1659952417-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1.jpg",
+      "assets/images/1660570636-image-2-copy.jpg",
+      "assets/images/1660748652-dl-rhe-pr-4621-print-copy.jpg",
+      "assets/images/1660813077-about-hero.jpg",
+      "assets/images/1660813539-about-image.jpg",
+      "assets/images/1660813591-home-image.jpg",
+      "assets/images/1663676587-studio-rhe-istanbul-06-1.jpg",
+      "assets/images/1663677706-01_dl-rhe-nhouse-ext-6191_r4_option_1-online_flipped.jpg",
+      "assets/images/1663678507-gramophone_2022-02-27_67_draft.jpg",
+      "assets/images/1663679919-01_huckltreewest-studiorhe-01.jpg",
+      "assets/images/1663877324-dl-rhe-ts-1388-print.jpg",
+      "assets/images/1665131669-journal-sustain-1.jpg",
+      "assets/images/1665137010-journal-awards-5.jpg",
+      "assets/images/1665137202-six-senses-journal-6.jpg",
+      "assets/images/1665150856-journal-richard-1.jpg",
+      "assets/images/1665155324-journal-alpha-2.jpg",
+      "assets/images/1665158307-studio-rhe-hero.jpg",
+      "assets/images/1665495268-studio-rhe-lido-01-manuel.jpg",
+      "assets/images/1665559885-zil-pasyon-r1_1-2.jpg",
+      "assets/images/1665999669-lansdowne-459.jpg",
+      "assets/images/1665999727-dl-rhe-gb-0977-online.jpg",
+      "assets/images/1665999986-aerial-3.jpg",
+      "assets/images/1667210128-studio-rhe-roots-barn-aerial-1.jpg",
+      "assets/images/1667210348-villa-kong.jpg",
+      "assets/images/1673863483-small-pool-1-copy.jpeg",
+      "assets/images/1674043319-beach-residence-2-copy.jpg",
+      "assets/images/1674045545-1-bermondsey-1-copy.jpg",
+      "assets/images/1674050240-dl-rhe-wl-4358-1.jpg",
+      "assets/images/1677673375-dl-rhe-berrypl-1228-record-only-copy.jpg",
+      "assets/images/1678884149-studio-rhe-architecture-lansdowne-459.jpg",
+      "assets/images/1686739600-72f544af-bf04-4de3-9c99-3c3f747e9737.jpg",
+      "assets/images/1715088908-dsc07288.jpeg",
+      "assets/images/1716381028-lasvit.jpg",
+      "assets/images/1719843410-republic-jw_62.jpg",
+      "assets/images/1720629688-5138_main-house-external-view_240410.jpg",
+      "assets/images/1733832498-copy-of-dsc00909.jpg",
+      "assets/images/rhe-contact-hero.jpg",
+      "assets/logo.svg",
+      "assets/site.css",
+      "assets/site.js",
+      "brand-spec.md",
+      "CLONE_AUDIT.md",
+      "CLONE_REPORT.md",
+      "contact.html",
+      "favicon.ico",
+      "index.html",
+      "journal.html",
+      "NOTES.md",
+      "privacy.html",
+      "project.html",
+      "projects.html",
+      "RECON/screenshots/clone-1440.png",
+      "RECON/screenshots/clone-390.png",
+      "RECON/screenshots/original-1440.png",
+      "RECON/screenshots/original-390.png"
+    ],
+    "html": [
+      "about.html",
+      "article.html",
+      "contact.html",
+      "index.html",
+      "journal.html",
+      "privacy.html",
+      "project.html",
+      "projects.html"
+    ],
+    "css": [
+      "assets/site.css"
+    ],
+    "scriptsAndComponents": [
+      "assets/site.js"
+    ],
+    "assets": [
+      "assets/fonts/Reckless-Light.c765955.woff2",
+      "assets/fonts/Reckless-RegularItalic.65b7f41.woff2",
+      "assets/fonts/SuisseIntl-Regular-WebM.128e425.woff2",
+      "assets/fonts/SuisseIntl-SemiBold-WebM.edb2568.woff2",
+      "assets/images/1657797466-rhe_alphabeta-building_2nd-visit_001.jpg",
+      "assets/images/1657797662-dl-rhe-ts-1388-print.jpg",
+      "assets/images/1657797867-aerial-3-copy.jpg",
+      "assets/images/1659430118-hero.jpg",
+      "assets/images/1659430558-masterplan2-1.jpg",
+      "assets/images/1659438972-dl-rhe-ubs-0255-print-cropped.jpg",
+      "assets/images/1659449884-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1.jpg",
+      "assets/images/1659450440-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1.jpg",
+      "assets/images/1659948013-lawn-homes-1.jpg",
+      "assets/images/1659948214-jed_view_01-f08-1-1.jpg",
+      "assets/images/1659948645-rhe_pa_05-1.jpg",
+      "assets/images/1659949269-zil-pasyon-resort-villa_5-2.jpg",
+      "assets/images/1659949646-studio-rhe_zil-pasyon-island-1-1-1.jpg",
+      "assets/images/1659950206-dl-rhe-pr-3720-online-1-1.jpg",
+      "assets/images/1659952417-dl-rhe-nhouse-ext-6018-pano-2_r4-online-1.jpg",
+      "assets/images/1660570636-image-2-copy.jpg",
+      "assets/images/1660748652-dl-rhe-pr-4621-print-copy.jpg",
+      "assets/images/1660813077-about-hero.jpg",
+      "assets/images/1660813539-about-image.jpg",
+      "assets/images/1660813591-home-image.jpg",
+      "assets/images/1663676587-studio-rhe-istanbul-06-1.jpg",
+      "assets/images/1663677706-01_dl-rhe-nhouse-ext-6191_r4_option_1-online_flipped.jpg",
+      "assets/images/1663678507-gramophone_2022-02-27_67_draft.jpg",
+      "assets/images/1663679919-01_huckltreewest-studiorhe-01.jpg",
+      "assets/images/1663877324-dl-rhe-ts-1388-print.jpg",
+      "assets/images/1665131669-journal-sustain-1.jpg",
+      "assets/images/1665137010-journal-awards-5.jpg",
+      "assets/images/1665137202-six-senses-journal-6.jpg",
+      "assets/images/1665150856-journal-richard-1.jpg",
+      "assets/images/1665155324-journal-alpha-2.jpg",
+      "assets/images/1665158307-studio-rhe-hero.jpg",
+      "assets/images/1665495268-studio-rhe-lido-01-manuel.jpg",
+      "assets/images/1665559885-zil-pasyon-r1_1-2.jpg",
+      "assets/images/1665999669-lansdowne-459.jpg",
+      "assets/images/1665999727-dl-rhe-gb-0977-online.jpg",
+      "assets/images/1665999986-aerial-3.jpg",
+      "assets/images/1667210128-studio-rhe-roots-barn-aerial-1.jpg",
+      "assets/images/1667210348-villa-kong.jpg",
+      "assets/images/1673863483-small-pool-1-copy.jpeg",
+      "assets/images/1674043319-beach-residence-2-copy.jpg",
+      "assets/images/1674045545-1-bermondsey-1-copy.jpg",
+      "assets/images/1674050240-dl-rhe-wl-4358-1.jpg",
+      "assets/images/1677673375-dl-rhe-berrypl-1228-record-only-copy.jpg",
+      "assets/images/1678884149-studio-rhe-architecture-lansdowne-459.jpg",
+      "assets/images/1686739600-72f544af-bf04-4de3-9c99-3c3f747e9737.jpg",
+      "assets/images/1715088908-dsc07288.jpeg",
+      "assets/images/1716381028-lasvit.jpg",
+      "assets/images/1719843410-republic-jw_62.jpg",
+      "assets/images/1720629688-5138_main-house-external-view_240410.jpg",
+      "assets/images/1733832498-copy-of-dsc00909.jpg",
+      "assets/images/rhe-contact-hero.jpg",
+      "assets/logo.svg",
+      "brand-spec.md",
+      "CLONE_AUDIT.md",
+      "CLONE_REPORT.md",
+      "favicon.ico",
+      "NOTES.md",
+      "RECON/screenshots/clone-1440.png",
+      "RECON/screenshots/clone-390.png",
+      "RECON/screenshots/original-1440.png",
+      "RECON/screenshots/original-390.png"
+    ]
+  },
+  "screens": [
+    {
+      "file": "about.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "article.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "contact.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "index.html",
+      "role": "launcher-overview",
+      "implementationNote": "Use this as the navigation/overview entry only; implement each linked screen file as its own route/surface."
+    },
+    {
+      "file": "journal.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "privacy.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "project.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "projects.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    }
+  ],
+  "screenFilePolicy": {
+    "mode": "screen-file-first",
+    "entryFileRole": "launcher-overview",
+    "rules": [
+      "Each distinct user-facing screen or surface must be delivered and implemented as its own file/route.",
+      "If a landing page is present or requested, keep it in landing.html and do not merge it into the product app screen.",
+      "When multiple HTML screens exist, index.html is a launcher/overview only; it must not be treated as the combined final UI.",
+      "Keep product app screens, landing pages, platform screens, and OS widget surfaces separate in production code."
+    ]
+  },
+  "appModules": [
+    "Identify domain-specific in-app modules from the exported UI; do not reduce them to generic cards.",
+    "For each major module, implement purpose, default/loading/empty/error/success states, and responsive behavior.",
+    "Keep app modules separate from OS home-screen widgets in the production component model."
+  ],
+  "osWidgets": [
+    "If the export includes home-screen, lock-screen, Live Activity, tablet glance, or Android widget surfaces, implement them as platform quick-access surfaces outside the app UI.",
+    "If none are present, do not invent OS widgets unless the product requirements request them."
+  ],
+  "landingPage": {
+    "detection": "Inspect files and screen names for a marketing/landing page surface. If present, keep it separate from product app screens.",
+    "requiredSections": [
+      "hero",
+      "value props",
+      "product proof/screenshots",
+      "feature proof",
+      "CTA"
+    ]
+  },
+  "tokens": {
+    "source": [
+      "assets/site.css"
+    ],
+    "required": [
+      "background",
+      "surface",
+      "foreground",
+      "muted text",
+      "border",
+      "accent",
+      "radius",
+      "shadow",
+      "spacing",
+      "type scale",
+      "motion"
+    ],
+    "note": "Extract/freeze tokens before framework implementation so coding tools do not substitute default theme colors or typography."
+  },
+  "interactions": {
+    "source": [
+      "assets/site.js"
+    ],
+    "requiredStates": [
+      "default",
+      "hover",
+      "focus",
+      "active",
+      "disabled",
+      "loading",
+      "empty",
+      "error",
+      "success"
+    ],
+    "requiredBehaviors": [
+      "forms/validation where present",
+      "tabs/filters where present",
+      "dialogs/sheets/drawers where present",
+      "copy/generate/share actions where present",
+      "player or quick controls where present"
+    ],
+    "note": "If the prototype is static, derive missing behavior from visible controls and document it before coding."
+  },
+  "responsiveViewports": [
+    {
+      "name": "mobile-compact",
+      "width": 360,
+      "height": 800,
+      "category": "mobile",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "mobile-standard",
+      "width": 390,
+      "height": 844,
+      "category": "mobile",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "mobile-large",
+      "width": 430,
+      "height": 932,
+      "category": "mobile",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "foldable-small-tablet",
+      "width": 600,
+      "height": 960,
+      "category": "foldable-tablet",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "tablet-portrait",
+      "width": 820,
+      "height": 1180,
+      "category": "tablet",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "tablet-landscape",
+      "width": 1024,
+      "height": 768,
+      "category": "tablet",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "laptop",
+      "width": 1366,
+      "height": 768,
+      "category": "desktop",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "category": "desktop",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "wide",
+      "width": 1920,
+      "height": 1080,
+      "category": "wide",
+      "mustAvoidHorizontalScroll": true
+    }
+  ],
+  "implementationChecklist": [
+    "Open entryFile first and map screens, modules, tokens, and interactions.",
+    "Extract tokens before writing framework components.",
+    "Implement app-specific modules with real states instead of generic card grids.",
+    "Preserve or rebuild JS interactions for meaningful UX actions.",
+    "Validate screenshots at desktop/tablet/mobile viewports with no horizontal overflow.",
+    "Keep landing pages, in-app modules, and OS widgets as separate implementation surfaces."
+  ]
+}

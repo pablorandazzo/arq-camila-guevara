@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ContentSections from '../../components/ContentSections.astro';
+export async function getStaticPaths() {
+  const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+  return projects.map((project, index) => ({ params: { id: project.id }, props: { project, nextProject: projects[(index + 1) % projects.length] } }));
+}
+const { project, nextProject } = Astro.props;
+const labels = project.data.language === 'en'
+  ? { location: 'Location', next: 'Next Project' }
+  : { location: 'Ubicación', next: 'Siguiente proyecto' };
+---
+<SiteLayout title={project.data.title} description={project.data.description || project.data.title} lightLogo wordmark>
+  <main class="page project-detail--editorial" data-project-story lang={project.data.language}>
+    <div class="project-story-scroll" id="project-story-scroll">
+      <figure class="project-story-hero"><img src={project.data.image} alt={project.data.alt} fetchpriority="high" /></figure>
+      <div class="project-story-mobile-copy">
+        <h1>{project.data.title}</h1>
+        {project.data.description && <p>{project.data.description}</p>}
+        {project.data.location && <p class="project-story-location"><span>{labels.location}</span><span>{project.data.location}</span></p>}
+      </div>
+      <ContentSections sections={project.data.sections} context="story" />
+      <a class="project-story-next-image" href={`/projects/${nextProject.id}/`} aria-label={`${labels.next}: ${nextProject.data.title}`}><img src={nextProject.data.image} alt={nextProject.data.alt} loading="lazy" /></a>
+      <a class="project-story-mobile-next" href={`/projects/${nextProject.id}/`}><span>{labels.next}</span><h2>{nextProject.data.title}</h2></a>
+    </div>
+    <aside class="project-story-aside">
+      <div class="project-story-copy"><div><h1>{project.data.title}</h1>{project.data.description && <p>{project.data.description}</p>}</div>{project.data.location && <p class="project-story-location"><span>{labels.location}</span><span>{project.data.location}</span></p>}</div>
+      <div class="project-story-next"><a href={`/projects/${nextProject.id}/`}><span>{labels.next}</span><h2>{nextProject.data.title}</h2></a></div>
+    </aside>
+  </main>
+</SiteLayout>

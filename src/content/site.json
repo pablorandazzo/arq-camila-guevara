@@ -1,0 +1,38 @@
+{
+  "brand": "Studio RHE",
+  "established": "Est. 1997",
+  "menu": ["Estudio", "Proyectos", "Diario", "Contacto"],
+  "privacyLabel": "Privacidad",
+  "creditLabel": "Diseño web: Outpost",
+  "creditUrl": "https://www.discoveroutpost.com/",
+  "home": {
+    "meta": "Studio RHE es un estudio de arquitectura y diseño de Londres que crea espacios innovadores para vivir, trabajar y disfrutar.",
+    "sections": [
+      { "type": "home_hero", "image": "/assets/images/1665158307-studio-rhe-hero.jpg", "alt": "Residencia de Studio RHE frente al océano en Seychelles", "intro": "Somos un estudio de arquitectura y diseño con sede en Londres y una reputación internacional por crear espacios innovadores.", "title": "Construir más allá" },
+      { "type": "home_intro", "label": "Introducción", "image": "/assets/images/1657797867-aerial-3-copy.jpg", "alt": "Vista aérea de un proyecto de Studio RHE", "title": "Desde 1997", "text": "Somos un estudio de arquitectura que cree en ir más lejos. En ser audaces, explorar lo nuevo y crear lugares donde las personas quieran vivir, trabajar y disfrutar. Construyamos más allá.", "linkLabel": "Conoce el estudio", "linkHref": "/about/", "projectLinkLabel": "Ver proyecto", "featuredProjects": ["zil-residences", "zil-resort", "gramophone-works"] },
+      { "type": "home_services", "label": "Qué hacemos", "text": "Colaboramos para crear lo inesperado, con una innovación que inspira. Trabajemos para construir algo más grande y luminoso.", "image": "/assets/images/1660813591-home-image.jpg", "alt": "Interior arquitectónico diseñado por Studio RHE", "focusPrefix": "Proyectos", "commercialLabel": "comerciales", "conjunction": "y", "resortsLabel": "turísticos", "linkLabel": "Ver todos los proyectos", "linkHref": "/projects/" },
+      { "type": "home_journal", "title": "Diario", "text": "En sintonía con los cambios de Londres, Studio RHE combina conocimiento comercial y originalidad creativa.", "linkLabel": "Ver todos los artículos", "linkHref": "/journal/", "articleLinkLabel": "Leer artículo", "featuredArticles": ["site-or-building", "modern-workplace", "milan"] }
+    ]
+  },
+  "about": {
+    "meta": "Conoce la filosofía y el proceso de Studio RHE, estudio de arquitectura y diseño fundado en 1997.",
+    "sections": [
+      { "type": "split_hero", "image": "/assets/images/1660813077-about-hero.jpg", "alt": "Equipo de Studio RHE trabajando en su estudio de Londres", "title": "Donde la innovación despierta la inspiración y desafía lo establecido." },
+      { "type": "statement", "label": "Sobre nosotros", "text": "Studio RHE es un estudio de arquitectura y diseño con sede en Londres, reconocido internacionalmente por sus entornos residenciales, de ocio y de trabajo sostenibles, audaces e innovadores." },
+      { "type": "feature", "label": "Nuestro proceso", "title": "Crear lo excepcional.", "text": "La arquitectura premiada del estudio nace de colaboraciones significativas con sus clientes. Pensamos, hacemos y construimos sin concesiones: escuchamos cada circunstancia para crear una arquitectura detallada, eficiente y auténtica.", "image": "/assets/images/1660570636-image-2-copy.jpg", "alt": "Interior arquitectónico del portfolio de Studio RHE", "imageSide": "right" },
+      { "type": "feature", "label": "El equipo", "title": "Ideas con personas detrás.", "text": "Un equipo de más de quince profesionales trabaja para mejorar el mundo físico que nos rodea. Diseño, investigación y tecnología se entrelazan en una cultura de estudio abierta a lo excepcional.", "image": "/assets/images/1660813539-about-image.jpg", "alt": "Detalle de un proyecto arquitectónico de Studio RHE", "imageSide": "left", "linkLabel": "Trabajemos juntos", "linkHref": "/contact/" },
+      { "type": "call_to_action", "text": "Nuestro compromiso es mejorar el mundo con respuestas innovadoras y sostenibles en cada proyecto.", "linkLabel": "Hablemos", "linkHref": "/contact/" }
+    ]
+  },
+  "contact": {
+    "meta": "Contacta con Studio RHE para hablar de tu próximo proyecto de arquitectura y diseño.",
+    "sections": [
+      { "type": "contact_details", "heading": "Consulta de proyecto", "statement": "¿Quieres construir más allá?", "cta": "Hablemos", "detailsLabel": "Datos de contacto", "address": "Studio RHE\n4 Green Mews\nBevenden Street\nLondres\nN1 6AS", "mapUrl": "https://maps.google.com/?q=4+Green+Mews+Bevenden+Street+London+N1+6AS", "email": "architect@studiorhe.com", "phoneDisplay": "+44 (0) 20 7253 5358", "phoneHref": "+442072535358", "instagram": "https://www.instagram.com/studiorhe/", "twitter": "https://twitter.com/studiorhe", "linkedin": "https://www.linkedin.com/company/studio-rhe", "image": "/assets/images/rhe-contact-hero.jpg", "imageAlt": "Vista aérea de un resort tropical diseñado por Studio RHE" }
+    ]
+  },
+  "privacy": {
+    "sections": [
+      { "type": "privacy_statement", "heading": "Privacidad", "backLabel": "Volver al inicio", "text": "Esta réplica local no utiliza analítica, píxeles de seguimiento ni cookies de publicidad. Para consultar la política oficial de Studio RHE, visita", "linkText": "la página original", "linkUrl": "https://www.studiorhe.com/privacy-policy" }
+    ]
+  }
+}

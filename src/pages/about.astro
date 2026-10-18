@@ -1,0 +1,8 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import SiteSections from '../components/SiteSections.astro';
+import site from '../lib/site';
+---
+<SiteLayout title="El estudio" description={site.about.meta} lightLogo>
+  <main class="page"><SiteSections sections={site.about.sections} context="about" /></main>
+</SiteLayout>

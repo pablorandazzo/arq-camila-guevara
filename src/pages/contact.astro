@@ -1,0 +1,12 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import SiteSections from '../components/SiteSections.astro';
+import site from '../lib/site';
+const c = site.contact;
+const details = c.sections.find(section => section.type === 'contact_details');
+---
+<SiteLayout title="Contacto" description={c.meta}>
+  <main class="page"><SiteSections sections={c.sections} context="contact" /></main>
+  {details && <><noscript><style>[data-open-contact]{display:none}</style><a class="text-link" href={`mailto:${details.email}`}>{details.cta}</a></noscript>
+    <div class="contact-dialog" role="dialog" aria-modal="true" aria-label={`Escribir a ${site.brand}`} inert><div class="dialog-backdrop" aria-hidden="true"></div><div class="dialog-body"><button class="dialog-close" type="button" aria-label="Cerrar formulario">×</button><h2>{details.cta}</h2><form id="contact-form" data-recipient={details.email}><label for="name">Nombre completo</label><input id="name" name="name" autocomplete="name" required /><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required /><label for="subject">Asunto</label><input id="subject" name="subject" /><label for="message">Mensaje</label><textarea id="message" name="message" required></textarea><button class="send" type="submit">Preparar correo</button><p class="form-message" role="status"></p></form></div></div></>}
+</SiteLayout>

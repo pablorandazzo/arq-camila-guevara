@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+type Section = CollectionEntry<'projects'>['data']['sections'][number];
+interface Props {
+  sections?: Section[] | null;
+  context?: 'story' | 'page' | 'home';
+}
+const { sections: inputSections, context = 'page' } = Astro.props;
+const sections = inputSections ?? [];
+---
+{sections.map(section => section.type === 'image'
+  ? <figure class:list={['content-section', `content-section--${context}`, 'content-section--image', { 'project-story-image': context === 'story' }]}><img src={section.image} alt={section.alt} loading="lazy" decoding="async" /></figure>
+  : section.type === 'text'
+    ? <section class:list={['content-section', `content-section--${context}`, 'content-section--text']}><h2>{section.heading}</h2><p>{section.body}</p></section>
+    : <section class:list={['content-section', `content-section--${context}`, 'content-section--quote']}><blockquote>{section.quote}</blockquote>{section.attribution && <p>{section.attribution}</p>}</section>
+)}

@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+const { category = 'all' } = Astro.props;
+const categories = [
+  ['all', 'Todos'], ['newsletters', 'Boletines'], ['updates', 'Novedades'],
+  ['commercial', 'Comercial'], ['resorts', 'Turismo'],
+];
+const articles = (await getCollection('articles'))
+  .filter(article => category === 'all' || article.data.categories.includes(category))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<main class="page journal-view"><h1 class="journal-heading">Diario</h1><nav class="filters journal-filter" aria-label="Categorías del diario">{categories.map(([slug, label]) => <a class:list={['filter', { 'is-active': slug === category }]} href={slug === 'all' ? '/journal/' : `/journal/${slug}/`} aria-current={slug === category ? 'page' : undefined}>{label}</a>)}</nav><div class="article-grid">{articles.map(article => <article class="article-card"><a href={`/journal/${article.id}/`}><div class="card-image"><img src={article.data.image} alt={article.data.alt} loading="lazy" /></div><h2>{article.data.title}</h2><span class="text-link">Leer más</span></a></article>)}</div></main>
