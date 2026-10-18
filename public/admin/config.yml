@@ -22,205 +22,214 @@ editor:
   preview: false
 collections:
   - name: projects
-    label: Projects
+    label: Proyectos
+    label_singular: Proyecto
     folder: src/content/projects
     format: json
     create: true
     slug: '{{slug}}'
     identifier_field: title
     fields:
-      - { name: title, label: Title, widget: string }
-      - { name: image, label: Cover image, widget: image }
-      - { name: alt, label: Cover image description, widget: string }
+      - { name: title, label: Nombre del proyecto, widget: string }
+      - { name: image, label: Imagen de portada, widget: image }
+      - { name: alt, label: Descripción de la portada, widget: string }
       - name: category
-        label: Category
+        label: Categoría
         widget: select
         options:
-          - { label: Tourism, value: resorts }
-          - { label: Commercial, value: commercial }
-      - { name: location, label: Location, widget: string, required: false }
-      - { name: type, label: Project type, widget: string }
-      - { name: description, label: Description, widget: text, required: false }
+          - { label: Turísticos, value: resorts }
+          - { label: Comerciales, value: commercial }
+      - { name: location, label: Ubicación, widget: string, required: false }
+      - { name: description, label: Descripción, widget: text, required: false }
       - name: language
-        label: Content language
+        label: Idioma del contenido
         widget: select
         default: es
         options:
-          - { label: Spanish, value: es }
-          - { label: English, value: en }
-      - { name: order, label: Sort order, widget: number, value_type: int, min: 1 }
+          - { label: Español, value: es }
+          - { label: Inglés, value: en }
+      - { name: order, label: Orden en el listado, widget: number, value_type: int, min: 1, hint: 'Usa un número distinto para cada proyecto.' }
       - name: sections
-        label: Page sections
+        label: Secciones de la página
         widget: list
         required: false
+        thumbnail: image
         types:
           - name: image
-            label: Image
+            label: Imagen
             fields:
-              - { name: image, label: Image, widget: image }
-              - { name: alt, label: Image description, widget: string }
+              - { name: image, label: Imagen, widget: image }
+              - { name: alt, label: Descripción de la imagen, widget: string }
           - name: text
-            label: Text
+            label: Texto
             fields:
-              - { name: heading, label: Heading, widget: string }
-              - { name: body, label: Body, widget: text }
+              - { name: heading, label: Título, widget: string }
+              - { name: body, label: Contenido, widget: text }
           - name: quote
-            label: Quote
+            label: Cita
             fields:
-              - { name: quote, label: Quote, widget: text }
-              - { name: attribution, label: Attribution, widget: string, required: false }
+              - { name: quote, label: Cita, widget: text }
+              - { name: attribution, label: Autor, widget: string, required: false }
   - name: pages
-    label: Site pages
+    label: Páginas del sitio
     files:
       - name: site
-        label: Site-wide copy and pages
+        label: Inicio, contacto y privacidad
         file: src/content/site.json
         fields:
-          - { name: brand, label: Brand name, widget: string }
-          - { name: menu, label: Navigation labels (projects, contact), widget: list, min: 2, max: 2 }
-          - { name: privacyLabel, label: Privacy label, widget: string }
-          - { name: creditLabel, label: Credit label, widget: string }
-          - { name: creditUrl, label: Credit URL, widget: string }
+          - { name: brand, label: Nombre del sitio, widget: string, hint: 'Se usa en la cabecera y en los títulos del navegador. El título de portada se edita por separado.' }
+          - { name: menu, label: Menú (proyectos y contacto), widget: list, min: 2, max: 2, allow_add: false, allow_remove: false, allow_reorder: false }
+          - { name: privacyLabel, label: Etiqueta de privacidad, widget: string }
+          - { name: creditLabel, label: Texto del crédito, widget: string }
+          - { name: creditUrl, label: Enlace del crédito, widget: string }
           - name: home
-            label: Home
+            label: Inicio
             widget: object
             fields:
-              - { name: meta, label: Search description, widget: text }
+              - { name: meta, label: Descripción para buscadores, widget: text }
               - name: sections
-                label: Home sections (ordered)
+                label: Secciones de inicio (en orden)
                 widget: list
                 min: 1
+                allow_duplicate: false
+                thumbnail: image
                 types:
                   - name: home_hero
-                    label: Home hero
+                    label: Portada
                     fields:
-                      - { name: image, label: Image, widget: image }
-                      - { name: alt, label: Image description, widget: string }
-                      - { name: intro, label: Introduction, widget: text }
-                      - { name: title, label: Title, widget: string }
+                      - { name: image, label: Imagen, widget: image }
+                      - { name: alt, label: Descripción de la imagen, widget: string }
+                      - { name: title, label: Título, widget: string, hint: 'La primera palabra se muestra más pequeña; el resto aparece destacado.' }
 
                   - name: home_about
-                    label: About Camila
+                    label: Sobre Camila
                     fields:
-                      - { name: label, label: Section label, widget: string }
-                      - { name: image, label: Image, widget: image }
-                      - { name: alt, label: Image description, widget: string }
-                      - { name: title, label: Heading, widget: string }
-                      - { name: text, label: Text, widget: text }
+                      - { name: label, label: Etiqueta de la sección, widget: string }
+                      - { name: image, label: Imagen, widget: image }
+                      - { name: alt, label: Descripción de la imagen, widget: string }
+                      - { name: title, label: Título, widget: string }
+                      - { name: text, label: Texto, widget: text }
 
                   - name: home_projects
-                    label: Featured projects
+                    label: Proyectos destacados
                     fields:
                       - name: featuredProjects
-                        label: Featured project IDs
-                        widget: list
+                        label: Proyectos destacados
+                        widget: relation
+                        collection: projects
+                        multiple: true
                         min: 1
-                        field: { name: project, label: Project ID, widget: string }
-                      - { name: projectLinkLabel, label: Project link label, widget: string }
+                        value_field: '{{slug}}'
+                        search_fields: [title]
+                        display_fields: [title]
+                      - { name: projectLinkLabel, label: Texto del enlace al proyecto, widget: string }
 
                   - name: home_approach
-                    label: Home approach
+                    label: Mi enfoque
                     fields:
-                      - { name: label, label: Section label, widget: string }
-                      - { name: title, label: Main statement, widget: string }
+                      - { name: label, label: Etiqueta de la sección, widget: string }
+                      - { name: title, label: Título, widget: string }
                       - name: principles
-                        label: Design principles
+                        label: Principios de diseño
                         widget: list
                         min: 3
                         max: 3
+                        summary: '{{heading}}'
                         fields:
-                          - { name: heading, label: Principle, widget: string }
-                          - { name: text, label: Description, widget: text }
-                      - { name: image, label: Image, widget: image }
-                      - { name: alt, label: Image description, widget: string }
+                          - { name: heading, label: Principio, widget: string }
+                          - { name: text, label: Descripción, widget: text }
+                      - { name: image, label: Imagen, widget: image }
+                      - { name: alt, label: Descripción de la imagen, widget: string }
 
                   - name: image
-                    label: Image
+                    label: Imagen
                     fields:
-                      - { name: image, label: Image, widget: image }
-                      - { name: alt, label: Image description, widget: string }
+                      - { name: image, label: Imagen, widget: image }
+                      - { name: alt, label: Descripción de la imagen, widget: string }
                   - name: text
-                    label: Text
+                    label: Texto
                     fields:
-                      - { name: heading, label: Heading, widget: string }
-                      - { name: body, label: Body, widget: text }
+                      - { name: heading, label: Título, widget: string }
+                      - { name: body, label: Contenido, widget: text }
                   - name: quote
-                    label: Quote
+                    label: Cita
                     fields:
-                      - { name: quote, label: Quote, widget: text }
-                      - { name: attribution, label: Attribution, widget: string, required: false }
+                      - { name: quote, label: Cita, widget: text }
+                      - { name: attribution, label: Autor, widget: string, required: false }
 
           - name: contact
-            label: Contact page
+            label: Contacto
             widget: object
             fields:
-              - { name: meta, label: Search description, widget: text }
+              - { name: meta, label: Descripción para buscadores, widget: text }
               - name: sections
-                label: Contact sections (ordered)
+                label: Secciones de contacto (en orden)
                 widget: list
                 min: 1
+                allow_duplicate: false
                 types:
                   - name: contact_details
-                    label: Contact details and form
+                    label: Datos de contacto y formulario
                     fields:
-                      - { name: heading, label: Heading, widget: string }
-                      - { name: statement, label: Statement, widget: string }
-                      - { name: cta, label: Contact button, widget: string }
-                      - { name: detailsLabel, label: Details label, widget: string }
-                      - { name: address, label: Address, widget: text }
-                      - { name: mapUrl, label: Map URL, widget: string }
-                      - { name: email, label: Email recipient, widget: string }
-                      - { name: phoneDisplay, label: Display phone, widget: string }
-                      - { name: phoneHref, label: Dialable phone, widget: string }
-                      - { name: instagram, label: Instagram URL, widget: string }
-                      - { name: twitter, label: Twitter URL, widget: string }
-                      - { name: linkedin, label: LinkedIn URL, widget: string }
-                      - { name: image, label: Contact image, widget: image }
-                      - { name: imageAlt, label: Contact image description, widget: string }
+                      - { name: heading, label: Título, widget: string }
+                      - { name: statement, label: Frase principal, widget: string }
+                      - { name: cta, label: Botón de contacto, widget: string }
+                      - { name: detailsLabel, label: Título de datos de contacto, widget: string }
+                      - { name: address, label: Dirección, widget: text }
+                      - { name: mapUrl, label: Enlace del mapa, widget: string }
+                      - { name: email, label: Correo destinatario, widget: string, hint: 'También se muestra como enlace y recibe las consultas del formulario.' }
+                      - { name: phoneDisplay, label: Teléfono visible, widget: string }
+                      - { name: phoneHref, label: Teléfono para llamar, widget: string }
+                      - { name: instagram, label: Enlace de Instagram, widget: string }
+                      - { name: twitter, label: Enlace de Twitter, widget: string }
+                      - { name: linkedin, label: Enlace de LinkedIn, widget: string }
+                      - { name: image, label: Imagen de contacto, widget: image }
+                      - { name: imageAlt, label: Descripción de la imagen, widget: string }
                   - name: image
-                    label: Image
+                    label: Imagen
                     fields:
-                      - { name: image, label: Image, widget: image }
-                      - { name: alt, label: Image description, widget: string }
+                      - { name: image, label: Imagen, widget: image }
+                      - { name: alt, label: Descripción de la imagen, widget: string }
                   - name: text
-                    label: Text
+                    label: Texto
                     fields:
-                      - { name: heading, label: Heading, widget: string }
-                      - { name: body, label: Body, widget: text }
+                      - { name: heading, label: Título, widget: string }
+                      - { name: body, label: Contenido, widget: text }
                   - name: quote
-                    label: Quote
+                    label: Cita
                     fields:
-                      - { name: quote, label: Quote, widget: text }
-                      - { name: attribution, label: Attribution, widget: string, required: false }
+                      - { name: quote, label: Cita, widget: text }
+                      - { name: attribution, label: Autor, widget: string, required: false }
           - name: privacy
-            label: Privacy page
+            label: Privacidad
             widget: object
             fields:
               - name: sections
-                label: Privacy sections (ordered)
+                label: Secciones de privacidad (en orden)
                 widget: list
                 min: 1
+                allow_duplicate: false
                 types:
                   - name: privacy_statement
-                    label: Privacy statement
+                    label: Declaración de privacidad
                     fields:
-                      - { name: heading, label: Heading, widget: string }
-                      - { name: backLabel, label: Back link label, widget: string }
-                      - { name: text, label: Statement, widget: text }
-                      - { name: linkText, label: Source link label, widget: string }
-                      - { name: linkUrl, label: Source URL, widget: string }
+                      - { name: heading, label: Título, widget: string }
+                      - { name: backLabel, label: Texto del enlace de regreso, widget: string }
+                      - { name: text, label: Declaración, widget: text }
+                      - { name: linkText, label: Texto del enlace de referencia, widget: string }
+                      - { name: linkUrl, label: Enlace de referencia, widget: string }
                   - name: image
-                    label: Image
+                    label: Imagen
                     fields:
-                      - { name: image, label: Image, widget: image }
-                      - { name: alt, label: Image description, widget: string }
+                      - { name: image, label: Imagen, widget: image }
+                      - { name: alt, label: Descripción de la imagen, widget: string }
                   - name: text
-                    label: Text
+                    label: Texto
                     fields:
-                      - { name: heading, label: Heading, widget: string }
-                      - { name: body, label: Body, widget: text }
+                      - { name: heading, label: Título, widget: string }
+                      - { name: body, label: Contenido, widget: text }
                   - name: quote
-                    label: Quote
+                    label: Cita
                     fields:
-                      - { name: quote, label: Quote, widget: text }
-                      - { name: attribution, label: Attribution, widget: string, required: false }
+                      - { name: quote, label: Cita, widget: text }
+                      - { name: attribution, label: Autor, widget: string, required: false }

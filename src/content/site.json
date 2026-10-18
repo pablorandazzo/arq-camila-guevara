@@ -6,9 +6,9 @@
   "creditLabel": "Diseño web: Outpost",
   "creditUrl": "https://www.discoveroutpost.com/",
   "home": {
-    "meta": "Studio RHE es un estudio de arquitectura y diseño de Londres que crea espacios innovadores para vivir, trabajar y disfrutar.",
+    "meta": "Portfolio de Camila Guevara, arquitecta. Proyectos de arquitectura que exploran la luz, los materiales y la relación con el contexto.",
     "sections": [
-      { "type": "home_hero", "image": "/assets/images/1665158307-studio-rhe-hero.jpg", "alt": "Residencia de Studio RHE frente al océano en Seychelles", "intro": "Somos un estudio de arquitectura y diseño con sede en Londres y una reputación internacional por crear espacios innovadores.", "title": "Portfolio Camila Guevara" },
+      { "type": "home_hero", "image": "/assets/images/1665158307-studio-rhe-hero.jpg", "alt": "Residencia de Studio RHE frente al océano en Seychelles", "title": "Portfolio Camila Guevara" },
       { "type": "home_about", "label": "Sobre mi", "image": "/assets/images/1657797867-aerial-3-copy.jpg", "alt": "Vista aérea de un proyecto arquitectónico frente al mar", "title": "Arquitectura, espacio y personas.", "text": "Soy Camila Guevara, arquitecta. Me interesa explorar cómo la luz, los materiales y el contexto transforman la manera de habitar cada espacio." },
       { "type": "home_projects", "featuredProjects": ["zil-residences", "zil-resort", "gramophone-works"], "projectLinkLabel": "Ver proyecto" },
 
@@ -17,7 +17,7 @@
   },
 
   "contact": {
-    "meta": "Contacta con Studio RHE para hablar de tu próximo proyecto de arquitectura y diseño.",
+    "meta": "Página de contacto del portfolio de Camila Guevara. Formulario de consulta y datos de contacto.",
     "sections": [
       { "type": "contact_details", "heading": "Consulta de proyecto", "statement": "¿Quieres construir más allá?", "cta": "Hablemos", "detailsLabel": "Datos de contacto", "address": "Studio RHE\n4 Green Mews\nBevenden Street\nLondres\nN1 6AS", "mapUrl": "https://maps.google.com/?q=4+Green+Mews+Bevenden+Street+London+N1+6AS", "email": "architect@studiorhe.com", "phoneDisplay": "+44 (0) 20 7253 5358", "phoneHref": "+442072535358", "instagram": "https://www.instagram.com/studiorhe/", "twitter": "https://twitter.com/studiorhe", "linkedin": "https://www.linkedin.com/company/studio-rhe", "image": "/assets/images/rhe-contact-hero.jpg", "imageAlt": "Vista aérea de un resort tropical diseñado por Studio RHE" }
     ]

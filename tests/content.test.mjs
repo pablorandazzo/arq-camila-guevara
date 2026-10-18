@@ -4,6 +4,7 @@ import { readdir, readFile, access } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import { parse as parseYaml } from 'yaml';
 const root = new URL('../', import.meta.url);
 const site = JSON.parse(await readFile(new URL('../src/content/site.json', import.meta.url), 'utf8'));
 const images = JSON.parse(await readFile(new URL('../src/lib/image-manifest.json', import.meta.url), 'utf8'));
@@ -134,9 +135,9 @@ test('the header shows a restrained architectural mark and Camila wordmark', asy
   ]);
   assert.match(layout, /class:list=\{\['logo'/, 'the header contains the brand link in the former logo position');
   assert.match(layout, /class="logo-mark" viewBox="0 0 48 48"/, 'the logo is an architectural line mark');
-  assert.match(layout, /Camila Guevara<\/span><small>ARQUITECTA<\/small>/, 'the logo identifies Camila as an architect');
+  assert.match(layout, /<span>\{site\.brand\}<\/span><small>ARQUITECTA<\/small>/, 'the logo uses the editable brand name');
   assert.match(css, /\.logo-mark\{[^}]*stroke:currentColor/, 'the mark adapts to light and dark hero backgrounds');
-  assert.match(logo, /Isotipo arquitectónico de Camila Guevara/);
+  assert.match(logo, /<title id="title">Isotipo arquitectónico<\/title>/);
   assert.match(layout, /label: 'Inicio', href: '\/'/);
   assert.match(layout, /label: 'CV', href: null/);
   assert.match(layout, /menu-link--disabled[^>]*aria-disabled="true"/, 'CV is visible but never points to a missing file');
@@ -199,29 +200,33 @@ test('source attribution identifies the design credit without mislabeling the or
 });
 
 test('CMS exposes every site singleton field in its matching section', async () => {
-  const config = await readFile(new URL('../public/admin/config.yml', import.meta.url), 'utf8');
-  assert.equal((config.match(/- name: sections\n\s+label:/g) || []).length, 4, 'projects and the home/contact/privacy pages share section blocks');
-  for (const type of ['image', 'text', 'quote']) assert.equal((config.match(new RegExp(`- name: ${type}\\n\\s+label:`, 'g')) || []).length, 4, type);
-  const singleton = config.slice(config.indexOf('  - name: pages'));
-  assert.match(singleton, /- name: site\s+label:.*\s+file: src\/content\/site\.json\s+fields:/);
-  const sections = ['home', 'contact', 'privacy'];
-  const firstSection = singleton.indexOf('          - name: home');
-  assert.ok(firstSection > 0);
-  for (const key of Object.keys(site).filter(key => !sections.includes(key))) {
-    assert.match(singleton.slice(0, firstSection), new RegExp(`name: ${key}(?:,|\\n)`), key);
+  const config = parseYaml(await readFile(new URL('../public/admin/config.yml', import.meta.url), 'utf8'));
+  const projects = config.collections.find(collection => collection.name === 'projects');
+  const page = config.collections.find(collection => collection.name === 'pages').files.find(file => file.name === 'site');
+  const names = fields => fields.map(field => field.name).sort();
+  assert.equal(page.file, 'src/content/site.json');
+  assert.deepEqual(names(page.fields), Object.keys(site).sort(), 'all editable site keys have a matching field');
+  assert.deepEqual(names(projects.fields), ['title', 'image', 'alt', 'category', 'location', 'description', 'language', 'order', 'sections'].sort(), 'project editor exposes only fields used by pages and sorting');
+  for (const key of ['home', 'contact', 'privacy']) {
+    const object = page.fields.find(field => field.name === key);
+    assert.equal(object.widget, 'object');
+    assert.deepEqual(names(object.fields), Object.keys(site[key]).sort(), `${key} fields match source data`);
+    const blocks = object.fields.find(field => field.name === 'sections');
+    assert.ok(blocks?.types && !blocks.allow_duplicate);
+    for (const type of ['image', 'text', 'quote']) assert.ok(blocks.types.some(block => block.name === type), `${key}: ${type}`);
+    for (const section of site[key].sections) {
+      const type = blocks.types.find(block => block.name === section.type);
+      assert.ok(type, `${key}: ${section.type}`);
+      assert.deepEqual(names(type.fields), Object.keys(section).filter(name => name !== 'type').sort(), `${key}: ${section.type} fields match visible content`);
+    }
   }
-  for (const [index, section] of sections.entries()) {
-    const start = singleton.indexOf(`          - name: ${section}`);
-    const end = index + 1 < sections.length ? singleton.indexOf(`          - name: ${sections[index + 1]}`) : singleton.length;
-    assert.ok(start >= 0 && end > start, section);
-    const fields = singleton.slice(start, end);
-    assert.match(fields, /widget: object/);
-    for (const key of Object.keys(site[section])) {
-      assert.match(fields, new RegExp(`name: ${key}(?:,|\\n)`), `${section}.${key}`);
-    }
-    for (const block of site[section].sections) {
-      assert.ok(fields.includes(`- name: ${block.type}\n`), `${section}.${block.type}`);
-    }
+  const featured = page.fields.find(field => field.name === 'home').fields.find(field => field.name === 'sections').types
+    .find(type => type.name === 'home_projects').fields.find(field => field.name === 'featuredProjects');
+  assert.equal(featured.widget, 'relation');
+  assert.equal(featured.collection, 'projects');
+  assert.equal(featured.value_field, '{{slug}}');
+  for (const id of site.home.sections.find(section => section.type === 'home_projects').featuredProjects) {
+    assert.ok(catalogs.projects.some(project => project.id === id), `featured project ${id} exists`);
   }
 });
 
