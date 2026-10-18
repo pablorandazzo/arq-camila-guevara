@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import { cp, copyFile, readdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-const legacyPages = { projects: '/projects/', contact: '/contact/', privacy: '/privacy/' };
+const legacyPages = { projects: '/projects/', contact: '/contact/' };
 const entryIds = async (kind) => (await readdir(resolve('src/content', kind)))
   .filter(name => /^[a-z0-9-]+\.json$/.test(name)).map(name => name.slice(0, -5));
 const legacyHtml = (name, ids = []) => {
@@ -27,7 +27,7 @@ function prototypeAssets() {
             res.end();
             return;
           }
-          const name = /^\/(projects|contact|privacy|project)\.html$/.exec(pathname)?.[1];
+          const name = /^\/(projects|contact|project)\.html$/.exec(pathname)?.[1];
           if (!name) return next();
           res.setHeader('Content-Type', 'text/html; charset=utf-8');
           res.end(legacyHtml(name, name === 'project' ? await entryIds('projects') : []));

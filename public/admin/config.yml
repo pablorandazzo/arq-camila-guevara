@@ -74,12 +74,44 @@ collections:
     label: Páginas del sitio
     files:
       - name: site
-        label: Inicio, contacto y privacidad
+        label: Inicio y contacto
         file: src/content/site.json
         fields:
           - { name: brand, label: Nombre del sitio, widget: string, hint: 'Se usa en la cabecera y en los títulos del navegador. El título de portada se edita por separado.' }
-          - { name: menu, label: Menú (proyectos y contacto), widget: list, min: 2, max: 2, allow_add: false, allow_remove: false, allow_reorder: false }
-          - { name: privacyLabel, label: Etiqueta de privacidad, widget: string }
+          - name: menu
+            label: Menú principal
+            widget: list
+            min: 4
+            max: 4
+            allow_add: false
+            allow_remove: false
+            allow_duplicate: false
+            allow_reorder: true
+            summary: '{{label}}'
+            fields:
+              - name: id
+                label: Destino
+                widget: select
+                readonly: true
+                options:
+                  - { label: Inicio, value: home }
+                  - { label: CV, value: cv }
+                  - { label: Proyectos, value: projects }
+                  - { label: Contacto, value: contact }
+              - { name: label, label: Texto del menú, widget: string }
+          - name: cv
+            label: CV (PDF)
+            widget: file
+            required: false
+            accept: application/pdf,.pdf
+            media_folder: /public/cv
+            public_folder: /cv
+            hint: 'Sube un PDF para activar los enlaces de CV en el menú y la portada.'
+            media_libraries:
+              default:
+                config:
+                  max_file_size: 10485760
+                  slugify_filename: true
           - { name: creditLabel, label: Texto del crédito, widget: string }
           - { name: creditUrl, label: Enlace del crédito, widget: string }
           - name: home
@@ -185,39 +217,6 @@ collections:
                       - { name: linkedin, label: Enlace de LinkedIn, widget: string }
                       - { name: image, label: Imagen de contacto, widget: image }
                       - { name: imageAlt, label: Descripción de la imagen, widget: string }
-                  - name: image
-                    label: Imagen
-                    fields:
-                      - { name: image, label: Imagen, widget: image }
-                      - { name: alt, label: Descripción de la imagen, widget: string }
-                  - name: text
-                    label: Texto
-                    fields:
-                      - { name: heading, label: Título, widget: string }
-                      - { name: body, label: Contenido, widget: text }
-                  - name: quote
-                    label: Cita
-                    fields:
-                      - { name: quote, label: Cita, widget: text }
-                      - { name: attribution, label: Autor, widget: string, required: false }
-          - name: privacy
-            label: Privacidad
-            widget: object
-            fields:
-              - name: sections
-                label: Secciones de privacidad (en orden)
-                widget: list
-                min: 1
-                allow_duplicate: false
-                types:
-                  - name: privacy_statement
-                    label: Declaración de privacidad
-                    fields:
-                      - { name: heading, label: Título, widget: string }
-                      - { name: backLabel, label: Texto del enlace de regreso, widget: string }
-                      - { name: text, label: Declaración, widget: text }
-                      - { name: linkText, label: Texto del enlace de referencia, widget: string }
-                      - { name: linkUrl, label: Enlace de referencia, widget: string }
                   - name: image
                     label: Imagen
                     fields:

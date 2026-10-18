@@ -13,29 +13,28 @@ const contactSection = z.discriminatedUnion('type', [
   ...basic,
   z.object({ type: z.literal('contact_details'), heading: z.string(), statement: z.string(), cta: z.string(), detailsLabel: z.string(), address: z.string(), mapUrl: z.url(), email: z.email(), phoneDisplay: z.string(), phoneHref: z.string(), instagram: z.url(), twitter: z.url(), linkedin: z.url(), image: imagePath, imageAlt: z.string().min(1) }),
 ]);
-const privacySection = z.discriminatedUnion('type', [
-  ...basic,
-  z.object({ type: z.literal('privacy_statement'), heading: z.string(), backLabel: z.string(), text: z.string(), linkText: z.string(), linkUrl: z.url() }),
-]);
-
-function requireOne<T extends { type: string }>(type: string) {
+function requireOne<T extends { type: string }>(type: string, kind = 'sección') {
   return (sections: T[], ctx: z.RefinementCtx) => {
     if (sections.filter(section => section.type === type).length !== 1) {
-      ctx.addIssue({ code: 'custom', message: `Se requiere exactamente una sección ${type}.` });
+      ctx.addIssue({ code: 'custom', message: `Se requiere exactamente una ${kind} ${type}.` });
     }
   };
 }
 
 export const siteSchema = z.object({
-  brand: z.string(), menu: z.array(z.string()).length(2),
-  privacyLabel: z.string(), creditLabel: z.string(), creditUrl: z.url(),
+  brand: z.string(), menu: z.array(z.object({ id: z.enum(['home', 'cv', 'projects', 'contact']), label: z.string().min(1) })).length(4)
+    .superRefine((items, ctx) => {
+      const destinations = items.map(item => ({ type: item.id }));
+      for (const id of ['home', 'cv', 'projects', 'contact']) requireOne(id, 'opción de menú')(destinations, ctx);
+    }),
+  cv: z.string().regex(/^\/cv\/[a-zA-Z0-9_.-]+\.pdf$/i).optional().nullable(),
+  creditLabel: z.string(), creditUrl: z.url(),
   home: z.object({ meta: z.string(), sections: z.array(homeSection).min(1)
     .superRefine((sections, ctx) => {
       for (const type of ['home_hero', 'home_about', 'home_projects', 'home_approach']) requireOne(type)(sections, ctx);
     }) }),
 
   contact: z.object({ meta: z.string(), sections: z.array(contactSection).min(1).superRefine(requireOne('contact_details')) }),
-  privacy: z.object({ sections: z.array(privacySection).min(1).superRefine(requireOne('privacy_statement')) }),
 });
 
-export type SiteSection = z.infer<typeof homeSection> | z.infer<typeof contactSection> | z.infer<typeof privacySection>;
+export type SiteSection = z.infer<typeof homeSection> | z.infer<typeof contactSection>;

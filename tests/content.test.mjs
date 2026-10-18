@@ -138,9 +138,9 @@ test('the header shows a restrained architectural mark and Camila wordmark', asy
   assert.match(layout, /<span>\{site\.brand\}<\/span><small>ARQUITECTA<\/small>/, 'the logo uses the editable brand name');
   assert.match(css, /\.logo-mark\{[^}]*stroke:currentColor/, 'the mark adapts to light and dark hero backgrounds');
   assert.match(logo, /<title id="title">Isotipo arquitectónico<\/title>/);
-  assert.match(layout, /label: 'Inicio', href: '\/'/);
-  assert.match(layout, /label: 'CV', href: null/);
-  assert.match(layout, /menu-link--disabled[^>]*aria-disabled="true"/, 'CV is visible but never points to a missing file');
+  assert.match(layout, /site\.menu\.map\(item => \(\{ label: item\.label, href: destinations\[item\.id\]/, 'the visible menu follows the editable order');
+  assert.match(layout, /cv: site\.cv/, 'the menu uses the uploaded CV when available');
+  assert.match(layout, /menu-link--disabled[^>]*aria-disabled="true"/, 'CV stays unavailable without a file');
 });
 
 test('the fixed header follows the homepage hero, then turns white with readable controls', async () => {
@@ -183,7 +183,8 @@ test('Estudio and Diario are fully removed from site content, routes, navigation
     readFile(new URL('../src/layouts/SiteLayout.astro', import.meta.url), 'utf8'),
     readFile(new URL('../public/admin/config.yml', import.meta.url), 'utf8'),
   ]);
-  assert.deepEqual(site.menu, ['Proyectos', 'Contacto']);
+  assert.deepEqual(new Set(site.menu.map(item => item.id)), new Set(['home', 'cv', 'projects', 'contact']));
+  assert.ok(site.menu.every(item => item.label.trim()), 'all menu labels are non-empty');
   assert.equal('about' in site, false, 'the Studio page singleton is removed from site content');
   assert.ok(site.home.sections.every(section => !['home_intro', 'home_journal'].includes(section.type)), 'home no longer contains Studio or Diario sections');
   assert.doesNotMatch(layout, /\/about\/|\/journal\/|Estudio|Diario/);
@@ -193,10 +194,10 @@ test('Estudio and Diario are fully removed from site content, routes, navigation
   }
 });
 
-test('source attribution identifies the design credit without mislabeling the original site', () => {
+test('site identity and editable credit fields are valid', () => {
   assert.equal(site.brand, 'Camila Guevara');
-  assert.equal(site.creditLabel, 'Diseño web: Outpost');
-  assert.equal(site.creditUrl, 'https://www.discoveroutpost.com/');
+  assert.ok(site.creditLabel.trim());
+  assert.equal(new URL(site.creditUrl).protocol, 'https:');
 });
 
 test('CMS exposes every site singleton field in its matching section', async () => {
@@ -205,9 +206,23 @@ test('CMS exposes every site singleton field in its matching section', async () 
   const page = config.collections.find(collection => collection.name === 'pages').files.find(file => file.name === 'site');
   const names = fields => fields.map(field => field.name).sort();
   assert.equal(page.file, 'src/content/site.json');
-  assert.deepEqual(names(page.fields), Object.keys(site).sort(), 'all editable site keys have a matching field');
+  assert.deepEqual(names(page.fields), [...new Set([...Object.keys(site), 'cv'])].sort(), 'all editable site keys and optional CV have matching fields');
+  const menu = page.fields.find(field => field.name === 'menu');
+  assert.equal(menu.widget, 'list');
+  assert.equal(menu.allow_reorder, true);
+  assert.equal(menu.allow_add, false);
+  assert.equal(menu.allow_remove, false);
+  assert.deepEqual(names(menu.fields), ['id', 'label'], 'each menu option keeps its destination and text when reordered');
+  assert.equal(menu.fields.find(field => field.name === 'id').readonly, true);
+  const cv = page.fields.find(field => field.name === 'cv');
+  assert.equal(cv.widget, 'file');
+  assert.equal(cv.accept, 'application/pdf,.pdf');
+  assert.equal(cv.media_folder, '/public/cv');
+  assert.equal(cv.public_folder, '/cv');
+  assert.equal(cv.required, false);
+  assert.equal(cv.media_libraries.default.config.max_file_size, 10485760);
   assert.deepEqual(names(projects.fields), ['title', 'image', 'alt', 'category', 'location', 'description', 'language', 'order', 'sections'].sort(), 'project editor exposes only fields used by pages and sorting');
-  for (const key of ['home', 'contact', 'privacy']) {
+  for (const key of ['home', 'contact']) {
     const object = page.fields.find(field => field.name === key);
     assert.equal(object.widget, 'object');
     assert.deepEqual(names(object.fields), Object.keys(site[key]).sort(), `${key} fields match source data`);
@@ -235,20 +250,18 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     cwd: fileURLToPath(root), maxBuffer: 2 * 1024 * 1024,
   });
   for (const [route, values] of [
-    ['index.html', [site.brand, 'Portfolio Camila Guevara', 'Contactarme', 'CV', 'Sobre mi', 'Arquitectura, espacio y personas.', site.menu[0], site.menu[1], site.creditLabel]],
+    ['index.html', [site.brand, 'Portfolio Camila Guevara', 'Contactarme', site.menu.find(item => item.id === 'cv').label, 'Sobre mi', 'Arquitectura, espacio y personas.', ...site.menu.map(item => item.label), site.creditLabel]],
     ['contact/index.html', [site.contact.sections[0].statement, site.contact.sections[0].email]],
-    ['privacy/index.html', [site.privacy.sections[0].text, site.privacy.sections[0].linkText]],
   ]) {
     const html = await readFile(new URL(`../dist/${route}`, import.meta.url), 'utf8');
     for (const value of values) assert.ok(html.includes(value), `${route}: ${value}`);
-    if (route !== 'privacy/index.html') {
-      assert.match(html, /<noscript><nav class="nojs-nav" aria-label="Menú principal">/);
-      for (const path of ['/', '/projects/', '/contact/']) {
-        assert.ok(html.includes(`<a href="${path}"`), `${route}: no-script navigation ${path}`);
-      }
+    assert.match(html, /<noscript><nav class="nojs-nav" aria-label="Menú principal">/);
+    for (const path of ['/', '/projects/', '/contact/']) {
+      assert.ok(html.includes(`<a href="${path}"`), `${route}: no-script navigation ${path}`);
     }
   }
   const homepage = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  assert.deepEqual([...homepage.matchAll(/class="menu-link-label"><span>([^<]+)<\/span>/g)].map(match => match[1]), site.menu.map(item => item.label), 'the rendered menu respects the CMS item order');
   await access(new URL(`../dist${site.home.sections.find(section => section.type === 'home_hero').image}`, import.meta.url));
   assert.doesNotMatch(homepage, /Ver mis proyectos/, 'the obsolete about-section CTA is not rendered');
   assert.doesNotMatch(homepage, /class="hero-intro"/, 'the home hero has no intro paragraph');
@@ -277,7 +290,8 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     const page = await readFile(new URL(`../dist/projects/${item.id}/index.html`, import.meta.url), 'utf8');
     assert.ok(page.includes(item.title), `projects/${item.id}`);
   }
-  for (const route of ['about/index.html', 'journal/index.html', 'about.html', 'journal.html', 'article.html', 'journal']) {
+  assert.doesNotMatch(homepage, /\/privacy\/|Privacidad/, 'the removed privacy section is not in navigation');
+  for (const route of ['about/index.html', 'journal/index.html', 'privacy/index.html', 'about.html', 'journal.html', 'article.html', 'privacy.html', 'journal']) {
     await assert.rejects(access(new URL(`../dist/${route}`, import.meta.url)), `${route} should not be emitted`);
   }
   for (const [category, label] of [['resorts', 'Turísticos'], ['commercial', 'Comerciales']]) {
@@ -309,7 +323,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   assert.match(detail, /href="\/projects\/zil-resort\/"/);
   const basicProject = await readFile(new URL('../dist/projects/zil-resort/index.html', import.meta.url), 'utf8');
   assert.match(basicProject, /class="project-story-scroll"/, 'projects without extra sections use the same template');
-  for (const [name, route] of Object.entries({ projects: 'projects', contact: 'contact', privacy: 'privacy' })) {
+  for (const [name, route] of Object.entries({ projects: 'projects', contact: 'contact' })) {
     const html = await readFile(new URL(`../dist/${name}.html`, import.meta.url), 'utf8');
     assert.ok(html.includes(`location.replace("/${route}/" + location.search)`), name);
   }
