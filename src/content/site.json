@@ -1,10 +1,22 @@
 {
   "brand": "Camila Guevara",
   "menu": [
-    { "id": "home", "label": "Inicio" },
-    { "id": "cv", "label": "CV" },
-    { "id": "projects", "label": "Proyectos" },
-    { "id": "contact", "label": "Contacto" }
+    {
+      "id": "cv",
+      "label": "CV"
+    },
+    {
+      "id": "home",
+      "label": "Inicio"
+    },
+    {
+      "id": "projects",
+      "label": "Proyectos"
+    },
+    {
+      "id": "contact",
+      "label": "Contacto"
+    }
   ],
   "creditLabel": "Diseño web",
   "creditUrl": "https://wa.me/+541122527577",
@@ -23,14 +35,15 @@
         "alt": "Vista aérea de un proyecto arquitectónico frente al mar",
         "title": "Arquitectura, espacio y personas.",
         "label": "Sobre mi",
-        "text": "Soy Camila Guevara, arquitecta. Me interesa explorar cómo la luz, los materiales y el contexto transforman la manera de habitar cada espacio."
+        "text": "Soy Camila Guevara, arquitecta. Me interesa explorar cómo la luz, los materiales y el contexto transforman la manera de habitar cada espacio. Me gusta doblada"
       },
       {
         "type": "home_projects",
         "featuredProjects": [
           "zil-residences",
           "zil-resort",
-          "gramophone-works"
+          "gramophone-works",
+          "macka-istanbul"
         ],
         "projectLinkLabel": "Ver proyecto"
       },
