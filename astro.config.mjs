@@ -21,7 +21,13 @@ function prototypeAssets() {
     hooks: {
       'astro:server:setup': ({ server }) => {
         server.middlewares.use(async (req, res, next) => {
-          const name = /^\/(projects|contact|privacy|project)\.html$/.exec((req.url || '').split('?')[0])?.[1];
+          const [pathname, query] = (req.url || '').split('?', 2);
+          if ((pathname === '/admin' || pathname === '/admin/') && ['GET', 'HEAD'].includes(req.method || 'GET')) {
+            res.writeHead(302, { Location: `/admin/index.html${query ? `?${query}` : ''}` });
+            res.end();
+            return;
+          }
+          const name = /^\/(projects|contact|privacy|project)\.html$/.exec(pathname)?.[1];
           if (!name) return next();
           res.setHeader('Content-Type', 'text/html; charset=utf-8');
           res.end(legacyHtml(name, name === 'project' ? await entryIds('projects') : []));
