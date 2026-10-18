@@ -11,10 +11,10 @@ const labels = project.data.language === 'en'
   ? { location: 'Location', next: 'Next Project' }
   : { location: 'Ubicación', next: 'Siguiente proyecto' };
 ---
-<SiteLayout title={project.data.title} description={project.data.description || project.data.title} lightLogo wordmark>
-  <main class="page project-detail--editorial" data-project-story lang={project.data.language}>
+<SiteLayout title={project.data.title} description={project.data.description || project.data.title}>
+  <main class="page project-detail--editorial" data-project-story lang={project.data.language} transition:name="project-page" transition:animate="none">
     <div class="project-story-scroll" id="project-story-scroll">
-      <figure class="project-story-hero"><img src={project.data.image} alt={project.data.alt} fetchpriority="high" /></figure>
+      <figure class="project-story-hero" transition:name="project-hero" transition:animate="none"><img src={project.data.image} alt={project.data.alt} fetchpriority="high" decoding="async" /></figure>
       <div class="project-story-mobile-copy">
         <h1>{project.data.title}</h1>
         {project.data.description && <p>{project.data.description}</p>}

@@ -5,6 +5,6 @@ import site from '../lib/site';
 const home = site.home;
 const title = home.sections.find(section => section.type === 'home_hero')?.title || site.brand;
 ---
-<SiteLayout title={title} description={home.meta} home lightLogo>
+<SiteLayout title={title} description={home.meta} home>
   <main class="home-scroll" id="home-scroll"><div class="home-track"><SiteSections sections={home.sections} context="home" /></div></main>
 </SiteLayout>

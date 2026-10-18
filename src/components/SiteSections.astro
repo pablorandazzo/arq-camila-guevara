@@ -5,36 +5,27 @@ import type { SiteSection } from '../lib/site-schema';
 
 interface Props {
   sections: SiteSection[];
-  context: 'home' | 'about' | 'contact' | 'privacy';
+  context: 'home' | 'contact' | 'privacy';
 }
 const { sections, context } = Astro.props;
-const projects = sections.some(section => section.type === 'home_intro') ? await getCollection('projects') : [];
-const articles = sections.some(section => section.type === 'home_journal') ? await getCollection('articles') : [];
-const featured = <T extends { id: string }>(ids: string[], entries: T[]): T[] => ids.map(id => {
-  const entry = entries.find(item => item.id === id);
-  if (!entry) throw new Error(`Featured entry does not exist: ${id}`);
-  return entry;
+const projects = sections.some(section => section.type === 'home_projects') ? await getCollection('projects') : [];
+const featuredProjects = (ids: string[]) => ids.map(id => {
+  const project = projects.find(item => item.id === id);
+  if (!project) throw new Error(`Featured project does not exist: ${id}`);
+  return project;
 });
 ---
 {sections.map(section => section.type === 'home_hero'
-  ? <section class="home-hero"><img src={section.image} alt={section.alt} width="3720" height="2208" /><p class="hero-intro">{section.intro}</p><h1 class="hero-title">{section.title}</h1></section>
-  : section.type === 'home_intro'
-    ? <section class="intro-panel"><div class="intro-copy"><div class="intro-top"><h2 class="section-label">{section.label}</h2><img src={section.image} alt={section.alt} width="3504" height="2336" loading="lazy" /></div><div class="intro-bottom"><h3 class="editorial-title">{section.title}</h3><p>{section.text}</p><a class="text-link" href={section.linkHref}>{section.linkLabel}</a></div></div><div class="project-strip">{featured(section.featuredProjects, projects).map(project => <article><a href={`/projects/${project.id}/`}><div class="card-image"><img src={project.data.image} alt={project.data.alt} loading="lazy" /></div><div class="card-caption"><h3>{project.data.title}</h3><span class="text-link">{section.projectLinkLabel}</span></div></a></article>)}</div></section>
-    : section.type === 'home_services'
-      ? <section class="what-panel"><div class="what-copy"><h2 class="section-label">{section.label}</h2><div><p class="editorial-title">{section.text}</p><p class="focus-line">{section.focusPrefix} <a href="/projects/commercial/">{section.commercialLabel}</a> {section.conjunction} <a href="/projects/resorts/">{section.resortsLabel}</a></p></div><a class="text-link" href={section.linkHref}>{section.linkLabel}</a></div><img src={section.image} alt={section.alt} width="1880" height="2208" loading="lazy" /></section>
-      : section.type === 'home_journal'
-        ? <section class="journal-panel"><div class="journal-lead on-coral"><div><p class="editorial-title">{section.text}</p><a class="text-link" href={section.linkHref}>{section.linkLabel}</a></div><h2>{section.title}</h2></div><div class="journal-cards">{featured(section.featuredArticles, articles).map(article => <article><a href={`/journal/${article.id}/`}><div class="card-image"><img src={article.data.image} alt={article.data.alt} loading="lazy" /></div><div class="card-caption"><h3>{article.data.title}</h3><span class="text-link">{section.articleLinkLabel}</span></div></a></article>)}</div></section>
-        : section.type === 'split_hero'
-          ? <section class="split-hero"><div class="hero-visual"><img src={section.image} alt={section.alt} width="1860" height="2208" /></div><div class="hero-statement"><h1>{section.title}</h1></div></section>
-          : section.type === 'statement'
-            ? <section class="about-intro"><h2 class="section-label">{section.label}</h2><p>{section.text}</p></section>
-            : section.type === 'feature'
-              ? <section class="about-section">{section.imageSide === 'left' && <img src={section.image} alt={section.alt} loading="lazy" />}<div class="content"><h2 class="section-label">{section.label}</h2><div><h3 class="editorial-title">{section.title}</h3><p>{section.text}</p>{section.linkLabel && <a class="text-link" href={section.linkHref || '/contact/'}>{section.linkLabel}</a>}</div></div>{section.imageSide === 'right' && <img src={section.image} alt={section.alt} loading="lazy" />}</section>
-              : section.type === 'call_to_action'
-                ? <section class="about-close"><h2 class="editorial-title">{section.text}</h2><a class="text-link" href={section.linkHref}>{section.linkLabel}</a></section>
-                : section.type === 'contact_details'
-                  ? <section class="contact-view"><div class="contact-left"><section><h1>{section.heading}</h1><p class="editorial-title">{section.statement}</p><button class="text-link" type="button" data-open-contact>{section.cta}</button></section><section><h2>{section.detailsLabel}</h2><address><a href={section.mapUrl} target="_blank" rel="noreferrer" style="white-space:pre-line">{section.address}</a><br /><br /><a href={`mailto:${section.email}`}>{section.email}</a><br /><a href={`tel:${section.phoneHref}`}>{section.phoneDisplay}</a><br /><a href={section.instagram} target="_blank" rel="noreferrer">Instagram</a>, <a href={section.twitter} target="_blank" rel="noreferrer">Twitter</a>, <a href={section.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></address></section></div><img src={section.image} alt={section.imageAlt} width="1572" height="2128" /></section>
-                  : section.type === 'privacy_statement'
-                    ? <section class="article-detail"><a class="text-link" href="/">{section.backLabel}</a><h1 class="detail-heading" style="margin-top:60px">{section.heading}</h1><p>{section.text} <a class="text-link" href={section.linkUrl} target="_blank" rel="noreferrer">{section.linkText}</a>.</p></section>
-                    : <ContentSections sections={[section]} context={context === 'home' ? 'home' : 'page'} />
+  ? <section class="home-hero"><img src={section.image} alt={section.alt} width="3720" height="2208" /><div class="home-hero-content"><h1 class="hero-title" aria-label={section.title}><span class="hero-title-line">{section.title.split(/\s+/)[0]}</span>{' '}<span class="hero-title-line">{section.title.split(/\s+/).slice(1).join(' ')}</span></h1><div class="home-hero-actions" aria-label="Acciones principales"><a class="home-hero-button" href="/contact/">Contactarme</a><button class="home-hero-button" type="button" disabled title="El CV aún no está disponible" aria-label="CV de Camila Guevara: falta cargar el archivo">CV</button></div></div></section>
+  : section.type === 'home_about'
+    ? <section class="home-about" aria-labelledby="home-about-label"><h2 id="home-about-label" class="section-label">{section.label}</h2><img src={section.image} alt={section.alt} width="3504" height="2336" loading="lazy" /><div class="home-about-copy"><h3 class="editorial-title">{section.title}</h3><p>{section.text}</p></div></section>
+    : section.type === 'home_projects'
+    ? <section class="home-featured-projects"><div class="project-strip">{featuredProjects(section.featuredProjects).map(project => <article><a href={`/projects/${project.id}/`}><div class="card-image"><img src={project.data.image} alt={project.data.alt} loading="lazy" /></div><div class="card-caption"><h3>{project.data.title}</h3><span class="text-link">{section.projectLinkLabel}</span></div></a></article>)}</div><div class="home-featured-heading"><h2 class="section-label">Proyectos</h2><a class="text-link" href="/projects/">Ver todos los proyectos</a></div></section>
+    : section.type === 'home_approach'
+    ? <section class="approach-panel"><div class="approach-copy"><h2 class="section-label">{section.label}</h2><div class="approach-content"><h3 class="editorial-title">{section.title}</h3><ul class="approach-principles">{section.principles.map(principle => <li><h4>{principle.heading}</h4><p>{principle.text}</p></li>)}</ul></div></div><img src={section.image} alt={section.alt} width="1880" height="2208" loading="lazy" /></section>
+    : section.type === 'contact_details'
+      ? <section class="contact-view"><div class="contact-left"><section><h1>{section.heading}</h1><p class="editorial-title">{section.statement}</p><button class="text-link" type="button" data-open-contact>{section.cta}</button></section><section><h2>{section.detailsLabel}</h2><address><a href={section.mapUrl} target="_blank" rel="noreferrer" style="white-space:pre-line">{section.address}</a><br /><br /><a href={`mailto:${section.email}`}>{section.email}</a><br /><a href={`tel:${section.phoneHref}`}>{section.phoneDisplay}</a><br /><a href={section.instagram} target="_blank" rel="noreferrer">Instagram</a>, <a href={section.twitter} target="_blank" rel="noreferrer">Twitter</a>, <a href={section.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></address></section></div><img src={section.image} alt={section.imageAlt} width="1572" height="2128" /></section>
+      : section.type === 'privacy_statement'
+        ? <section class="article-detail"><a class="text-link" href="/">{section.backLabel}</a><h1 class="detail-heading" style="margin-top:60px">{section.heading}</h1><p>{section.text} <a class="text-link" href={section.linkUrl} target="_blank" rel="noreferrer">{section.linkText}</a>.</p></section>
+        : <ContentSections sections={[section]} context={context === 'home' ? 'home' : 'page'} />
 )}

@@ -1,29 +1,21 @@
 {
-  "brand": "Studio RHE",
-  "established": "Est. 1997",
-  "menu": ["Estudio", "Proyectos", "Diario", "Contacto"],
+  "brand": "Camila Guevara",
+
+  "menu": ["Proyectos", "Contacto"],
   "privacyLabel": "Privacidad",
   "creditLabel": "Diseño web: Outpost",
   "creditUrl": "https://www.discoveroutpost.com/",
   "home": {
     "meta": "Studio RHE es un estudio de arquitectura y diseño de Londres que crea espacios innovadores para vivir, trabajar y disfrutar.",
     "sections": [
-      { "type": "home_hero", "image": "/assets/images/1665158307-studio-rhe-hero.jpg", "alt": "Residencia de Studio RHE frente al océano en Seychelles", "intro": "Somos un estudio de arquitectura y diseño con sede en Londres y una reputación internacional por crear espacios innovadores.", "title": "Construir más allá" },
-      { "type": "home_intro", "label": "Introducción", "image": "/assets/images/1657797867-aerial-3-copy.jpg", "alt": "Vista aérea de un proyecto de Studio RHE", "title": "Desde 1997", "text": "Somos un estudio de arquitectura que cree en ir más lejos. En ser audaces, explorar lo nuevo y crear lugares donde las personas quieran vivir, trabajar y disfrutar. Construyamos más allá.", "linkLabel": "Conoce el estudio", "linkHref": "/about/", "projectLinkLabel": "Ver proyecto", "featuredProjects": ["zil-residences", "zil-resort", "gramophone-works"] },
-      { "type": "home_services", "label": "Qué hacemos", "text": "Colaboramos para crear lo inesperado, con una innovación que inspira. Trabajemos para construir algo más grande y luminoso.", "image": "/assets/images/1660813591-home-image.jpg", "alt": "Interior arquitectónico diseñado por Studio RHE", "focusPrefix": "Proyectos", "commercialLabel": "comerciales", "conjunction": "y", "resortsLabel": "turísticos", "linkLabel": "Ver todos los proyectos", "linkHref": "/projects/" },
-      { "type": "home_journal", "title": "Diario", "text": "En sintonía con los cambios de Londres, Studio RHE combina conocimiento comercial y originalidad creativa.", "linkLabel": "Ver todos los artículos", "linkHref": "/journal/", "articleLinkLabel": "Leer artículo", "featuredArticles": ["site-or-building", "modern-workplace", "milan"] }
+      { "type": "home_hero", "image": "/assets/images/1665158307-studio-rhe-hero.jpg", "alt": "Residencia de Studio RHE frente al océano en Seychelles", "intro": "Somos un estudio de arquitectura y diseño con sede en Londres y una reputación internacional por crear espacios innovadores.", "title": "Portfolio Camila Guevara" },
+      { "type": "home_about", "label": "Sobre mi", "image": "/assets/images/1657797867-aerial-3-copy.jpg", "alt": "Vista aérea de un proyecto arquitectónico frente al mar", "title": "Arquitectura, espacio y personas.", "text": "Soy Camila Guevara, arquitecta. Me interesa explorar cómo la luz, los materiales y el contexto transforman la manera de habitar cada espacio." },
+      { "type": "home_projects", "featuredProjects": ["zil-residences", "zil-resort", "gramophone-works"], "projectLinkLabel": "Ver proyecto" },
+
+      { "type": "home_approach", "label": "Mi enfoque", "title": "Diseñar desde el lugar, la luz y las personas.", "principles": [{ "heading": "Contexto", "text": "Cada proyecto empieza por escuchar el lugar y entender lo que necesita." }, { "heading": "Luz", "text": "La luz natural ordena el espacio y transforma cómo se siente." }, { "heading": "Materialidad", "text": "Materiales elegidos para dar carácter y acompañar la vida cotidiana." }], "image": "/assets/images/1660813591-home-image.jpg", "alt": "Vista aérea de una vivienda entre rocas junto al mar" }
     ]
   },
-  "about": {
-    "meta": "Conoce la filosofía y el proceso de Studio RHE, estudio de arquitectura y diseño fundado en 1997.",
-    "sections": [
-      { "type": "split_hero", "image": "/assets/images/1660813077-about-hero.jpg", "alt": "Equipo de Studio RHE trabajando en su estudio de Londres", "title": "Donde la innovación despierta la inspiración y desafía lo establecido." },
-      { "type": "statement", "label": "Sobre nosotros", "text": "Studio RHE es un estudio de arquitectura y diseño con sede en Londres, reconocido internacionalmente por sus entornos residenciales, de ocio y de trabajo sostenibles, audaces e innovadores." },
-      { "type": "feature", "label": "Nuestro proceso", "title": "Crear lo excepcional.", "text": "La arquitectura premiada del estudio nace de colaboraciones significativas con sus clientes. Pensamos, hacemos y construimos sin concesiones: escuchamos cada circunstancia para crear una arquitectura detallada, eficiente y auténtica.", "image": "/assets/images/1660570636-image-2-copy.jpg", "alt": "Interior arquitectónico del portfolio de Studio RHE", "imageSide": "right" },
-      { "type": "feature", "label": "El equipo", "title": "Ideas con personas detrás.", "text": "Un equipo de más de quince profesionales trabaja para mejorar el mundo físico que nos rodea. Diseño, investigación y tecnología se entrelazan en una cultura de estudio abierta a lo excepcional.", "image": "/assets/images/1660813539-about-image.jpg", "alt": "Detalle de un proyecto arquitectónico de Studio RHE", "imageSide": "left", "linkLabel": "Trabajemos juntos", "linkHref": "/contact/" },
-      { "type": "call_to_action", "text": "Nuestro compromiso es mejorar el mundo con respuestas innovadoras y sostenibles en cada proyecto.", "linkLabel": "Hablemos", "linkHref": "/contact/" }
-    ]
-  },
+
   "contact": {
     "meta": "Contacta con Studio RHE para hablar de tu próximo proyecto de arquitectura y diseño.",
     "sections": [

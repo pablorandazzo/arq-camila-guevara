@@ -7,14 +7,13 @@ import { fileURLToPath } from 'node:url';
 const root = new URL('../', import.meta.url);
 const site = JSON.parse(await readFile(new URL('../src/content/site.json', import.meta.url), 'utf8'));
 const catalogs = {};
-for (const kind of ['projects', 'articles']) {
+for (const kind of ['projects']) {
   const dir = new URL(`../src/content/${kind}/`, import.meta.url);
   catalogs[kind] = await Promise.all((await readdir(dir)).filter(name => name.endsWith('.json')).map(async name => ({ id: name.slice(0, -5), ...JSON.parse(await readFile(new URL(name, dir), 'utf8')) })));
 }
 
 test('all migrated records have unique ordering and real image files', async () => {
   assert.equal(catalogs.projects.length, 25);
-  assert.equal(catalogs.articles.length, 18);
   for (const entries of Object.values(catalogs)) {
     assert.equal(new Set(entries.map(item => item.order)).size, entries.length);
     for (const item of entries) {
@@ -31,27 +30,180 @@ test('all migrated records have unique ordering and real image files', async () 
   }
 });
 
-test('featured links resolve to catalog entries', () => {
-  const intro = site.home.sections.find(section => section.type === 'home_intro');
-  const journal = site.home.sections.find(section => section.type === 'home_journal');
-  for (const [ids, kind] of [[intro.featuredProjects, 'projects'], [journal.featuredArticles, 'articles']]) {
-    for (const id of ids) assert.ok(catalogs[kind].some(item => item.id === id), id);
+test('the home retains its about section, featured project cards, and personal approach without removed-page sections', () => {
+  const types = site.home.sections.map(section => section.type);
+  assert.ok(types.includes('home_hero'));
+  assert.ok(types.includes('home_about'));
+  assert.ok(types.includes('home_approach'));
+  const approach = site.home.sections.find(section => section.type === 'home_approach');
+  assert.equal(approach.label, 'Mi enfoque');
+  assert.equal(approach.title, 'Diseñar desde el lugar, la luz y las personas.');
+  assert.deepEqual(approach.principles.map(principle => principle.heading), ['Contexto', 'Luz', 'Materialidad']);
+  assert.equal(approach.principles.length, 3);
+  assert.deepEqual(site.home.sections.find(section => section.type === 'home_about'), {
+    type: 'home_about', label: 'Sobre mi', image: '/assets/images/1657797867-aerial-3-copy.jpg',
+    alt: 'Vista aérea de un proyecto arquitectónico frente al mar', title: 'Arquitectura, espacio y personas.',
+    text: 'Soy Camila Guevara, arquitecta. Me interesa explorar cómo la luz, los materiales y el contexto transforman la manera de habitar cada espacio.',
+  });
+  assert.ok(types.indexOf('home_hero') < types.indexOf('home_about') && types.indexOf('home_about') < types.indexOf('home_projects'));
+  assert.deepEqual(site.home.sections.find(section => section.type === 'home_projects')?.featuredProjects, ['zil-residences', 'zil-resort', 'gramophone-works']);
+  assert.ok(!JSON.stringify(site.home).includes('Proyectos destacados'), 'the home keeps its project cards without the featured-projects tagline');
+  assert.ok(types.every(type => !['home_services', 'home_intro', 'home_journal'].includes(type)));
+});
+
+test('mobile orders About, the projects heading, featured projects, then the approach; desktop keeps source order', async () => {
+  const css = await readFile(new URL('../assets/site.css', import.meta.url), 'utf8');
+  const mobile = css.slice(css.lastIndexOf('@media(max-width:768px)'));
+  assert.ok(site.home.sections.findIndex(section => section.type === 'home_projects') < site.home.sections.findIndex(section => section.type === 'home_approach'), 'desktop keeps projects before the approach section');
+  assert.ok(mobile.includes('.home-track{display:flex;flex-direction:column}'));
+  assert.ok(mobile.includes('.home-track>.home-featured-projects{order:3}'));
+  assert.ok(mobile.includes('.home-track>.approach-panel{order:4}'));
+  assert.ok(mobile.includes('.home-featured-heading{order:0}'));
+  assert.ok(mobile.includes('.home-featured-projects>.project-strip{order:1}'));
+});
+
+test('the approach section renders its principles in a desktop split and mobile stack', async () => {
+  const [component, css, cms] = await Promise.all([
+    readFile(new URL('../src/components/SiteSections.astro', import.meta.url), 'utf8'),
+    readFile(new URL('../assets/site.css', import.meta.url), 'utf8'),
+    readFile(new URL('../public/admin/config.yml', import.meta.url), 'utf8'),
+  ]);
+  assert.ok(component.includes('class="approach-panel"'));
+  assert.ok(component.includes('class="approach-principles"'));
+  assert.ok(component.includes('section.principles.map'));
+  assert.ok(css.includes('.approach-panel{width:clamp(1050px,97.9vw,1880px);display:flex;background:#fff}'));
+  assert.ok(css.includes('.approach-panel{width:100%;display:block}'));
+  assert.ok(cms.includes('name: home_approach'));
+  assert.ok(cms.includes('name: principles'));
+});
+
+test('the About section keeps the editorial desktop composition and a responsive mobile layout', async () => {
+  const [component, css] = await Promise.all([
+    readFile(new URL('../src/components/SiteSections.astro', import.meta.url), 'utf8'),
+    readFile(new URL('../assets/site.css', import.meta.url), 'utf8'),
+  ]);
+  assert.ok(component.includes('class="home-about" aria-labelledby="home-about-label"'));
+  assert.ok(component.includes('<div class="home-about-copy"><h3 class="editorial-title">{section.title}</h3><p>{section.text}</p></div>'));
+  const featuredBlock = component.slice(component.indexOf('<section class="home-featured-projects">'), component.indexOf('</section>', component.indexOf('<section class="home-featured-projects">')));
+  assert.ok(featuredBlock.indexOf('<div class="project-strip">') < featuredBlock.indexOf('<div class="home-featured-heading">'), 'the projects heading and all-projects link come after the featured cards');
+  assert.ok(css.includes('.home-about{display:grid;flex:none;width:clamp(420px,41.66vw,800px);height:100%;min-height:650px;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;gap:0;padding:var(--gutter) var(--gutter)'), 'About label and image share the project-strip top inset on desktop');
+  assert.ok(css.includes('.project-strip{display:flex;gap:clamp(12px,1.04vw,20px);padding:var(--gutter);'), 'the neighboring projects section uses the same inset');
+  assert.ok(css.includes('.home-about>img{grid-column:2;grid-row:1;justify-self:end;align-self:start;width:clamp(145px,11vw,210px);height:clamp(190px,14.3vw,273px);'));
+  assert.ok(css.includes('.home-about-copy{grid-column:1/3;grid-row:2;align-self:end;max-width:440px}'));
+  assert.ok(css.includes('@media(max-width:768px){.home-about{width:100%;height:auto;min-height:0;grid-template-columns:38% 62%;grid-template-rows:minmax(280px,36svh) auto;'));
+  assert.ok(css.includes('.home-about-copy{max-width:100%;align-self:start;padding-top:24px}'), 'mobile moves the about title closer to the image instead of pinning it to the bottom');
+  assert.ok(css.includes('.home-scroll{position:fixed;inset:0 var(--rail) 0 0;overflow-x:auto;overflow-y:hidden;'), 'the horizontal homepage scroller remains intact');
+  assert.ok(css.includes('@media(min-width:769px) and (max-width:1024px){'), 'narrow desktop refinements are scoped to the horizontal panels');
+  assert.ok(css.includes('body.home-page .home-about{width:clamp(420px,52vw,540px)}'));
+  assert.ok(css.includes('body.home-page .home-featured-heading{width:clamp(240px,25vw,300px);justify-content:flex-start;gap:16px}'));
+  assert.ok(css.includes('@media(max-width:380px){.home-about{grid-template-columns:34% 66%'));
+  assert.ok(css.includes('@media(min-width:1025px){'), 'desktop refinements are scoped away from tablet and mobile');
+  assert.ok(css.includes('body.home-page .home-about>img{width:clamp(190px,16vw,240px);height:clamp(230px,20vw,280px)}'), 'the About image has more visual presence on desktop');
+  assert.ok(css.includes('body.home-page .home-featured-heading{width:clamp(240px,22vw,350px);justify-content:flex-start;gap:18px}'), 'the projects title and link use a compact panel');
+  assert.match(css, /@media\(max-width:768px\)\{[\s\S]*?\.home-featured-heading\{[^}]*flex-direction:row[^}]*align-items:center[^}]*gap:16px/);
+});
+
+test('the homepage hero anchors left on desktop and centers on mobile without the template intro', async () => {
+  const [component, interactions, css] = await Promise.all([
+    readFile(new URL('../src/components/SiteSections.astro', import.meta.url), 'utf8'),
+    readFile(new URL('../assets/interaction.js', import.meta.url), 'utf8'),
+    readFile(new URL('../assets/site.css', import.meta.url), 'utf8'),
+  ]);
+  assert.match(component, /class="home-hero-content"[\s\S]*?class="hero-title"/, 'title and actions share the same hero content block');
+  assert.doesNotMatch(component, /<p class="hero-intro">/, 'the intro paragraph is removed from the homepage hero');
+  assert.match(component, /class="hero-title-line"/, 'the hero marks its intentional title lines');
+  assert.match(interactions, /heroTitle\.children[\s\S]*?titleLines\.forEach\(line => line\.replaceChildren/, 'character animation preserves the title line wrappers');
+  assert.match(css, /\.home-hero\{align-items:flex-start;justify-content:flex-end\}/, 'the desktop hero content sits at the bottom-left');
+  assert.match(css, /\.home-hero \.hero-title\{max-width:95vw;white-space:normal;text-align:left;/, 'the desktop title is left-aligned');
+  assert.ok(css.includes('.home-hero:after{inset:0;background:radial-gradient(ellipse 72% 48% at 31% 76%'), 'the image stays bright outside a soft focus halo behind the title');
+  assert.match(css, /\.home-hero \.hero-title>\.hero-title-line:first-child\{font-size:clamp\(25px,3\.4vw,52px\);font-style:italic/, 'Portfolio is a quiet editorial kicker');
+  assert.match(css, /\.home-hero \.hero-title>\.hero-title-line:last-child\{font-size:clamp\(72px,9\.5vw,156px\)/, 'Camila Guevara is the visual focus');
+  assert.match(css, /\.home-hero-actions \.home-hero-button:first-child\{background:#fff;color:#171717/, 'Contactarme is the clear primary action');
+  assert.match(css, /@media\(max-width:768px\)\{\s*\.home-hero\{align-items:flex-start;justify-content:flex-end;padding:0\}/, 'mobile hero content anchors to the lower left');
+  assert.match(css, /\.home-hero \.hero-title>\.hero-title-line:last-child\{font-size:clamp\(34px,9\.2vw,44px\)/, 'the name scales to fit mobile');
+  assert.match(css, /\.home-hero \.hero-title>\.hero-title-line\{display:block;white-space:nowrap\}/, 'mobile keeps the title lines intact');
+  assert.doesNotMatch(css, /home-hero-button:disabled::after/, 'unavailable CV status does not run into the button label');
+});
+
+test('the header shows a restrained architectural mark and Camila wordmark', async () => {
+  const [layout, css, logo] = await Promise.all([
+    readFile(new URL('../src/layouts/SiteLayout.astro', import.meta.url), 'utf8'),
+    readFile(new URL('../assets/site.css', import.meta.url), 'utf8'),
+    readFile(new URL('../assets/logo.svg', import.meta.url), 'utf8'),
+  ]);
+  assert.match(layout, /class:list=\{\['logo'/, 'the header contains the brand link in the former logo position');
+  assert.match(layout, /class="logo-mark" viewBox="0 0 48 48"/, 'the logo is an architectural line mark');
+  assert.match(layout, /Camila Guevara<\/span><small>ARQUITECTA<\/small>/, 'the logo identifies Camila as an architect');
+  assert.match(css, /\.logo-mark\{[^}]*stroke:currentColor/, 'the mark adapts to light and dark hero backgrounds');
+  assert.match(logo, /Isotipo arquitectónico de Camila Guevara/);
+  assert.match(layout, /label: 'Inicio', href: '\/'/);
+  assert.match(layout, /label: 'CV', href: null/);
+  assert.match(layout, /menu-link--disabled[^>]*aria-disabled="true"/, 'CV is visible but never points to a missing file');
+});
+
+test('the fixed header follows the homepage hero, then turns white with readable controls', async () => {
+  const [css, script, layout] = await Promise.all([
+    readFile(new URL('../assets/site.css', import.meta.url), 'utf8'),
+    readFile(new URL('../assets/interaction.js', import.meta.url), 'utf8'),
+    readFile(new URL('../src/layouts/SiteLayout.astro', import.meta.url), 'utf8'),
+  ]);
+  assert.match(layout, /'header-over-hero': home/, 'the first paint starts with the header blended into the home hero');
+  assert.match(css, /body\.home-page::before\{[^}]*background:transparent/);
+  assert.match(css, /body\.home-page:not\(\.header-over-hero\)::before\{[^}]*background:rgba\(255,255,255,\.94\)/);
+  assert.match(css, /body\.home-page:not\(\.header-over-hero\):not\(\.menu-open\) \.logo,body:not\(\.home-page\):not\(\.menu-open\) \.logo\{color:#111\}/);
+  assert.match(script, /const homeHeroVisible = homeDesktop\.matches \? heroRect\.right > 0 : heroRect\.bottom > headerBandHeight;/);
+  assert.match(script, /classList\.toggle\('header-over-hero', homeHeroVisible\)/);
+  assert.match(css, /body\.home-page:not\(\.header-over-hero\):not\(\.menu-open\) \.menu-toggle,body:not\(\.home-page\):not\(\.menu-open\) \.menu-toggle\{color:#111\}/);
+});
+
+test('desktop shows only the always-fixed vertical menu; the wordmark and header surface are hidden', async () => {
+  const [script, css] = await Promise.all([
+    readFile(new URL('../assets/interaction.js', import.meta.url), 'utf8'),
+    readFile(new URL('../assets/site.css', import.meta.url), 'utf8'),
+  ]);
+  assert.match(script, /if \(homeDesktop\.matches\) \{\s*document\.body\.classList\.remove\('header-hidden'\);\s*return;/, 'desktop scroll never hides the vertical menu');
+  assert.match(css, /@media\(min-width:769px\)\{\.logo\{display:none!important\}body::before\{display:none\}\}/, 'desktop hides the logo and horizontal header surface');
+  assert.match(css, /\.site-rail\{position:fixed;right:0;top:0;bottom:0;/, 'the existing vertical menu remains fixed to the viewport');
+  assert.match(css, /@media\(max-width:768px\)\{body\.header-hidden:not\(\.menu-open\) \.logo/);
+});
+
+test('project-detail gallery images skip the repetitive scroll scale reveal', async () => {
+  const [script, template] = await Promise.all([
+    readFile(new URL('../assets/interaction.js', import.meta.url), 'utf8'),
+    readFile(new URL('../src/pages/projects/[id].astro', import.meta.url), 'utf8'),
+  ]);
+  assert.match(template, /data-project-story/, 'project detail pages expose a scope for their gallery');
+  assert.ok(script.includes("].filter((image) => !image.closest('[data-project-story]'))"), 'all images within project details are excluded from scroll-scale reveals');
+});
+
+test('Estudio and Diario are fully removed from site content, routes, navigation, and Sveltia', async () => {
+  const [layout, config] = await Promise.all([
+    readFile(new URL('../src/layouts/SiteLayout.astro', import.meta.url), 'utf8'),
+    readFile(new URL('../public/admin/config.yml', import.meta.url), 'utf8'),
+  ]);
+  assert.deepEqual(site.menu, ['Proyectos', 'Contacto']);
+  assert.equal('about' in site, false, 'the Studio page singleton is removed from site content');
+  assert.ok(site.home.sections.every(section => !['home_intro', 'home_journal'].includes(section.type)), 'home no longer contains Studio or Diario sections');
+  assert.doesNotMatch(layout, /\/about\/|\/journal\/|Estudio|Diario/);
+  assert.doesNotMatch(config, /name: articles|name: about|home_journal|home_intro|journal|studio page/i, 'Sveltia no longer exposes the removed collection or page fields');
+  for (const path of ['../src/pages/about.astro', '../src/pages/journal', '../src/components/JournalListing.astro', '../src/content/articles']) {
+    await assert.rejects(access(new URL(path, import.meta.url)), `${path} should be deleted`);
   }
 });
 
 test('source attribution identifies the design credit without mislabeling the original site', () => {
-  assert.equal(site.brand, 'Studio RHE');
+  assert.equal(site.brand, 'Camila Guevara');
   assert.equal(site.creditLabel, 'Diseño web: Outpost');
   assert.equal(site.creditUrl, 'https://www.discoveroutpost.com/');
 });
 
 test('CMS exposes every site singleton field in its matching section', async () => {
   const config = await readFile(new URL('../public/admin/config.yml', import.meta.url), 'utf8');
-  assert.equal((config.match(/- name: sections\n\s+label:/g) || []).length, 6, 'projects, articles and four pages share section blocks');
-  for (const type of ['image', 'text', 'quote']) assert.equal((config.match(new RegExp(`- name: ${type}\\n\\s+label:`, 'g')) || []).length, 6, type);
+  assert.equal((config.match(/- name: sections\n\s+label:/g) || []).length, 4, 'projects and the home/contact/privacy pages share section blocks');
+  for (const type of ['image', 'text', 'quote']) assert.equal((config.match(new RegExp(`- name: ${type}\\n\\s+label:`, 'g')) || []).length, 4, type);
   const singleton = config.slice(config.indexOf('  - name: pages'));
   assert.match(singleton, /- name: site\s+label:.*\s+file: src\/content\/site\.json\s+fields:/);
-  const sections = ['home', 'about', 'contact', 'privacy'];
+  const sections = ['home', 'contact', 'privacy'];
   const firstSection = singleton.indexOf('          - name: home');
   assert.ok(firstSection > 0);
   for (const key of Object.keys(site).filter(key => !sections.includes(key))) {
@@ -77,8 +229,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     cwd: fileURLToPath(root), maxBuffer: 2 * 1024 * 1024,
   });
   for (const [route, values] of [
-    ['index.html', [site.brand, site.menu[1], site.home.sections[0].intro, site.creditLabel]],
-    ['about/index.html', [site.about.sections[0].title, site.about.sections[1].text]],
+    ['index.html', [site.brand, 'Portfolio Camila Guevara', 'Contactarme', 'CV', 'Sobre mi', 'Arquitectura, espacio y personas.', site.menu[0], site.menu[1], site.creditLabel]],
     ['contact/index.html', [site.contact.sections[0].statement, site.contact.sections[0].email]],
     ['privacy/index.html', [site.privacy.sections[0].text, site.privacy.sections[0].linkText]],
   ]) {
@@ -86,16 +237,41 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     for (const value of values) assert.ok(html.includes(value), `${route}: ${value}`);
     if (route !== 'privacy/index.html') {
       assert.match(html, /<noscript><nav class="nojs-nav" aria-label="Menú principal">/);
-      for (const path of ['/', '/about/', '/projects/', '/journal/', '/contact/']) {
+      for (const path of ['/', '/projects/', '/contact/']) {
         assert.ok(html.includes(`<a href="${path}"`), `${route}: no-script navigation ${path}`);
       }
     }
   }
-  for (const [kind, route] of [['projects', 'projects'], ['articles', 'journal']]) {
-    for (const item of catalogs[kind]) {
-      const page = await readFile(new URL(`../dist/${route}/${item.id}/index.html`, import.meta.url), 'utf8');
-      assert.ok(page.includes(item.title), `${route}/${item.id}`);
-    }
+  const homepage = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  assert.doesNotMatch(homepage, /Ver mis proyectos/, 'the obsolete about-section CTA is not rendered');
+  assert.doesNotMatch(homepage, /class="hero-intro"/, 'the home hero has no intro paragraph');
+  assert.equal((homepage.match(/class="home-featured-projects"/g) || []).length, 1, 'the home displays the projects section');
+  assert.doesNotMatch(homepage, /Proyectos destacados/, 'the heading is removed from the rendered home page');
+  assert.ok(homepage.indexOf('The Gramophone Works') < homepage.indexOf('home-featured-heading'), 'the projects heading follows the last featured project in the built homepage');
+  assert.ok(homepage.includes('Mi enfoque'));
+  assert.ok(homepage.includes('Diseñar desde el lugar, la luz y las personas.'));
+  for (const principle of ['Contexto', 'Luz', 'Materialidad']) assert.ok(homepage.includes(principle), `approach principle: ${principle}`);
+  assert.doesNotMatch(homepage, /Conocer nuestro trabajo/, 'the redundant services CTA is removed with the old section');
+  assert.ok(homepage.includes('Ver todos los proyectos'), 'the projects section keeps its dedicated all-projects CTA');
+  for (const title of ['Zil Residences', 'Zil Resort', 'The Gramophone Works']) assert.ok(homepage.includes(title), `featured card: ${title}`);
+  for (const id of ['zil-residences', 'zil-resort', 'gramophone-works']) {
+    const project = catalogs.projects.find(item => item.id === id);
+    assert.ok(homepage.includes(`href="/projects/${id}/"`), `homepage links to ${id}`);
+    assert.ok(homepage.includes(project.title), `homepage displays ${project.title}`);
+    assert.ok(homepage.includes(`src="${project.image}"`), `homepage displays the cover for ${id}`);
+  }
+  assert.match(homepage, /class="home-hero-actions"/, 'the homepage hero shows its primary actions');
+  assert.match(homepage, /href="\/contact\/"[^>]*>Contactarme<\/a>/, 'Contactarme points to the existing contact route');
+  assert.match(homepage, /<button[^>]*disabled[^>]*aria-label="CV de Camila Guevara: falta cargar el archivo"[^>]*>CV<\/button>/, 'the CV action is safely disabled until a real file is supplied');
+  assert.match(homepage, /id="entry-mask"/, 'the orange entry bars are present on the home page');
+  const motionCss = await readFile(new URL('../assets/site.css', import.meta.url), 'utf8');
+  assert.match(motionCss, /::view-transition-new\(project-page\)[\s\S]*?@keyframes project-page-in\{from\{opacity:\.7;transform:translate3d\(-3\.5%,0,0\)/, 'project pages slide in from left to right with a coordinated view transition');
+  for (const item of catalogs.projects) {
+    const page = await readFile(new URL(`../dist/projects/${item.id}/index.html`, import.meta.url), 'utf8');
+    assert.ok(page.includes(item.title), `projects/${item.id}`);
+  }
+  for (const route of ['about/index.html', 'journal/index.html', 'about.html', 'journal.html', 'article.html', 'journal']) {
+    await assert.rejects(access(new URL(`../dist/${route}`, import.meta.url)), `${route} should not be emitted`);
   }
   for (const [category, label] of [['resorts', 'Turísticos'], ['commercial', 'Comerciales']]) {
     const html = await readFile(new URL(`../dist/projects/${category}/index.html`, import.meta.url), 'utf8');
@@ -117,6 +293,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   assert.equal((listing.match(/loading="lazy"/g) || []).length, catalogs.projects.length);
   assert.match(listing, /href="\/projects\/" aria-current="page"/);
   const detail = await readFile(new URL('../dist/projects/zil-residences/index.html', import.meta.url), 'utf8');
+  assert.doesNotMatch(detail, /id="entry-mask"/, 'the orange entry bars must not reappear on project pages');
   const residence = catalogs.projects.find(project => project.id === 'zil-residences');
   assert.equal(residence.sections.length, 9, 'Zil Residences includes the complete reference gallery');
   for (const image of [residence.image, ...residence.sections.map(item => item.image)]) {
@@ -127,17 +304,11 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   assert.match(detail, /href="\/projects\/zil-resort\/"/);
   const basicProject = await readFile(new URL('../dist/projects/zil-resort/index.html', import.meta.url), 'utf8');
   assert.match(basicProject, /class="project-story-scroll"/, 'projects without extra sections use the same template');
-  for (const category of ['newsletters', 'updates', 'commercial', 'resorts']) {
-    const html = await readFile(new URL(`../dist/journal/${category}/index.html`, import.meta.url), 'utf8');
-    assert.ok(html.includes(`href="/journal/${category}/" aria-current="page"`), category);
-    const count = (html.match(/class="article-card"/g) || []).length;
-    assert.equal(count, catalogs.articles.filter(article => article.categories.includes(category)).length, category);
-  }
-  for (const [name, route] of Object.entries({ about: 'about', projects: 'projects', journal: 'journal', contact: 'contact', privacy: 'privacy' })) {
+  for (const [name, route] of Object.entries({ projects: 'projects', contact: 'contact', privacy: 'privacy' })) {
     const html = await readFile(new URL(`../dist/${name}.html`, import.meta.url), 'utf8');
     assert.ok(html.includes(`location.replace("/${route}/" + location.search)`), name);
   }
-  for (const [name, kind, route] of [['project', 'projects', 'projects'], ['article', 'articles', 'journal']]) {
+  for (const [name, kind, route] of [['project', 'projects', 'projects']]) {
     const html = await readFile(new URL(`../dist/${name}.html`, import.meta.url), 'utf8');
     const ids = JSON.parse(html.match(/const ids = (\[[^;]*\]);/)?.[1] || '[]');
     assert.deepEqual(new Set(ids), new Set(catalogs[kind].map(item => item.id)));

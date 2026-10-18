@@ -1,6 +1,13 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import site from '../lib/site';
-const { title, description, home = false, lightLogo = false, navigation = true, wordmark = false } = Astro.props;
+const { title, description, home = false, navigation = true } = Astro.props;
+const navItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'CV', href: null },
+  { label: site.menu[0], href: '/projects/' },
+  { label: site.menu[1], href: '/contact/' },
+];
 ---
 <!doctype html>
 <html lang="es">
@@ -9,19 +16,30 @@ const { title, description, home = false, lightLogo = false, navigation = true, 
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     {description && <meta name="description" content={description} />}
     <title>{title} — {site.brand}</title>
+    <script is:inline>
+      try {
+        if (sessionStorage.getItem('rhe-entry-played') === '1') document.documentElement.dataset.homeEntryPlayed = 'true';
+      } catch {}
+    </script>
     <link rel="preload" href="/assets/fonts/Reckless-Light.c765955.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/assets/site.css" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml" />
+    <ClientRouter />
   </head>
-  <body class:list={{ 'home-page': home }}>
+  <body class:list={{ 'home-page': home, 'header-over-hero': home }}>
+    {home && <>
+      <div class="entry-mask" id="entry-mask" aria-hidden="true"><span></span><span></span><span></span></div>
+      <noscript><style>.entry-mask{display:none!important}.home-hero>img,.home-hero .hero-character,.home-hero .hero-intro{animation-play-state:running!important}</style></noscript>
+    </>}
     {navigation && <>
-       <a class:list={['logo', { 'is-light': lightLogo }]} href="/" aria-label={`${site.brand}, inicio`}><img src="/assets/logo.svg" alt={site.brand} width="75" height="77" />{wordmark && <span class="project-detail-wordmark" aria-hidden="true">{site.brand}</span>}</a>
-      <header class="site-rail"><button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-menu"><span></span><span></span><span></span></button><span class="rail-est">{site.established}</span><span class="rail-progress"><span id="scroll-progress">0</span>%</span></header>
+      <a class:list={['logo', { 'is-light': home }]} href="/" aria-label="Inicio: Portfolio Camila Guevara"><svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 44V4h40v40H4Z"/><path d="M4 16h19v28M23 4v12h21M23 30h21M12 16v12h11M12 28v16M23 30v14M30 30v14M30 37h14"/></svg><span class="logo-copy"><span>Camila Guevara</span><small>ARQUITECTA</small></span></a>
+      <header class="site-rail"><button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-menu"><span></span><span></span><span></span></button><span class="rail-progress"><span id="scroll-progress">0</span>%</span></header>
       <div class="menu-shade" id="menu-shade"></div>
-       <aside class="main-menu" id="main-menu" aria-label="Menú principal" inert><nav>{['/about/', '/projects/', '/journal/', '/contact/'].map((url, i) => <a class="menu-link" href={url}>{site.menu[i]}</a>)}<div class="menu-meta"><a class="text-link" href="/privacy/">{site.privacyLabel}</a><a class="text-link" href={site.creditUrl} target="_blank" rel="noreferrer">{site.creditLabel}</a></div></nav></aside>
-       <noscript><nav class="nojs-nav" aria-label="Menú principal"><a href="/" aria-label="Inicio">{site.brand}</a>{['/about/', '/projects/', '/journal/', '/contact/'].map((url, i) => <a href={url}>{site.menu[i]}</a>)}</nav><style>.site-rail,.logo{display:none}</style></noscript>
+      <aside class="main-menu" id="main-menu" aria-label="Menú principal" inert><nav>{navItems.map(item => item.href ? <a class="menu-link" href={item.href}><span class="menu-link-label"><span>{item.label}</span></span></a> : <span class="menu-link menu-link--disabled" aria-disabled="true" title="El archivo de CV todavía no está disponible"><span class="menu-link-label"><span>{item.label}</span></span></span>)}<div class="menu-meta"><a class="text-link" href="/privacy/">{site.privacyLabel}</a><a class="text-link" href={site.creditUrl} target="_blank" rel="noreferrer">{site.creditLabel}</a></div></nav></aside>
+      <noscript><nav class="nojs-nav" aria-label="Menú principal">{navItems.map(item => item.href ? <a href={item.href}>{item.label}</a> : <span aria-disabled="true">{item.label}</span>)}</nav><style>.site-rail{display:none}</style></noscript>
     </>}
     <slot />
-    <script src="/assets/interaction.js" defer></script>
+    <script src="/assets/interaction.js" defer data-astro-rerun></script>
+    <script>import '../scripts/project-transitions.js';</script>
   </body>
 </html>
