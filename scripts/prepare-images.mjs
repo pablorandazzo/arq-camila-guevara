@@ -9,7 +9,7 @@ const manifest = {};
 const paths = new Set();
 
 function collect(value) {
-  if (typeof value === 'string' && /^\/assets\/images\/[^/]+\.(jpe?g|png)$/i.test(value)) paths.add(value);
+  if (typeof value === 'string' && /^\/assets\/images\/[^/]+\.(jpe?g|png|webp|svg)$/i.test(value)) paths.add(value);
   else if (Array.isArray(value)) value.forEach(collect);
   else if (value && typeof value === 'object') Object.values(value).forEach(collect);
 }
@@ -26,6 +26,11 @@ for (const path of [...paths].sort()) {
   const hash = createHash('sha256').update(bytes).digest('hex').slice(0, 10);
   const { width, height } = await sharp(bytes).metadata();
   if (!width || !height) throw new Error(`Invalid image: ${path}`);
+  if (extname(path).toLowerCase() === '.svg') {
+    // Preserve vectors and their intrinsic ratio instead of rasterizing them.
+    manifest[path] = { width, height, sources: [{ width, src: path }] };
+    continue;
+  }
   const widths = [...new Set([640, 1280, 1600, 2400].filter(size => size < width).concat(Math.min(width, 2400)))].sort((a, b) => a - b);
   const sources = [];
   for (const size of widths) {

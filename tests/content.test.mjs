@@ -244,6 +244,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     }
   }
   const homepage = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  await access(new URL(`../dist${site.home.sections.find(section => section.type === 'home_hero').image}`, import.meta.url));
   assert.doesNotMatch(homepage, /Ver mis proyectos/, 'the obsolete about-section CTA is not rendered');
   assert.doesNotMatch(homepage, /class="hero-intro"/, 'the home hero has no intro paragraph');
   assert.equal((homepage.match(/class="home-featured-projects"/g) || []).length, 1, 'the home displays the projects section');

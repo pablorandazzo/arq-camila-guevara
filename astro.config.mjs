@@ -46,7 +46,8 @@ function prototypeAssets() {
       },
       'astro:build:done': async ({ dir }) => {
         const output = new URL(dir);
-        await cp(resolve('assets'), new URL('assets/', output), { recursive: true, filter: (path) => !path.endsWith('site.js') && !/[/\\]images[/\\][^/\\]+\.(?:jpe?g|png)$/i.test(path) });
+        // Keep originals available at the media URLs Sveltia stores in content.
+        await cp(resolve('assets'), new URL('assets/', output), { recursive: true, filter: (path) => !path.endsWith('site.js') });
         await copyFile(resolve('favicon.ico'), new URL('favicon.ico', output));
         for (const name of [...Object.keys(legacyPages), 'project']) {
           const ids = name === 'project' ? await entryIds('projects') : [];
