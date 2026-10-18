@@ -23,7 +23,7 @@ const labels = project.data.language === 'en'
       </div>
       <ContentSections sections={project.data.sections} context="story" />
       <a class="project-story-next-image" href={`/projects/${nextProject.id}/`} aria-label={`${labels.next}: ${nextProject.data.title}`}><img {...imageProps(nextProject.data.image, '100vw')} alt={nextProject.data.alt} loading="lazy" decoding="async" /></a>
-      <a class="project-story-mobile-next" href={`/projects/${nextProject.id}/`}><span>{labels.next}</span><h2>{nextProject.data.title}</h2></a>
+      <a class="project-story-mobile-next" href={`/projects/${nextProject.id}/`}><span>Siguiente proyecto</span><h2>{nextProject.data.title}</h2></a>
     </div>
     <aside class="project-story-aside">
       <div class="project-story-copy"><div><h1>{project.data.title}</h1>{project.data.description && <p>{project.data.description}</p>}</div>{project.data.location && <p class="project-story-location"><span>{labels.location}</span><span>{project.data.location}</span></p>}</div>

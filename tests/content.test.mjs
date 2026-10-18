@@ -9,6 +9,12 @@ const root = new URL('../', import.meta.url);
 const site = JSON.parse(await readFile(new URL('../src/content/site.json', import.meta.url), 'utf8'));
 const images = JSON.parse(await readFile(new URL('../src/lib/image-manifest.json', import.meta.url), 'utf8'));
 const catalogs = {};
+
+test('mobile project navigation is labeled in Spanish regardless of project language', async () => {
+  const template = await readFile(new URL('../src/pages/projects/[id].astro', import.meta.url), 'utf8');
+  assert.match(template, /class="project-story-mobile-next"[^>]*><span>Siguiente proyecto<\/span>/);
+});
+
 for (const kind of ['projects']) {
   const dir = new URL(`../src/content/${kind}/`, import.meta.url);
   catalogs[kind] = await Promise.all((await readdir(dir)).filter(name => name.endsWith('.json')).map(async name => ({ id: name.slice(0, -5), ...JSON.parse(await readFile(new URL(name, dir), 'utf8')) })));
