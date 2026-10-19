@@ -35,6 +35,11 @@ test('menu locks and restores page scroll, focus, inert state, and homepage inpu
   const shade = element(); shade.id = 'shade';
   const main = element('MAIN'); main.id = 'main';
   const scroller = element('MAIN'); scroller.id = 'scroller'; scroller.scrollLeft = 300; scroller.scrollWidth = 2000; scroller.clientWidth = 1000;
+  let scrollPosition = 300;
+  Object.defineProperty(scroller, 'scrollLeft', {
+    get: () => scrollPosition,
+    set: (value) => { scrollPosition = Math.round(value); },
+  });
   const rail = element('HEADER'); rail.contains = (child) => child === button;
   const body = element('BODY'); body.children = [rail, shade, menu, main];
   const html = element('HTML');
@@ -55,8 +60,9 @@ test('menu locks and restores page scroll, focus, inert state, and homepage inpu
     scrollTo(_x, y) { this.scrollY = y; },
   };
   const timers = new Map(); let nextTimer = 0;
-  let animationFrame;
-  runInNewContext(script, { document, window, HTMLElement: Object, location: { search: '' }, requestAnimationFrame: (callback) => { animationFrame = callback; return 1; }, cancelAnimationFrame: () => {},
+  const frames = [];
+  let nextFrame = 0;
+  runInNewContext(script, { document, window, HTMLElement: Object, location: { search: '' }, requestAnimationFrame: (callback) => { frames.push({ id: ++nextFrame, callback }); return nextFrame; }, cancelAnimationFrame: (id) => { const index = frames.findIndex(frame => frame.id === id); if (index >= 0) frames.splice(index, 1); },
     setTimeout(fn) { timers.set(++nextTimer, fn); return nextTimer; }, clearTimeout(id) { timers.delete(id); } });
 
   listeners.get('button:click')();
@@ -111,8 +117,16 @@ test('menu locks and restores page scroll, focus, inert state, and homepage inpu
   const nativeWheel = { deltaX: 0, deltaY: 100, prevented: false, preventDefault() { this.prevented = true; } };
   listeners.get('scroller:wheel')(nativeWheel);
   assert.equal(nativeWheel.prevented, true);
-  animationFrame();
-  assert.ok(scroller.scrollLeft > 550, 'wheel animation starts from the native scroll position');
+  let ticks = 0;
+  while (frames.length && ticks < 100) {
+    frames.shift().callback(++ticks * 16.67);
+  }
+  assert.ok(ticks < 100, 'the animation stops even when the browser rounds subpixel scroll positions');
+  assert.equal(scroller.scrollLeft, 650, 'wheel animation reaches its target from the native scroll position');
+  listeners.get('scroller:wheel')({ deltaX: 0, deltaY: 3, deltaMode: 1, preventDefault() {} });
+  while (frames.length && ticks < 200) frames.shift().callback(++ticks * 16.67);
+  assert.ok(ticks < 200);
+  assert.equal(scroller.scrollLeft, 698, 'line-based mouse wheels move by a readable distance');
   listeners.get('button:click')();
   listeners.get('window:pageshow').forEach(handler => handler({ persisted: true }));
   assert.equal(main.inert, false, 'bfcache return releases background');

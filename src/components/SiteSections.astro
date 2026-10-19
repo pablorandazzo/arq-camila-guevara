@@ -44,7 +44,7 @@ const featuredProjects = (ids: string[]) => ids.map(id => {
               </address>
             </div>
           </div>
-          <img class="contact-image" {...imageProps(section.image, '(max-width: 768px) 100vw, 44vw')} alt={section.imageAlt} decoding="async" />
+          <div class="contact-image-frame"><img class="contact-image" {...imageProps(section.image, '(max-width: 768px) 100vw, 44vw')} alt={section.imageAlt} decoding="async" /></div>
         </section>
        : <ContentSections sections={[section]} context={context === 'home' ? 'home' : 'page'} />
 )}

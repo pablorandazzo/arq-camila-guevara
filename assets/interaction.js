@@ -213,15 +213,35 @@
   const parallaxImage = document.querySelector('.home-hero picture img, .split-hero .hero-visual img');
   if (parallaxImage) {
     let frame = 0;
+    let visible = true;
     const updateParallax = () => {
       frame = 0;
-      parallaxImage.style.transform = mobile.matches && !reducedMotion.matches
-        ? `translate3d(0, ${Math.min(window.scrollY * .15, 170)}px, 0) scale(1.45)` : '';
+      if (!visible) return;
+      const active = mobile.matches && !reducedMotion.matches;
+      const transform = active ? `translate3d(0, ${Math.min(window.scrollY * .15, 170)}px, 0) scale(1.45)` : '';
+      if (parallaxImage.style.transform !== transform) parallaxImage.style.transform = transform;
+      parallaxImage.classList.toggle('is-parallax-active', active);
     };
-    const queueParallax = () => { if (!frame) frame = requestAnimationFrame(updateParallax); };
+    const queueParallax = () => { if (visible && !frame) frame = requestAnimationFrame(updateParallax); };
+    const parallaxSection = parallaxImage.closest('.home-hero, .split-hero');
+    const observer = parallaxSection && 'IntersectionObserver' in window
+      ? new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) queueParallax();
+        else {
+          if (frame) cancelAnimationFrame(frame);
+          frame = 0;
+          parallaxImage.classList.remove('is-parallax-active');
+        }
+      }, { rootMargin: '100px 0px' }) : null;
+    observer?.observe(parallaxSection);
     listen(window, 'scroll', queueParallax, { passive: true });
     listen(mobile, 'change', updateParallax);
     listen(reducedMotion, 'change', updateParallax);
+    controller.signal?.addEventListener('abort', () => {
+      observer?.disconnect();
+      if (frame) cancelAnimationFrame(frame);
+    }, { once: true });
     updateParallax();
   }
   const heroTitle = document.querySelector('.home-hero .hero-title');
@@ -296,43 +316,61 @@
 
   if (scroller) {
     const desktop = window.matchMedia('(min-width: 769px)');
-    let target = 0;
+    let target = scroller.scrollLeft;
     let raf = 0;
+    let lastTick = 0;
     const maxScroll = () => scroller.scrollWidth - scroller.clientWidth;
-    const tick = () => {
+    const tick = (time) => {
       const distance = target - scroller.scrollLeft;
-      scroller.scrollLeft += distance * .14;
-      if (Math.abs(distance) > .35) raf = requestAnimationFrame(tick);
-      else { scroller.scrollLeft = target; raf = 0; }
+      const elapsed = lastTick ? Math.min(50, (time ?? lastTick + 16.67) - lastTick) : 16.67;
+      lastTick = time ?? lastTick + 16.67;
+      const step = distance * (1 - Math.pow(.86, elapsed / 16.67));
+      // Scroll positions may be rounded to whole pixels: never schedule frames that cannot move them.
+      if (Math.abs(distance) <= 1 || Math.abs(step) < 1) {
+        scroller.scrollLeft = target;
+        raf = 0;
+        lastTick = 0;
+        return;
+      }
+      scroller.scrollLeft += step;
+      raf = requestAnimationFrame(tick);
     };
     const move = (delta) => {
       target = Math.max(0, Math.min(maxScroll(), target + delta));
       if (reducedMotion.matches) { scroller.scrollLeft = target; return; }
       if (!raf) raf = requestAnimationFrame(tick);
     };
-    pauseHomeScroll = () => { if (raf) cancelAnimationFrame(raf); raf = 0; target = scroller.scrollLeft; };
+    pauseHomeScroll = () => { if (raf) cancelAnimationFrame(raf); raf = 0; lastTick = 0; target = scroller.scrollLeft; };
+    let progressFrame = 0;
     const updateProgress = () => {
+      progressFrame = 0;
       const range = document.documentElement.scrollHeight - window.innerHeight;
       const value = String(Math.round((desktop.matches ? scroller.scrollLeft / (maxScroll() || 1) : window.scrollY / (range || 1)) * 100));
       if (progress && progress.textContent !== value) progress.textContent = value;
     };
+    const scheduleProgress = () => { if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress); };
     listen(desktop, 'change', () => { pauseHomeScroll(); updateProgress(); });
     listen(reducedMotion, 'change', () => {
       pauseHomeScroll();
       if (reducedMotion.matches) finishMenuClose();
     });
-    scroller.addEventListener('wheel', (event) => {
+    listen(scroller, 'wheel', (event) => {
       if (!desktop.matches) return;
       if (document.body.classList.contains('menu-open')) { event.preventDefault(); return; }
       event.preventDefault();
-      move(Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY);
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? scroller.clientWidth : 1;
+      move((Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY) * unit);
     }, { passive: false });
-    scroller.addEventListener('scroll', () => {
+    listen(scroller, 'scroll', () => {
       // Native touch, scrollbar and programmatic scrolling must become the next wheel origin.
       if (!raf) target = scroller.scrollLeft;
-      updateProgress();
+      scheduleProgress();
     }, { passive: true });
-    listen(window, 'scroll', updateProgress, { passive: true });
+    listen(window, 'scroll', scheduleProgress, { passive: true });
+    controller.signal?.addEventListener('abort', () => {
+      pauseHomeScroll();
+      if (progressFrame) cancelAnimationFrame(progressFrame);
+    }, { once: true });
     listen(document, 'keydown', (event) => {
       if (!desktop.matches) return;
       if (document.body.classList.contains('menu-open')) return;
@@ -343,12 +381,19 @@
     updateProgress();
   }
   if (progress && !scroller) {
+    let progressFrame = 0;
     const updateProgress = () => {
+      progressFrame = 0;
       const range = document.documentElement.scrollHeight - window.innerHeight;
       const value = String(Math.round(window.scrollY / (range || 1) * 100));
       if (progress.textContent !== value) progress.textContent = value;
     };
-    listen(window, 'scroll', updateProgress, { passive: true });
+    listen(window, 'scroll', () => {
+      if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress);
+    }, { passive: true });
+    controller.signal?.addEventListener('abort', () => {
+      if (progressFrame) cancelAnimationFrame(progressFrame);
+    }, { once: true });
     updateProgress();
   }
 
@@ -360,6 +405,12 @@
   if (document.getElementById('project-image-stack')) {
     import('/assets/project-list-interaction.js').then(({ initProjectList }) => {
       if (!controller.signal?.aborted) initProjectList({ listen, reducedMotion, signal: controller.signal });
+    });
+  }
+
+  if (document.querySelector('.home-about>img, .home-featured-projects .card-image img, .projects-mobile-list .card-image img, .project-story-hero img, .contact-image-frame img')) {
+    import('/assets/scroll-visuals.js').then(({ initScrollVisuals }) => {
+      if (!controller.signal?.aborted) initScrollVisuals({ listen, reducedMotion, signal: controller.signal });
     });
   }
 
