@@ -281,6 +281,17 @@ html:has(.project-detail--editorial)::view-transition-old(project-hero){animatio
 @keyframes project-hero-out{to{opacity:.62;transform:scale(.985)}}
 @keyframes project-page-to-section{to{opacity:0}}
 @keyframes project-hero-in{from{opacity:.8;transform:scale(1.018)}to{opacity:1;transform:scale(1)}}
+@media(max-width:768px){
+  /* On phones the page is a long vertical document. Avoid animating the whole
+     snapshot as a sliding panel and avoid a second nested hero transition. */
+  .project-story-hero{view-transition-name:none!important}
+  ::view-transition-group(project-page){animation-duration:420ms!important}
+  ::view-transition-old(project-page){animation:project-mobile-out 420ms ease both!important;transform:none!important}
+  ::view-transition-new(project-page){animation:project-mobile-in 420ms ease both!important;transform:none!important}
+  html[data-astro-transition="back"]::view-transition-new(project-page){animation:project-mobile-in 420ms ease both!important;transform:none!important}
+  @keyframes project-mobile-out{to{opacity:0}}
+  @keyframes project-mobile-in{from{opacity:0}to{opacity:1}}
+}
 @media(prefers-reduced-motion:reduce){
   .project-detail--editorial{animation:none!important}
   ::view-transition-group(project-page),::view-transition-old(project-page),::view-transition-new(project-page),::view-transition-old(project-hero),::view-transition-new(project-hero){animation-duration:1ms!important;animation-delay:0ms!important}

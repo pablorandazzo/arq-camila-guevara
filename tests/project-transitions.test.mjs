@@ -24,6 +24,8 @@ test('project routes use coordinated client-side transitions and wait for the in
   assert.match(css, /::view-transition-old\(project-page\)/, 'outgoing project is animated with the incoming route');
   assert.match(css, /data-astro-transition="back"\]::view-transition-new\(project-page\)/, 'browser history back reverses the incoming project direction');
   assert.match(css, /project-page-in-reverse/, 'back navigation uses its own mirrored keyframe');
+  assert.match(css, /@media\(max-width:768px\)\{[\s\S]*?\.project-story-hero\{view-transition-name:none!important\}[\s\S]*?::view-transition-old\(project-page\)\{animation:project-mobile-out 420ms ease both!important;transform:none!important\}[\s\S]*?::view-transition-new\(project-page\)\{animation:project-mobile-in 420ms ease both!important;transform:none!important\}/, 'mobile project-to-project navigation uses a single fade, not nested hero and full-page slide animations');
+  assert.match(css, /data-astro-transition="back"\]\:\:view-transition-new\(project-page\)\{animation:project-mobile-in/, 'mobile back navigation uses the same stable fade');
   assert.match(css, /prefers-reduced-motion:reduce[\s\S]*?view-transition-new\(project-page\)/, 'native route motion respects reduced-motion');
   assert.match(interactions, /__rheInteractionController/, 'global interaction listeners are cleaned up between route swaps');
 });
