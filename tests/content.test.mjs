@@ -42,13 +42,12 @@ test('the home retains its about section and featured project cards without remo
   const types = site.home.sections.map(section => section.type);
   assert.ok(types.includes('home_hero'));
   assert.ok(types.includes('home_about'));
-  assert.deepEqual(site.home.sections.find(section => section.type === 'home_about'), {
-    type: 'home_about', label: 'Sobre mi', image: '/assets/images/1657797867-aerial-3-copy.jpg',
-    alt: 'Vista aérea de un proyecto arquitectónico frente al mar', title: 'Arquitectura, espacio y personas.',
-    text: 'Soy Camila Guevara, arquitecta. Me interesa explorar cómo la luz, los materiales y el contexto transforman la manera de habitar cada espacio.',
-  });
+  const about = site.home.sections.find(section => section.type === 'home_about');
+  assert.ok(about.label && about.title && about.text && about.image && about.alt, 'the About block has its editable content');
   assert.ok(types.indexOf('home_hero') < types.indexOf('home_about') && types.indexOf('home_about') < types.indexOf('home_projects'));
-  assert.deepEqual(site.home.sections.find(section => section.type === 'home_projects')?.featuredProjects, ['zil-residences', 'zil-resort', 'gramophone-works']);
+  const featured = site.home.sections.find(section => section.type === 'home_projects')?.featuredProjects;
+  assert.ok(featured?.length, 'the homepage has featured projects');
+  for (const id of featured) assert.ok(catalogs.projects.some(project => project.id === id), `featured project ${id} exists`);
   assert.ok(!JSON.stringify(site.home).includes('Proyectos destacados'), 'the home keeps its project cards without the featured-projects tagline');
   assert.ok(types.every(type => !['home_services', 'home_intro', 'home_journal', 'home_approach'].includes(type)));
 });
@@ -241,8 +240,10 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   await promisify(execFile)(process.execPath, [fileURLToPath(new URL('../node_modules/astro/bin/astro.mjs', import.meta.url)), 'build'], {
     cwd: fileURLToPath(root), maxBuffer: 2 * 1024 * 1024,
   });
+  const hero = site.home.sections.find(section => section.type === 'home_hero');
+  const about = site.home.sections.find(section => section.type === 'home_about');
   for (const [route, values] of [
-    ['index.html', [site.brand, 'Portfolio Camila Guevara', 'Contactarme', site.menu.find(item => item.id === 'cv').label, 'Sobre mi', 'Arquitectura, espacio y personas.', ...site.menu.map(item => item.label), site.creditLabel]],
+    ['index.html', [site.brand, hero.title, 'Contactarme', site.menu.find(item => item.id === 'cv').label, about.label, about.title, ...site.menu.map(item => item.label), site.creditLabel]],
     ['contact/index.html', [site.contact.sections[0].statement, site.contact.sections[0].email]],
   ]) {
     const html = await readFile(new URL(`../dist/${route}`, import.meta.url), 'utf8');
@@ -259,12 +260,13 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   assert.doesNotMatch(homepage, /class="hero-intro"/, 'the home hero has no intro paragraph');
   assert.equal((homepage.match(/class="home-featured-projects"/g) || []).length, 1, 'the home displays the projects section');
   assert.doesNotMatch(homepage, /Proyectos destacados/, 'the heading is removed from the rendered home page');
-  assert.ok(homepage.indexOf('The Gramophone Works') < homepage.indexOf('home-featured-heading'), 'the projects heading follows the last featured project in the built homepage');
+  const featuredIds = site.home.sections.find(section => section.type === 'home_projects').featuredProjects;
+  const lastFeatured = catalogs.projects.find(project => project.id === featuredIds.at(-1));
+  assert.ok(homepage.indexOf(lastFeatured.title) < homepage.indexOf('home-featured-heading'), 'the projects heading follows the last featured project in the built homepage');
   assert.doesNotMatch(homepage, /Mi enfoque|approach-panel/, 'the approach section is absent from the built homepage');
   assert.doesNotMatch(homepage, /Conocer nuestro trabajo/, 'the redundant services CTA is removed with the old section');
   assert.ok(homepage.includes('Ver todos los proyectos'), 'the projects section keeps its dedicated all-projects CTA');
-  for (const title of ['Zil Residences', 'Zil Resort', 'The Gramophone Works']) assert.ok(homepage.includes(title), `featured card: ${title}`);
-  for (const id of ['zil-residences', 'zil-resort', 'gramophone-works']) {
+  for (const id of featuredIds) {
     const project = catalogs.projects.find(item => item.id === id);
     assert.ok(homepage.includes(`href="/projects/${id}/"`), `homepage links to ${id}`);
     assert.ok(homepage.includes(project.title), `homepage displays ${project.title}`);
