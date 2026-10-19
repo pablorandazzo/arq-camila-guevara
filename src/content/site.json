@@ -2,12 +2,12 @@
   "brand": "Camila Guevara",
   "menu": [
     {
-      "id": "cv",
-      "label": "CV"
-    },
-    {
       "id": "home",
       "label": "Inicio"
+    },
+    {
+      "id": "cv",
+      "label": "CV"
     },
     {
       "id": "projects",
