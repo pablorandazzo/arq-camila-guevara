@@ -87,6 +87,13 @@
   });
   menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
   shade?.addEventListener('click', () => setMenu(false));
+  listen(menu, 'click', (event) => {
+    const link = event.target.closest?.('a[href]');
+    if (!link || link.target === '_blank' || menuButton?.getAttribute('aria-expanded') !== 'true') return;
+    // Let the route fetch start with the old menu already gone instead of freezing its overlay.
+    setMenu(false);
+    finishMenuClose();
+  });
   listen(document, 'keydown', (event) => {
     if (menuButton?.getAttribute('aria-expanded') !== 'true') return;
     if (event.key === 'Escape') { setMenu(false); return; }
@@ -404,7 +411,7 @@
   }
   if (document.getElementById('project-image-stack')) {
     import('/assets/project-list-interaction.js').then(({ initProjectList }) => {
-      if (!controller.signal?.aborted) initProjectList({ listen, reducedMotion, signal: controller.signal });
+      if (!controller.signal?.aborted) initProjectList({ listen, signal: controller.signal });
     });
   }
 

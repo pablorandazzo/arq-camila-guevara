@@ -31,6 +31,12 @@ function warmFromEvent(event) {
 document.addEventListener('pointerover', warmFromEvent, { passive: true });
 document.addEventListener('focusin', warmFromEvent);
 document.addEventListener('pointerdown', warmFromEvent, { passive: true });
+document.addEventListener('astro:before-preparation', () => {
+  document.documentElement.dataset.routeLoading = 'true';
+});
+document.addEventListener('astro:after-preparation', () => {
+  delete document.documentElement.dataset.routeLoading;
+});
 document.addEventListener('click', async (event) => {
   if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   const anchor = event.target.closest?.('a[href]');
@@ -40,6 +46,7 @@ document.addEventListener('click', async (event) => {
 
   event.preventDefault();
   navigationPending = true;
+  document.documentElement.dataset.routeLoading = 'true';
   document.documentElement.dataset.projectNavigating = 'true';
 
   try {
@@ -50,6 +57,7 @@ document.addEventListener('click', async (event) => {
     window.location.assign(url.href);
   } finally {
     navigationPending = false;
+    delete document.documentElement.dataset.routeLoading;
     delete document.documentElement.dataset.projectNavigating;
   }
 }, { capture: true });
@@ -71,6 +79,7 @@ document.addEventListener('astro:before-swap', (event) => {
 
 document.addEventListener('astro:page-load', () => {
   navigationPending = false;
+  delete document.documentElement.dataset.routeLoading;
   delete document.documentElement.dataset.projectNavigating;
   for (const route of warmedRoutes.keys()) {
     if (route !== window.location.href) warmedRoutes.delete(route);

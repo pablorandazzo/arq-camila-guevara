@@ -132,9 +132,15 @@ test('menu locks and restores page scroll, focus, inert state, and homepage inpu
   assert.equal(main.inert, false, 'bfcache return releases background');
   assert.equal(menu.inert, true);
   assert.equal(button.getAttribute('aria-expanded'), 'false');
+  listeners.get('button:click')();
+  link.closest = selector => selector === 'a[href]' ? link : null;
+  listeners.get('menu:click')({ target: link });
+  assert.equal(button.getAttribute('aria-expanded'), 'false', 'navigation closes the old menu before swapping routes');
+  assert.equal(main.inert, false);
+  assert.equal(body.style.position, undefined);
 });
 
-test('project hover leaves the stack alone; click selects the matching image and link even on rapid changes', () => {
+test('project hover does not load previews; clicks switch only the active image and link', () => {
   const handlers = new Map();
   const classes = () => ({ values: new Set(), toggle(name, active) { if (active) this.values.add(name); else this.values.delete(name); } });
   const choice = (index) => ({ dataset: { index: String(index), category: 'resorts' }, attributes: {},
@@ -154,34 +160,23 @@ test('project hover leaves the stack alone; click selects the matching image and
     addEventListener() {},
   };
   const window = { matchMedia: () => ({ matches: false, addEventListener() {} }), addEventListener(type, handler) { handlers.set(`window:${type}`, handler); } };
-  let visualOffset = 0;
-  const frames = [];
-  runInNewContext(projectListScript, { document, window, location: { search: '' }, URLSearchParams,
-    getComputedStyle: () => ({ transform: `matrix(1, 0, 0, 1, 0, ${visualOffset})` }),
-    requestAnimationFrame(fn) { frames.push(fn); return frames.length; }, cancelAnimationFrame() {} });
+  runInNewContext(projectListScript, { document, window, location: { search: '' }, URLSearchParams });
   assert.equal(handlers.has('1:mouseenter'), false);
   assert.equal(handlers.has('1:focus'), false);
   assert.equal(stack.style.transform, undefined);
   handlers.get('1:click')();
-  assert.equal(stack.style.transform, 'translate3d(0, -100%, 0)');
-  assert.equal(links[0].tabIndex, 0, 'visible image stays active at the start of travel');
-  visualOffset = -370;
-  frames.shift()();
-  assert.equal(links[1].tabIndex, 0, 'highlight follows the image in view');
+  assert.equal(stack.style.transform, undefined, 'selection never moves a giant image stack');
+  assert.equal(links[1].tabIndex, 0, 'decoded image becomes the active detail link');
   assert.equal(links[1].imageAlt, 'Alt 1');
   assert.equal(links[1].href, '/projects/1/');
   assert.equal(links[0].attributes['aria-hidden'], 'true');
   assert.equal(choices[1].attributes['aria-pressed'], 'true');
   handlers.get('2:click')();
-  assert.equal(stack.style.transform, 'translate3d(0, -200%, 0)');
-  visualOffset = -1200;
-  frames.shift()();
+  assert.equal(stack.style.transform, undefined);
   assert.equal(links[1].tabIndex, -1);
   assert.equal(links[2].attributes['aria-hidden'], undefined);
   assert.equal(choices[2].classList.values.has('is-active'), true);
   assert.equal(choices[1].classList.values.has('is-active'), false);
-  stack.clientHeight = 400;
-  assert.equal(stack.style.transform, 'translate3d(0, -200%, 0)', 'percentage travel adapts to viewport changes');
 });
 
 test('project preview waits for decoding, ignores stale selections and retains the previous image on failure', async () => {
@@ -203,20 +198,17 @@ test('project preview waits for decoding, ignores stale selections and retains t
     querySelector: () => null, querySelectorAll: selector => selector === '.project-choice' ? choices : [],
     getElementById: id => id === 'project-image-stack' ? stack : null, addEventListener() {} };
   const window = { matchMedia: query => ({ matches: query.includes('min-width: 769px'), addEventListener() {} }), addEventListener() {} };
-  const frames = [];
-  runInNewContext(projectListScript, { document, window, location: { search: '' }, URLSearchParams,
-    requestAnimationFrame(fn) { frames.push(fn); return frames.length; }, cancelAnimationFrame() {},
-    getComputedStyle: () => ({ transform: 'matrix(1, 0, 0, 1, 0, -1000)' }) });
+  runInNewContext(projectListScript, { document, window, location: { search: '' }, URLSearchParams });
 
   const first = handlers.get('1:click')();
   assert.equal(images[1].src, '/image-1.jpg');
   assert.equal(images[2].src, undefined, 'unselected previews do not download before selection');
-  assert.equal(stack.style.transform, undefined, 'preview stays visible until decode');
+  assert.equal(links[0].tabIndex, 0, 'preview stays visible until decode');
   const second = handlers.get('2:click')();
   images[1].naturalWidth = 100;
   pending[1].resolve();
   await first;
-  assert.equal(stack.style.transform, undefined, 'stale decode never commits');
+  assert.equal(links[0].tabIndex, 0, 'stale decode never commits');
   pending[2].reject(new Error('broken image'));
   await second;
   assert.equal(links[0].tabIndex, 0, 'failed load preserves original detail link');
@@ -225,10 +217,8 @@ test('project preview waits for decoding, ignores stale selections and retains t
   images[2].naturalWidth = 100;
   pending[2].resolve();
   await retry;
-  assert.equal(stack.style.transform, 'translate3d(0, -200%, 0)');
-  assert.equal(stack.parentElement.style.backgroundImage, 'url("/image-0.jpg")', 'the previous image covers unloaded intermediate frames');
-  assert.equal(links[0].tabIndex, 0, 'detail link follows visible image until it moves');
-  frames.shift()();
-  assert.equal(links[2].tabIndex, 0);
+  assert.equal(stack.style.transform, undefined, 'selection only crossfades the two bounded image layers');
+  assert.equal(stack.parentElement.style.backgroundImage, undefined, 'the previous image remains visible during the fade');
+  assert.equal(links[2].tabIndex, 0, 'decoded preview becomes interactive without traversing intermediate frames');
   assert.equal(choices[2].attributes['aria-pressed'], 'true');
 });
