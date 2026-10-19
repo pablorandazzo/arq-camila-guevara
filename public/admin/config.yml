@@ -156,23 +156,6 @@ collections:
                         display_fields: [title]
                       - { name: projectLinkLabel, label: Texto del enlace al proyecto, widget: string }
 
-                  - name: home_approach
-                    label: Mi enfoque
-                    fields:
-                      - { name: label, label: Etiqueta de la sección, widget: string }
-                      - { name: title, label: Título, widget: string }
-                      - name: principles
-                        label: Principios de diseño
-                        widget: list
-                        min: 3
-                        max: 3
-                        summary: '{{heading}}'
-                        fields:
-                          - { name: heading, label: Principio, widget: string }
-                          - { name: text, label: Descripción, widget: text }
-                      - { name: image, label: Imagen, widget: image }
-                      - { name: alt, label: Descripción de la imagen, widget: string }
-
                   - name: image
                     label: Imagen
                     fields:

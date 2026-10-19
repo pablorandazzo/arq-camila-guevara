@@ -46,27 +46,6 @@
           "macka-istanbul"
         ],
         "projectLinkLabel": "Ver proyecto"
-      },
-      {
-        "type": "home_approach",
-        "image": "/assets/images/1660813591-home-image.jpg",
-        "alt": "Vista aérea de una vivienda entre rocas junto al mar",
-        "title": "Diseñar desde el lugar, la luz y las personas.",
-        "label": "Mi enfoque",
-        "principles": [
-          {
-            "heading": "Contexto",
-            "text": "Cada proyecto empieza por escuchar el lugar y entender lo que necesita."
-          },
-          {
-            "heading": "Luz",
-            "text": "La luz natural ordena el espacio y transforma cómo se siente."
-          },
-          {
-            "heading": "Materialidad",
-            "text": "Materiales elegidos para dar carácter y acompañar la vida cotidiana."
-          }
-        ]
       }
     ]
   },

@@ -7,7 +7,6 @@ const homeSection = z.discriminatedUnion('type', [
   z.object({ type: z.literal('home_hero'), image: imagePath, alt: z.string().min(1), title: z.string().min(1) }),
   z.object({ type: z.literal('home_about'), label: z.string().min(1), image: imagePath, alt: z.string().min(1), title: z.string().min(1), text: z.string().min(1) }),
   z.object({ type: z.literal('home_projects'), featuredProjects: z.array(z.string().min(1)).min(1), projectLinkLabel: z.string().min(1) }),
-  z.object({ type: z.literal('home_approach'), label: z.string().min(1), title: z.string().min(1), principles: z.array(z.object({ heading: z.string().min(1), text: z.string().min(1) })).length(3), image: imagePath, alt: z.string().min(1) }),
 ]);
 const contactSection = z.discriminatedUnion('type', [
   ...basic,
@@ -31,7 +30,7 @@ export const siteSchema = z.object({
   creditLabel: z.string(), creditUrl: z.url(),
   home: z.object({ meta: z.string(), sections: z.array(homeSection).min(1)
     .superRefine((sections, ctx) => {
-      for (const type of ['home_hero', 'home_about', 'home_projects', 'home_approach']) requireOne(type)(sections, ctx);
+      for (const type of ['home_hero', 'home_about', 'home_projects']) requireOne(type)(sections, ctx);
     }) }),
 
   contact: z.object({ meta: z.string(), sections: z.array(contactSection).min(1).superRefine(requireOne('contact_details')) }),

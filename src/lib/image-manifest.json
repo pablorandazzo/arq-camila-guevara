@@ -325,28 +325,6 @@
       }
     ]
   },
-  "/assets/images/1660813591-home-image.jpg": {
-    "width": 1880,
-    "height": 2208,
-    "sources": [
-      {
-        "width": 640,
-        "src": "/assets/images/optimized/1660813591-home-image-e9a984d8db-640.webp"
-      },
-      {
-        "width": 1280,
-        "src": "/assets/images/optimized/1660813591-home-image-e9a984d8db-1280.webp"
-      },
-      {
-        "width": 1600,
-        "src": "/assets/images/optimized/1660813591-home-image-e9a984d8db-1600.webp"
-      },
-      {
-        "width": 1880,
-        "src": "/assets/images/optimized/1660813591-home-image-e9a984d8db-1880.webp"
-      }
-    ]
-  },
   "/assets/images/1663676587-studio-rhe-istanbul-06-1.jpg": {
     "width": 3000,
     "height": 2651,

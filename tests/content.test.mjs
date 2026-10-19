@@ -38,16 +38,10 @@ test('all migrated records have unique ordering and real image files', async () 
   }
 });
 
-test('the home retains its about section, featured project cards, and personal approach without removed-page sections', () => {
+test('the home retains its about section and featured project cards without removed sections', () => {
   const types = site.home.sections.map(section => section.type);
   assert.ok(types.includes('home_hero'));
   assert.ok(types.includes('home_about'));
-  assert.ok(types.includes('home_approach'));
-  const approach = site.home.sections.find(section => section.type === 'home_approach');
-  assert.equal(approach.label, 'Mi enfoque');
-  assert.equal(approach.title, 'Diseñar desde el lugar, la luz y las personas.');
-  assert.deepEqual(approach.principles.map(principle => principle.heading), ['Contexto', 'Luz', 'Materialidad']);
-  assert.equal(approach.principles.length, 3);
   assert.deepEqual(site.home.sections.find(section => section.type === 'home_about'), {
     type: 'home_about', label: 'Sobre mi', image: '/assets/images/1657797867-aerial-3-copy.jpg',
     alt: 'Vista aérea de un proyecto arquitectónico frente al mar', title: 'Arquitectura, espacio y personas.',
@@ -56,33 +50,25 @@ test('the home retains its about section, featured project cards, and personal a
   assert.ok(types.indexOf('home_hero') < types.indexOf('home_about') && types.indexOf('home_about') < types.indexOf('home_projects'));
   assert.deepEqual(site.home.sections.find(section => section.type === 'home_projects')?.featuredProjects, ['zil-residences', 'zil-resort', 'gramophone-works']);
   assert.ok(!JSON.stringify(site.home).includes('Proyectos destacados'), 'the home keeps its project cards without the featured-projects tagline');
-  assert.ok(types.every(type => !['home_services', 'home_intro', 'home_journal'].includes(type)));
+  assert.ok(types.every(type => !['home_services', 'home_intro', 'home_journal', 'home_approach'].includes(type)));
 });
 
-test('mobile orders About, the projects heading, featured projects, then the approach; desktop keeps source order', async () => {
+test('mobile orders About and featured projects with their heading first', async () => {
   const css = await readFile(new URL('../assets/site.css', import.meta.url), 'utf8');
   const mobile = css.slice(css.lastIndexOf('@media(max-width:768px)'));
-  assert.ok(site.home.sections.findIndex(section => section.type === 'home_projects') < site.home.sections.findIndex(section => section.type === 'home_approach'), 'desktop keeps projects before the approach section');
-  assert.ok(mobile.includes('.home-track{display:flex;flex-direction:column}'));
-  assert.ok(mobile.includes('.home-track>.home-featured-projects{order:3}'));
-  assert.ok(mobile.includes('.home-track>.approach-panel{order:4}'));
+  assert.deepEqual(site.home.sections.map(section => section.type), ['home_hero', 'home_about', 'home_projects']);
   assert.ok(mobile.includes('.home-featured-heading{order:0}'));
   assert.ok(mobile.includes('.home-featured-projects>.project-strip{order:1}'));
 });
 
-test('the approach section renders its principles in a desktop split and mobile stack', async () => {
-  const [component, css, cms] = await Promise.all([
+test('the approach section is absent from rendering, styles and CMS', async () => {
+  const [component, css, cms, schema] = await Promise.all([
     readFile(new URL('../src/components/SiteSections.astro', import.meta.url), 'utf8'),
     readFile(new URL('../assets/site.css', import.meta.url), 'utf8'),
     readFile(new URL('../public/admin/config.yml', import.meta.url), 'utf8'),
+    readFile(new URL('../src/lib/site-schema.ts', import.meta.url), 'utf8'),
   ]);
-  assert.ok(component.includes('class="approach-panel"'));
-  assert.ok(component.includes('class="approach-principles"'));
-  assert.ok(component.includes('section.principles.map'));
-  assert.ok(css.includes('.approach-panel{width:clamp(1050px,97.9vw,1880px);display:flex;background:#fff}'));
-  assert.ok(css.includes('.approach-panel{width:100%;display:block}'));
-  assert.ok(cms.includes('name: home_approach'));
-  assert.ok(cms.includes('name: principles'));
+  for (const source of [component, css, cms, schema]) assert.doesNotMatch(source, /home_approach|approach-panel|approach-principles/);
 });
 
 test('the About section keeps the editorial desktop composition and a responsive mobile layout', async () => {
@@ -274,9 +260,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   assert.equal((homepage.match(/class="home-featured-projects"/g) || []).length, 1, 'the home displays the projects section');
   assert.doesNotMatch(homepage, /Proyectos destacados/, 'the heading is removed from the rendered home page');
   assert.ok(homepage.indexOf('The Gramophone Works') < homepage.indexOf('home-featured-heading'), 'the projects heading follows the last featured project in the built homepage');
-  assert.ok(homepage.includes('Mi enfoque'));
-  assert.ok(homepage.includes('Diseñar desde el lugar, la luz y las personas.'));
-  for (const principle of ['Contexto', 'Luz', 'Materialidad']) assert.ok(homepage.includes(principle), `approach principle: ${principle}`);
+  assert.doesNotMatch(homepage, /Mi enfoque|approach-panel/, 'the approach section is absent from the built homepage');
   assert.doesNotMatch(homepage, /Conocer nuestro trabajo/, 'the redundant services CTA is removed with the old section');
   assert.ok(homepage.includes('Ver todos los proyectos'), 'the projects section keeps its dedicated all-projects CTA');
   for (const title of ['Zil Residences', 'Zil Resort', 'The Gramophone Works']) assert.ok(homepage.includes(title), `featured card: ${title}`);
