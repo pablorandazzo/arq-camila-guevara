@@ -74,7 +74,7 @@ test('the About section keeps the editorial desktop composition and a responsive
     readFile(new URL('../assets/site.css', import.meta.url), 'utf8'),
   ]);
   assert.ok(component.includes('class="home-about" aria-labelledby="home-about-label"'));
-  assert.ok(component.includes('<div class="home-about-copy"><h3 class="editorial-title">{section.title}</h3><p>{section.text}</p><a class="text-link" href="/perfil/">Mi perfil</a></div>'));
+  assert.ok(component.includes('<div class="home-about-copy"><h3 class="editorial-title">{section.title}</h3><a class="home-profile-link outlined-arrow-cta" href="/perfil/">Mi perfil<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a><p>{section.text}</p></div>'), 'Mi perfil appears between the heading and intro copy as a prominent CTA');
   const featuredBlock = component.slice(component.indexOf('<section class="home-featured-projects">'), component.indexOf('</section>', component.indexOf('<section class="home-featured-projects">')));
   assert.ok(featuredBlock.indexOf('<div class="project-strip">') < featuredBlock.indexOf('<div class="home-featured-heading">'), 'the projects heading and all-projects link come after the featured cards');
   assert.ok(css.includes('.home-about{display:grid;flex:none;width:clamp(420px,41.66vw,800px);height:100%;min-height:650px;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;gap:0;padding:var(--gutter) var(--gutter)'), 'About label and image share the project-strip top inset on desktop');
@@ -83,6 +83,8 @@ test('the About section keeps the editorial desktop composition and a responsive
   assert.ok(css.includes('.home-about-copy{grid-column:1/3;grid-row:2;align-self:end;max-width:440px}'));
   assert.ok(css.includes('@media(max-width:768px){.home-about{width:100%;height:auto;min-height:0;grid-template-columns:38% 62%;grid-template-rows:minmax(280px,36svh) auto;'));
   assert.ok(css.includes('.home-about-copy{max-width:100%;align-self:start;padding-top:24px}'), 'mobile moves the about title closer to the image instead of pinning it to the bottom');
+  assert.ok(css.includes('.outlined-arrow-cta{display:inline-flex;align-items:center;gap:18px;min-height:44px;'), 'both prominent links share the outlined arrow CTA treatment');
+  assert.ok(css.includes('.home-hero-actions .home-hero-button.outlined-arrow-cta{min-width:0;min-height:44px;'), 'the hero CTA uses the shared button dimensions');
   assert.ok(css.includes('.home-scroll{position:fixed;inset:0 var(--rail) 0 0;overflow-x:auto;overflow-y:hidden;'), 'the horizontal homepage scroller remains intact');
   assert.ok(css.includes('@media(min-width:769px) and (max-width:1024px){'), 'narrow desktop refinements are scoped to the horizontal panels');
   assert.ok(css.includes('body.home-page .home-about{width:clamp(420px,52vw,540px)}'));
@@ -109,7 +111,8 @@ test('the homepage hero anchors left on desktop and centers on mobile without th
   assert.ok(css.includes('.home-hero:after{inset:0;background:radial-gradient(ellipse 72% 48% at 31% 76%'), 'the image stays bright outside a soft focus halo behind the title');
   assert.match(css, /\.home-hero \.hero-title>\.hero-title-line:first-child\{font-size:clamp\(25px,3\.4vw,52px\);font-style:italic/, 'Portfolio is a quiet editorial kicker');
   assert.match(css, /\.home-hero \.hero-title>\.hero-title-line:last-child\{font-size:clamp\(72px,9\.5vw,156px\)/, 'Camila Guevara is the visual focus');
-  assert.match(css, /\.home-hero-actions \.home-hero-button:first-child\{background:#fff;color:#171717/, 'Contactarme is the clear primary action');
+  assert.match(component, /class="home-hero-button outlined-arrow-cta" href="\/contact\/">Contactarme<svg[^>]*aria-hidden="true"/, 'Contactarme uses the same arrow button as Mi perfil');
+  assert.ok(css.includes('.home-hero-actions .home-hero-button.outlined-arrow-cta:hover:not(:disabled),.home-hero-actions .home-hero-button.outlined-arrow-cta:focus-visible{border-color:#fff;background:#fff;color:#171717}'), 'the hero CTA inverts on hover and keyboard focus');
   assert.match(css, /@media\(max-width:768px\)\{\s*\.home-hero\{align-items:flex-start;justify-content:flex-end;padding:0\}/, 'mobile hero content anchors to the lower left');
   assert.match(css, /\.home-hero \.hero-title>\.hero-title-line:last-child\{font-size:clamp\(34px,9\.2vw,44px\)/, 'the name scales to fit mobile');
   assert.match(css, /\.home-hero \.hero-title>\.hero-title-line\{display:block;white-space:nowrap\}/, 'mobile keeps the title lines intact');
@@ -269,7 +272,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   assert.ok(contact.includes(`src="${images[contactDetails.image].sources.at(-1).src}"`), 'the existing architectural image remains on the contact page');
   assert.deepEqual([...homepage.matchAll(/class="menu-link-label"><span>([^<]+)<\/span>/g)].map(match => match[1]), site.menu.map(item => item.label), 'the rendered menu respects the CMS item order');
   await access(new URL(`../dist${site.home.sections.find(section => section.type === 'home_hero').image}`, import.meta.url));
-  assert.match(homepage, /href="\/perfil\/">Mi perfil<\/a>/, 'the About section links to the profile');
+  assert.match(homepage, /class="home-profile-link outlined-arrow-cta" href="\/perfil\/">Mi perfil<svg[^>]*aria-hidden="true"/, 'the About section links to the profile using the visible CTA');
   assert.doesNotMatch(homepage, /Ver mis proyectos/, 'the obsolete about-section CTA is not rendered');
   assert.doesNotMatch(homepage, /class="hero-intro"/, 'the home hero has no intro paragraph');
   assert.equal((homepage.match(/class="home-featured-projects"/g) || []).length, 1, 'the home displays the projects section');
@@ -287,7 +290,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     assert.ok(homepage.includes(`src="${images[project.image].sources.at(-1).src}"`), `homepage displays the optimized cover for ${id}`);
   }
   assert.match(homepage, /class="home-hero-actions"/, 'the homepage hero shows its primary actions');
-  assert.match(homepage, /href="\/contact\/"[^>]*>Contactarme<\/a>/, 'Contactarme points to the existing contact route');
+  assert.match(homepage, /class="home-hero-button outlined-arrow-cta" href="\/contact\/">Contactarme<svg[^>]*aria-hidden="true"/, 'Contactarme points to the existing contact route using the shared design');
   assert.doesNotMatch(homepage.match(/class="home-hero-actions"[\s\S]*?<\/div>/)?.[0] || '', /CV/, 'the hero has no CV action');
   const profilePage = await readFile(new URL('../dist/perfil/index.html', import.meta.url), 'utf8');
   assert.match(profilePage, /<section class="profile-identity" aria-label="Fotografía de presentación"><img[^>]*alt="[^"]+"/, 'the first panel is a full-height figure with an honest alt');
