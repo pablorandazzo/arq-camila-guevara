@@ -15,7 +15,7 @@ Requires Node.js 22.22+ (or newer). Run `npm install`, then `npm run dev` and op
 
 For a visual editor, run the Astro dev server and open `http://localhost:4321/admin/index.html` in Chrome or Edge. To edit local files without remote credentials, choose **Work with Local Repository** and pick this folder. Editing JSON directly also works. Check the page after saving; refresh if needed.
 
-In Sveltia, open **Páginas del sitio → Inicio y contacto → CV (PDF)** to upload or replace the CV (up to 10 MB). The file is stored in `public/cv/`; after saving and rebuilding, the menu and homepage CV links open it in a new tab. With no file selected, both remain unavailable.
+In Sveltia, open **Páginas del sitio → Contenido del sitio → CV (PDF)** to upload or replace the CV (up to 10 MB). The file is stored in `public/cv/`; after saving and rebuilding, the profile-page CV button opens it in a new tab. With no file selected, that button stays disabled.
 
 ## Connecting GitHub and deploying
 

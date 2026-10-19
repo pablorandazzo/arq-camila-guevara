@@ -2,8 +2,8 @@
 import { ClientRouter } from 'astro:transitions';
 import site from '../lib/site';
 const { title, description, home = false, navigation = true } = Astro.props;
-const destinations = { home: '/', cv: site.cv, projects: '/projects/', contact: '/contact/' };
-const navItems = site.menu.map(item => ({ label: item.label, href: destinations[item.id], external: item.id === 'cv' }));
+const destinations = { home: '/', cv: '/perfil/', projects: '/projects/', contact: '/contact/' };
+const navItems = site.menu.map(item => ({ label: item.label, href: destinations[item.id], external: false }));
 const menuLabel = (id: 'home' | 'cv' | 'projects' | 'contact') => site.menu.find(item => item.id === id)?.label;
 const onContact = Astro.url.pathname.startsWith('/contact');
 const onProjects = Astro.url.pathname.startsWith('/projects');
@@ -49,7 +49,7 @@ const footerSecondary = onContact || onProjects
       <nav class="mobile-footer-nav" aria-label="Accesos rápidos">
         <a class="mobile-footer-primary" href={footerPrimary.href}>{footerPrimary.label}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
         <a class="mobile-footer-secondary" href={footerSecondary.href}>{footerSecondary.label}</a>
-        {site.cv && <a class="mobile-footer-secondary" href={site.cv} target="_blank" rel="noopener noreferrer">{menuLabel('cv')}</a>}
+        {site.cv && <a class="mobile-footer-secondary" href={site.cv} target="_blank" rel="noopener noreferrer">CV</a>}
       </nav>
     </footer>}
     <script src="/assets/interaction.js" defer data-astro-rerun></script>

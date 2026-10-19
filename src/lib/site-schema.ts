@@ -33,6 +33,7 @@ export const siteSchema = z.object({
       for (const type of ['home_hero', 'home_about', 'home_projects']) requireOne(type)(sections, ctx);
     }) }),
 
+  profile: z.object({ meta: z.string().min(1), skills: z.array(z.object({ label: z.string().min(1), tools: z.array(z.string().min(1)).min(1) })).min(1), languages: z.array(z.string().min(1)).min(1) }),
   contact: z.object({ meta: z.string(), sections: z.array(contactSection).min(1).superRefine(requireOne('contact_details')) }),
 });
 

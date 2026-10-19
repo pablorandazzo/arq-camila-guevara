@@ -74,7 +74,7 @@ collections:
     label: Páginas del sitio
     files:
       - name: site
-        label: Inicio y contacto
+        label: Contenido del sitio
         file: src/content/site.json
         fields:
           - { name: brand, label: Nombre del sitio, widget: string, hint: 'Se usa en la cabecera y en los títulos del navegador. El título de portada se edita por separado.' }
@@ -106,7 +106,7 @@ collections:
             accept: application/pdf,.pdf
             media_folder: /public/cv
             public_folder: /cv
-            hint: 'Sube un PDF para activar los enlaces de CV en el menú y la portada.'
+            hint: 'Sube un PDF para activar la descarga de CV en Mi perfil.'
             media_libraries:
               default:
                 config:
@@ -172,6 +172,18 @@ collections:
                       - { name: quote, label: Cita, widget: text }
                       - { name: attribution, label: Autor, widget: string, required: false }
 
+          - name: profile
+            label: Mi perfil
+            widget: object
+            fields:
+              - { name: meta, label: Descripción para buscadores, widget: text }
+              - name: skills
+                label: Conocimientos
+                widget: list
+                fields:
+                  - { name: label, label: Área, widget: string }
+                  - { name: tools, label: Herramientas, widget: list, field: { name: tool, label: Herramienta, widget: string } }
+              - { name: languages, label: Idiomas, widget: list, field: { name: language, label: Idioma y nivel, widget: string } }
           - name: contact
             label: Contacto
             widget: object

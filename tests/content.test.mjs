@@ -74,7 +74,7 @@ test('the About section keeps the editorial desktop composition and a responsive
     readFile(new URL('../assets/site.css', import.meta.url), 'utf8'),
   ]);
   assert.ok(component.includes('class="home-about" aria-labelledby="home-about-label"'));
-  assert.ok(component.includes('<div class="home-about-copy"><h3 class="editorial-title">{section.title}</h3><p>{section.text}</p></div>'));
+  assert.ok(component.includes('<div class="home-about-copy"><h3 class="editorial-title">{section.title}</h3><p>{section.text}</p><a class="text-link" href="/perfil/">Mi perfil</a></div>'));
   const featuredBlock = component.slice(component.indexOf('<section class="home-featured-projects">'), component.indexOf('</section>', component.indexOf('<section class="home-featured-projects">')));
   assert.ok(featuredBlock.indexOf('<div class="project-strip">') < featuredBlock.indexOf('<div class="home-featured-heading">'), 'the projects heading and all-projects link come after the featured cards');
   assert.ok(css.includes('.home-about{display:grid;flex:none;width:clamp(420px,41.66vw,800px);height:100%;min-height:650px;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;gap:0;padding:var(--gutter) var(--gutter)'), 'About label and image share the project-strip top inset on desktop');
@@ -113,7 +113,7 @@ test('the homepage hero anchors left on desktop and centers on mobile without th
   assert.match(css, /@media\(max-width:768px\)\{\s*\.home-hero\{align-items:flex-start;justify-content:flex-end;padding:0\}/, 'mobile hero content anchors to the lower left');
   assert.match(css, /\.home-hero \.hero-title>\.hero-title-line:last-child\{font-size:clamp\(34px,9\.2vw,44px\)/, 'the name scales to fit mobile');
   assert.match(css, /\.home-hero \.hero-title>\.hero-title-line\{display:block;white-space:nowrap\}/, 'mobile keeps the title lines intact');
-  assert.doesNotMatch(css, /home-hero-button:disabled::after/, 'unavailable CV status does not run into the button label');
+  assert.doesNotMatch(component, /site\.cv/, 'the homepage hero no longer renders a CV action');
 });
 
 test('the header shows a restrained architectural mark and Camila wordmark', async () => {
@@ -128,8 +128,8 @@ test('the header shows a restrained architectural mark and Camila wordmark', asy
   assert.match(css, /\.logo-mark\{[^}]*stroke:currentColor/, 'the mark adapts to light and dark hero backgrounds');
   assert.match(logo, /<title id="title">Isotipo arquitectónico<\/title>/);
   assert.match(layout, /site\.menu\.map\(item => \(\{ label: item\.label, href: destinations\[item\.id\]/, 'the visible menu follows the editable order');
-  assert.match(layout, /cv: site\.cv/, 'the menu uses the uploaded CV when available');
-  assert.match(layout, /menu-link--disabled[^>]*aria-disabled="true"/, 'CV stays unavailable without a file');
+  assert.match(layout, /cv: '\/perfil\/'/, 'the second menu item opens the profile page');
+  assert.doesNotMatch(layout, /external: item\.id === 'cv'/, 'the profile menu item is internal');
 });
 
 test('the fixed header follows the homepage hero, then turns white with readable controls', async () => {
@@ -210,6 +210,10 @@ test('CMS exposes every site singleton field in its matching section', async () 
   assert.equal(cv.public_folder, '/cv');
   assert.equal(cv.required, false);
   assert.equal(cv.media_libraries.default.config.max_file_size, 10485760);
+  const profile = page.fields.find(field => field.name === 'profile');
+  assert.equal(profile.widget, 'object');
+  assert.deepEqual(names(profile.fields), Object.keys(site.profile).sort());
+  assert.equal(profile.fields.find(field => field.name === 'skills').widget, 'list');
   assert.deepEqual(names(projects.fields), ['title', 'image', 'alt', 'category', 'location', 'description', 'language', 'order', 'sections'].sort(), 'project editor exposes only fields used by pages and sorting');
   for (const key of ['home', 'contact']) {
     const object = page.fields.find(field => field.name === key);
@@ -265,6 +269,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   assert.ok(contact.includes(`src="${images[contactDetails.image].sources.at(-1).src}"`), 'the existing architectural image remains on the contact page');
   assert.deepEqual([...homepage.matchAll(/class="menu-link-label"><span>([^<]+)<\/span>/g)].map(match => match[1]), site.menu.map(item => item.label), 'the rendered menu respects the CMS item order');
   await access(new URL(`../dist${site.home.sections.find(section => section.type === 'home_hero').image}`, import.meta.url));
+  assert.match(homepage, /href="\/perfil\/">Mi perfil<\/a>/, 'the About section links to the profile');
   assert.doesNotMatch(homepage, /Ver mis proyectos/, 'the obsolete about-section CTA is not rendered');
   assert.doesNotMatch(homepage, /class="hero-intro"/, 'the home hero has no intro paragraph');
   assert.equal((homepage.match(/class="home-featured-projects"/g) || []).length, 1, 'the home displays the projects section');
@@ -283,9 +288,28 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   }
   assert.match(homepage, /class="home-hero-actions"/, 'the homepage hero shows its primary actions');
   assert.match(homepage, /href="\/contact\/"[^>]*>Contactarme<\/a>/, 'Contactarme points to the existing contact route');
-  assert.match(homepage, /<button[^>]*disabled[^>]*aria-label="CV de Camila Guevara: falta cargar el archivo"[^>]*>CV<\/button>/, 'the CV action is safely disabled until a real file is supplied');
+  assert.doesNotMatch(homepage.match(/class="home-hero-actions"[\s\S]*?<\/div>/)?.[0] || '', /CV/, 'the hero has no CV action');
+  const profilePage = await readFile(new URL('../dist/perfil/index.html', import.meta.url), 'utf8');
+  assert.match(profilePage, /<section class="profile-identity" aria-label="Fotografía de presentación"><img[^>]*alt="[^"]+"/, 'the first panel is a full-height figure with an honest alt');
+  assert.match(profilePage, /<h1 id="profile-title">Camila Guevara<\/h1>/);
+  assert.match(profilePage, /<p class="profile-role">Arquitectura, espacio y personas\.<\/p>/, 'the profile keeps the editorial positioning line');
+  assert.ok(profilePage.includes(about.text), 'the profile reuses the existing introduction');
+  for (const group of site.profile.skills) {
+    assert.ok(profilePage.includes(group.label), group.label);
+    for (const tool of group.tools) assert.ok(profilePage.includes(tool), tool);
+  }
+  for (const language of site.profile.languages) assert.ok(profilePage.includes(language), language);
+  assert.ok(profilePage.includes(`alt="${about.alt}"`), 'architectural imagery keeps its honest description');
+  assert.match(profilePage, /<button class="profile-cv-button" type="button" disabled[^>]*>Descargar CV/, 'the CV action is visible but disabled until a PDF is configured');
+  assert.doesNotMatch(profilePage, /class="profile-cv-button"[^>]*href=/, 'no broken CV href is shipped without a file');
   assert.match(homepage, /id="entry-mask"/, 'the orange entry bars are present on the home page');
+  assert.doesNotMatch(profilePage, /id="home-scroll"/, 'the profile does not reuse the home horizontal scroller');
+  assert.match(profilePage, /class="profile-content" tabindex="0" role="region" aria-label="Contenido del perfil"/, 'the scrolling content column is keyboard-accessible and labelled');
   const motionCss = await readFile(new URL('../assets/site.css', import.meta.url), 'utf8');
+  assert.match(motionCss, /\.profile-page\{position:fixed;inset:0;display:grid;grid-template-columns:clamp\(360px,40vw,720px\) minmax\(0,1fr\)/, 'desktop pins the layout to the viewport');
+  assert.match(motionCss, /\.profile-content\{[^}]*overflow-y:auto/, 'only the content column scrolls vertically');
+  assert.match(motionCss, /\.profile-identity img\{width:100%;height:100%;object-fit:cover;object-position:center 54%\}/, 'the photo covers the fixed panel without letterboxing');
+  assert.match(motionCss, /\.profile-introduction h1\{/, 'the name is set in the introduction panel');
   assert.match(motionCss, /::view-transition-new\(project-page\)[\s\S]*?@keyframes project-page-in\{from\{opacity:\.7;transform:translate3d\(-3\.5%,0,0\)/, 'project pages slide in from left to right with a coordinated view transition');
   for (const item of catalogs.projects) {
     const page = await readFile(new URL(`../dist/projects/${item.id}/index.html`, import.meta.url), 'utf8');

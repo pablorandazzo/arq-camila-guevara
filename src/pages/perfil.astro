@@ -1,0 +1,51 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import site from '../lib/site';
+import { imageProps } from '../lib/images';
+
+const about = site.home.sections.find(section => section.type === 'home_about');
+if (!about || about.type !== 'home_about') throw new Error('The home about section is required for the profile');
+---
+<SiteLayout title="Mi perfil" description={site.profile.meta}>
+  <main class="profile-page" aria-label="Perfil de Camila Guevara">
+    <section class="profile-identity" aria-label="Fotografía de presentación">
+      <img {...imageProps(about.image, '(max-width: 768px) 100vw, 40vw')} alt={about.alt} decoding="async" />
+    </section>
+    <div class="profile-content" tabindex="0" role="region" aria-label="Contenido del perfil">
+      <section class="profile-introduction" aria-labelledby="profile-title">
+        <div class="profile-intro-heading">
+          <h1 id="profile-title">{site.brand}</h1>
+          <p class="profile-role">{about.title}</p>
+        </div>
+        <div class="profile-intro-body">
+          <h2 id="profile-about-title">Sobre mí</h2>
+          <p class="profile-intro-text">{about.text}</p>
+          <div class="profile-actions">
+            {site.cv
+              ? <a class="profile-cv-button" href={site.cv} download aria-label={`Descargar CV de ${site.brand} en PDF`}>Descargar CV <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10" /></svg></a>
+              : <button class="profile-cv-button" type="button" disabled title="El CV todavía no está disponible" aria-label={`Descargar CV de ${site.brand}: el archivo todavía no está disponible`}>Descargar CV <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10" /></svg></button>}
+            <a class="text-link" href="/projects/">Ver proyectos</a>
+          </div>
+        </div>
+      </section>
+      <section class="profile-knowledge" aria-labelledby="profile-skills-title">
+        <h2 id="profile-skills-title">Conocimientos</h2>
+        <div class="profile-knowledge-group">
+          <h3 class="profile-group-title">Software</h3>
+          <dl class="profile-skills">
+            {site.profile.skills.map(group => <div class="profile-skill"><dt>{group.label}</dt><dd>{group.tools.join(' · ')}</dd></div>)}
+          </dl>
+        </div>
+        <div class="profile-knowledge-group">
+          <h3 class="profile-group-title">Idiomas</h3>
+          <ul class="profile-languages">
+            {site.profile.languages.map(language => <li>{language}</li>)}
+          </ul>
+        </div>
+        <div class="profile-knowledge-footer">
+          <a class="text-link" href="/">Volver al inicio</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</SiteLayout>

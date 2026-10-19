@@ -381,9 +381,12 @@
     listen(document, 'keydown', (event) => {
       if (!desktop.matches) return;
       if (document.body.classList.contains('menu-open')) return;
-      if (event.target instanceof HTMLElement && event.target.closest('input, textarea, button, a')) return;
-      if (['ArrowRight', 'PageDown'].includes(event.key)) { event.preventDefault(); move(scroller.clientWidth * .7); }
-      if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); move(-scroller.clientWidth * .7); }
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest('input, textarea, select, button, a, [contenteditable]'))) return;
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); move(scroller.clientWidth * .7); }
+      if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); move(-scroller.clientWidth * .7); }
+      if (event.key === 'Home') { event.preventDefault(); move(-maxScroll()); }
+      if (event.key === 'End') { event.preventDefault(); move(maxScroll()); }
     });
     updateProgress();
   }
