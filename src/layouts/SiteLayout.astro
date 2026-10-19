@@ -4,6 +4,15 @@ import site from '../lib/site';
 const { title, description, home = false, navigation = true } = Astro.props;
 const destinations = { home: '/', cv: site.cv, projects: '/projects/', contact: '/contact/' };
 const navItems = site.menu.map(item => ({ label: item.label, href: destinations[item.id], external: item.id === 'cv' }));
+const menuLabel = (id: 'home' | 'cv' | 'projects' | 'contact') => site.menu.find(item => item.id === id)?.label;
+const onContact = Astro.url.pathname.startsWith('/contact');
+const onProjects = Astro.url.pathname.startsWith('/projects');
+const footerPrimary = onContact
+  ? { label: menuLabel('projects'), href: '/projects/' }
+  : { label: menuLabel('contact'), href: '/contact/' };
+const footerSecondary = onContact || onProjects
+  ? { label: menuLabel('home'), href: '/' }
+  : { label: menuLabel('projects'), href: '/projects/' };
 ---
 <!doctype html>
 <html lang="es">
@@ -35,6 +44,14 @@ const navItems = site.menu.map(item => ({ label: item.label, href: destinations[
       <noscript><nav class="nojs-nav" aria-label="Menú principal">{navItems.map(item => item.href ? <a href={item.href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}>{item.label}</a> : <span aria-disabled="true">{item.label}</span>)}</nav><style>.site-rail{display:none}</style></noscript>
     </>}
     <slot />
+    {navigation && <footer class="mobile-footer">
+      <p class="mobile-footer-brand">{site.brand}</p>
+      <nav class="mobile-footer-nav" aria-label="Accesos rápidos">
+        <a class="mobile-footer-primary" href={footerPrimary.href}>{footerPrimary.label}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
+        <a class="mobile-footer-secondary" href={footerSecondary.href}>{footerSecondary.label}</a>
+        {site.cv && <a class="mobile-footer-secondary" href={site.cv} target="_blank" rel="noopener noreferrer">{menuLabel('cv')}</a>}
+      </nav>
+    </footer>}
     <script src="/assets/interaction.js" defer data-astro-rerun></script>
     <script>import '../scripts/project-transitions.js';</script>
   </body>

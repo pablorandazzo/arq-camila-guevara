@@ -255,6 +255,10 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   }
   const homepage = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
   const contact = await readFile(new URL('../dist/contact/index.html', import.meta.url), 'utf8');
+  const footer = html => html.match(/<footer class="mobile-footer">[\s\S]*?<\/footer>/)?.[0] || '';
+  assert.match(footer(homepage), /class="mobile-footer-primary" href="\/contact\/"/, 'home mobile CTA goes to contact');
+  assert.match(footer(homepage), /class="mobile-footer-secondary" href="\/projects\/"/, 'home footer also links to projects');
+  assert.match(footer(contact), /class="mobile-footer-primary" href="\/projects\/"/, 'contact footer avoids a self-link');
   const contactDetails = site.contact.sections.find(section => section.type === 'contact_details');
   assert.match(contact, /class="contact-cta"[^>]*data-open-contact/, 'Hablemos opens the contact form');
   assert.ok(contact.includes(`tel:${contactDetails.phoneHref}`));
@@ -306,6 +310,8 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     assert.equal((html.match(/loading="lazy"/g) || []).length, titles.length, category);
   }
   const listing = await readFile(new URL('../dist/projects/index.html', import.meta.url), 'utf8');
+  assert.match(footer(listing), /class="mobile-footer-primary" href="\/contact\/"/, 'project footer offers contact');
+  assert.match(motionCss, /body:has\(\.projects-view\) \.mobile-footer\{padding-bottom:calc\(98px/, 'footer clears fixed mobile filters');
   assert.equal((listing.match(/class="project-choice/g) || []).length, catalogs.projects.length);
   assert.equal((listing.match(/data-src="\/assets\/images\/optimized\//g) || []).length, catalogs.projects.length - 1);
   assert.equal((listing.match(/loading="lazy"/g) || []).length, catalogs.projects.length);
