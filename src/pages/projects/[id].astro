@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import ContentSections from '../../components/ContentSections.astro';
-import { imageProps } from '../../lib/images';
+import { imageProps, mobileHeroSource } from '../../lib/images';
 export async function getStaticPaths() {
   const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
   return projects.map((project, index) => ({ params: { id: project.id }, props: { project, nextProject: projects[(index + 1) % projects.length] } }));
@@ -15,7 +15,7 @@ const labels = project.data.language === 'en'
 <SiteLayout title={project.data.title} description={project.data.description || project.data.title}>
   <main class="page project-detail--editorial" data-project-story lang={project.data.language} transition:name="project-page" transition:animate="none">
     <div class="project-story-scroll" id="project-story-scroll">
-      <figure class="project-story-hero" transition:name="project-hero" transition:animate="none"><img {...imageProps(project.data.image, '100vw')} alt={project.data.alt} fetchpriority="high" decoding="async" /></figure>
+      <figure class="project-story-hero" transition:name="project-hero" transition:animate="none"><picture>{mobileHeroSource(project.data.image) && <source media="(max-width: 768px)" srcset={mobileHeroSource(project.data.image)?.src} type="image/avif" />}<img {...imageProps(project.data.image, '100vw')} alt={project.data.alt} fetchpriority="high" decoding="async" /></picture></figure>
       <div class="project-story-mobile-copy">
         <h1>{project.data.title}</h1>
         {project.data.description && <p>{project.data.description}</p>}

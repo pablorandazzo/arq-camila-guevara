@@ -34,7 +34,7 @@ const footerSecondary = onContact || onProjects
   <body class:list={{ 'home-page': home, 'header-over-hero': home }}>
     {home && <>
       <div class="entry-mask" id="entry-mask" aria-hidden="true"><span></span><span></span><span></span></div>
-      <noscript><style>.entry-mask{display:none!important}.home-hero>img,.home-hero .hero-character,.home-hero .hero-intro{animation-play-state:running!important}</style></noscript>
+      <noscript><style>.entry-mask{display:none!important}.home-hero picture img,.home-hero .hero-character,.home-hero .hero-intro{animation-play-state:running!important}</style></noscript>
     </>}
     {navigation && <>
       <a class:list={['logo', { 'is-light': home }]} href="/" aria-label={`Inicio: ${site.brand}`}><svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 44V4h40v40H4Z"/><path d="M4 16h19v28M23 4v12h21M23 30h21M12 16v12h11M12 28v16M23 30v14M30 30v14M30 37h14"/></svg><span class="logo-copy"><span>{site.brand}</span><small>ARQUITECTA</small></span></a>

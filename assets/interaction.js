@@ -210,7 +210,7 @@
   listen(reducedMotion, 'change', () => { if (reducedMotion.matches) finishMenuClose(); });
   // Mobile hero photography trails the document while the copy follows native scroll.
   const mobile = window.matchMedia('(max-width: 768px)');
-  const parallaxImage = document.querySelector('.home-hero > img, .split-hero .hero-visual img');
+  const parallaxImage = document.querySelector('.home-hero picture img, .split-hero .hero-visual img');
   if (parallaxImage) {
     let frame = 0;
     const updateParallax = () => {
@@ -255,7 +255,7 @@
     } else {
       try { sessionStorage.setItem('rhe-entry-played', '1'); } catch {}
       window.setTimeout(() => {
-        const heroImage = document.querySelector('.home-hero>img');
+        const heroImage = document.querySelector('.home-hero picture img');
         const imageDecoded = heroImage?.decode ? heroImage.decode().catch(() => {}) : Promise.resolve();
         const imageFallback = new Promise((resolve) => window.setTimeout(resolve, 1800));
         Promise.race([imageDecoded, imageFallback]).then(() => {
@@ -352,118 +352,16 @@
     updateProgress();
   }
 
-  const story = document.getElementById('project-story-scroll');
-  if (story) {
-    const storyMobile = window.matchMedia('(max-width: 768px)');
-    const nextImage = story.querySelector('.project-story-next-image');
-    const aside = document.querySelector('.project-story-aside');
-    const storyCopy = aside?.querySelector('.project-story-copy');
-    const hero = story.querySelector('.project-story-hero');
-    const updateStory = () => {
-      if (storyMobile.matches) {
-        document.body.classList.toggle('project-story-past-hero', hero.getBoundingClientRect().bottom < 76);
-      } else {
-        const range = story.scrollHeight - story.clientHeight;
-        if (progress) progress.textContent = String(Math.round(story.scrollTop / (range || 1) * 100));
-        aside.classList.toggle('is-next', nextImage.getBoundingClientRect().top < story.getBoundingClientRect().bottom - story.clientHeight * .2);
-      }
-    };
-    story.addEventListener('scroll', updateStory, { passive: true });
-    listen(window, 'scroll', updateStory, { passive: true });
-    listen(storyMobile, 'change', updateStory);
-    const scrollStory = (event) => {
-      event.preventDefault();
-      story.scrollBy({ top: event.deltaY, behavior: 'instant' });
-    };
-    aside?.addEventListener('wheel', (event) => {
-      if (storyMobile.matches || document.body.classList.contains('menu-open')) return;
-      const overCopy = storyCopy?.contains(event.target);
-      const remaining = storyCopy ? storyCopy.scrollHeight - storyCopy.clientHeight : 0;
-      if (overCopy && remaining > 1 && ((event.deltaY < 0 && storyCopy.scrollTop > 0)
-        || (event.deltaY > 0 && storyCopy.scrollTop < remaining - 1))) return;
-      scrollStory(event);
-    }, { passive: false });
-    document.querySelector('.site-rail')?.addEventListener('wheel', (event) => {
-      if (!storyMobile.matches && !document.body.classList.contains('menu-open')) scrollStory(event);
-    }, { passive: false });
-    updateStory();
-  }
-
-  const choices = [...document.querySelectorAll('.project-choice')];
-  const stack = document.getElementById('project-image-stack');
-  const projectLinks = [...(stack?.querySelectorAll('.project-image-link') || [])];
-  const loadPreview = (image) => {
-    if (!image?.dataset.src) return;
-    image.srcset = image.dataset.srcset;
-    image.src = image.dataset.src;
-    delete image.dataset.srcset;
-    delete image.dataset.src;
-  };
-  const legacyFilter = stack ? new URLSearchParams(location.search).get('filter') : null;
-  if (stack && ['resorts', 'commercial'].includes(legacyFilter)) {
-    location.replace(`/projects/${legacyFilter}/`);
-  }
-  let selectedProject = 0;
-  let visibleProject = 0;
-  let projectFrame = 0;
-  let selectionVersion = 0;
-  const moveStack = () => {
-    stack.style.transform = `translate3d(0, ${-selectedProject * 100}%, 0)`;
-  };
-  const showProject = (index) => {
-    if (index === visibleProject) return;
-    visibleProject = index;
-    choices.forEach((choice, i) => {
-      choice.setAttribute('aria-pressed', String(i === index));
-      choice.classList.toggle('is-active', i === index);
+  if (document.getElementById('project-story-scroll')) {
+    import('/assets/project-story-interaction.js').then(({ initProjectStory }) => {
+      if (!controller.signal?.aborted) initProjectStory({ listen, progress, signal: controller.signal });
     });
-    projectLinks.forEach((link, i) => {
-      link.tabIndex = i === index ? 0 : -1;
-      if (i === index) link.removeAttribute('aria-hidden');
-      else link.setAttribute('aria-hidden', 'true');
+  }
+  if (document.getElementById('project-image-stack')) {
+    import('/assets/project-list-interaction.js').then(({ initProjectList }) => {
+      if (!controller.signal?.aborted) initProjectList({ listen, reducedMotion, signal: controller.signal });
     });
-  };
-  const followProject = () => {
-    projectFrame = 0;
-    const transform = getComputedStyle(stack).transform;
-    const values = transform.startsWith('matrix3d(') ? transform.slice(9, -1).split(',') : transform.startsWith('matrix(') ? transform.slice(7, -1).split(',') : null;
-    const offset = values ? Number(values[values.length === 16 ? 13 : 5]) : -selectedProject * stack.clientHeight;
-    const height = stack.clientHeight || 1;
-    showProject(Math.max(0, Math.min(projectLinks.length - 1, Math.round(-offset / height))));
-    if (Math.abs(offset + selectedProject * height) > .5) projectFrame = requestAnimationFrame(followProject);
-    else showProject(selectedProject);
-  };
-  const activateProject = async (button) => {
-    if (!button || !stack) return;
-    const index = Number(button.dataset.index);
-    if (!projectLinks[index] || button.closest('li').hidden) return;
-    const version = ++selectionVersion;
-    const image = projectLinks[index].querySelector('img');
-    loadPreview(image);
-    if (index !== selectedProject) {
-      try {
-        if (!image.complete || !image.naturalWidth) await image.decode();
-        if (!image.naturalWidth || version !== selectionVersion) return;
-      } catch {
-        return; // Retain the last usable preview and its accessible detail link.
-      }
-    }
-    if (version !== selectionVersion) return;
-    if (index !== selectedProject) {
-      stack.parentElement.style.backgroundImage = `url("${projectLinks[visibleProject].querySelector('img').src}")`;
-    }
-    selectedProject = index;
-    moveStack();
-    if (reducedMotion.matches) showProject(index);
-    else if (!projectFrame) projectFrame = requestAnimationFrame(followProject);
-  };
-  choices.forEach((button) => button.addEventListener('click', () => activateProject(button)));
-  listen(reducedMotion, 'change', () => {
-    if (!stack || !reducedMotion.matches) return;
-    if (projectFrame) cancelAnimationFrame(projectFrame);
-    projectFrame = 0;
-    showProject(selectedProject);
-  });
+  }
 
   if (document.querySelector('.contact-dialog')) {
     import('/assets/contact-interaction.js').then(({ initContact }) => initContact(controller.signal));

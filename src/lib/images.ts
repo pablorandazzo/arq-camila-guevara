@@ -11,3 +11,9 @@ export function imageProps(path: string, sizes: string) {
     height: image.height,
   };
 }
+
+export function mobileHeroSource(path: string) {
+  const image = manifest[path as keyof typeof manifest];
+  if (!image) throw new Error(`Missing optimized image: ${path}. Run npm run prepare:images.`);
+  return 'mobileHero' in image ? image.mobileHero : null;
+}

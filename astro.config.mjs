@@ -42,9 +42,11 @@ function prototypeAssets() {
           try {
             if (!(await stat(file)).isFile()) return next();
             const ext = file.split('.').pop()?.toLowerCase();
-            res.setHeader('Content-Type', ({ jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', svg: 'image/svg+xml', webp: 'image/webp', woff2: 'font/woff2', css: 'text/css', js: 'text/javascript' })[ext] || 'application/octet-stream');
-            if (/^\/images\/optimized\/[^/]+-[a-f0-9]{10}-\d+\.webp$/.test(pathname) || /^\/fonts\/[^/]+\.[a-f0-9]{7}\.woff2$/.test(pathname)) {
+            res.setHeader('Content-Type', ({ jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', svg: 'image/svg+xml', webp: 'image/webp', avif: 'image/avif', woff2: 'font/woff2', css: 'text/css', js: 'text/javascript' })[ext] || 'application/octet-stream');
+            if (/^\/images\/optimized\/[^/]+-[a-f0-9]{10}-(?:\d+\.webp|mobile(?:35|40)-\d+\.avif)$/.test(pathname) || /^\/fonts\/[^/]+\.[a-f0-9]{7}\.woff2$/.test(pathname)) {
               res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+            } else if (pathname === '/site.css' || /^\/[^/]+\.js$/.test(pathname)) {
+              res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
             }
             createReadStream(file).pipe(res);
           } catch { next(); }

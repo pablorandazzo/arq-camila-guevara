@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises';
 import { runInNewContext } from 'node:vm';
 
 const script = await readFile(new URL('../assets/interaction.js', import.meta.url), 'utf8');
+const projectListScript = (await readFile(new URL('../assets/project-list-interaction.js', import.meta.url), 'utf8'))
+  .replace('export function', 'function') + '\ninitProjectList({ listen: (target, type, handler) => target?.addEventListener(type, handler), reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)") });';
 
 test('menu locks and restores page scroll, focus, inert state, and homepage input', () => {
   const listeners = new Map();
@@ -140,7 +142,7 @@ test('project hover leaves the stack alone; click selects the matching image and
   const window = { matchMedia: () => ({ matches: false, addEventListener() {} }), addEventListener(type, handler) { handlers.set(`window:${type}`, handler); } };
   let visualOffset = 0;
   const frames = [];
-  runInNewContext(script, { document, window, location: { search: '' }, URLSearchParams,
+  runInNewContext(projectListScript, { document, window, location: { search: '' }, URLSearchParams,
     getComputedStyle: () => ({ transform: `matrix(1, 0, 0, 1, 0, ${visualOffset})` }),
     requestAnimationFrame(fn) { frames.push(fn); return frames.length; }, cancelAnimationFrame() {} });
   assert.equal(handlers.has('1:mouseenter'), false);
@@ -188,7 +190,7 @@ test('project preview waits for decoding, ignores stale selections and retains t
     getElementById: id => id === 'project-image-stack' ? stack : null, addEventListener() {} };
   const window = { matchMedia: query => ({ matches: query.includes('min-width: 769px'), addEventListener() {} }), addEventListener() {} };
   const frames = [];
-  runInNewContext(script, { document, window, location: { search: '' }, URLSearchParams,
+  runInNewContext(projectListScript, { document, window, location: { search: '' }, URLSearchParams,
     requestAnimationFrame(fn) { frames.push(fn); return frames.length; }, cancelAnimationFrame() {},
     getComputedStyle: () => ({ transform: 'matrix(1, 0, 0, 1, 0, -1000)' }) });
 

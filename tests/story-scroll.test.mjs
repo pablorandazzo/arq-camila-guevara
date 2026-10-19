@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { runInNewContext } from 'node:vm';
 
-const script = await readFile(new URL('../assets/interaction.js', import.meta.url), 'utf8');
+const script = (await readFile(new URL('../assets/project-story-interaction.js', import.meta.url), 'utf8'))
+  .replace('export function', 'function') + '\ninitProjectStory({ listen: (target, type, handler) => target?.addEventListener(type, handler), progress: null });';
 
 test('project story keeps the right text scrollable and routes edge and rail wheel input to the gallery', () => {
   const events = new Map();
@@ -20,7 +21,12 @@ test('project story keeps the right text scrollable and routes edge and rail whe
     querySelector: selector => selector === '.project-story-aside' ? aside : selector === '.site-rail' ? rail : null,
     querySelectorAll: () => [], addEventListener() {} };
   const window = { matchMedia: () => ({ matches: false, addEventListener() {} }), addEventListener() {} };
-  runInNewContext(script, { document, window, location: { search: '' } });
+  const frames = [];
+  runInNewContext(script, { document, window, location: { search: '' }, requestAnimationFrame: callback => { frames.push(callback); return frames.length; } });
+  events.get('story:scroll')();
+  events.get('story:scroll')();
+  assert.equal(frames.length, 1, 'rapid scroll events share a layout update');
+  frames.shift()();
 
   const wheel = (target, deltaY) => ({ target, deltaY, defaultPrevented: false, preventDefault() { this.defaultPrevented = true; } });
   const inside = wheel(paragraph, 120);

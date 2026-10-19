@@ -444,3 +444,12 @@ body.home-page:not(.header-over-hero):not(.menu-open) .menu-toggle,body:not(.hom
   body:has(.projects-view) .mobile-footer{padding-bottom:calc(98px + env(safe-area-inset-bottom))}
 }
 @media(prefers-reduced-motion:reduce){.mobile-footer-primary{transition:none}}
+
+/* Preserve the hero animation while art-directing the mobile source inside picture. */
+.home-hero>picture{position:absolute;inset:0;width:100%;height:100%}
+.project-story-hero>picture{display:block;width:100%;height:100%}
+.home-hero>picture>img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;scale:1.5;animation:hero-image-settle 3s cubic-bezier(.77,0,.175,1) both}
+@media(max-width:768px){.home-hero>picture>img{object-position:58% center;transform-origin:center;will-change:transform}}
+body.home-entry-skip .home-hero>picture>img,html[data-home-entry-played="true"] body.home-page .home-hero>picture>img{animation:none!important;scale:1!important;transform:none!important}
+body:not(.is-entering) .home-hero>picture>img{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.home-hero>picture>img{animation:none!important;scale:1!important;transform:none!important;will-change:auto}}
