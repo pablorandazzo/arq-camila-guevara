@@ -379,3 +379,50 @@ body.home-page:not(.header-over-hero):not(.menu-open) .menu-toggle,body:not(.hom
   .home-featured-heading{order:0}
   .home-featured-projects>.project-strip{order:1}
 }
+
+/* Contact keeps the site's editorial split while fitting the desktop viewport. */
+.contact-page{height:100dvh;min-height:0;overflow:hidden;padding:20px clamp(24px,3.125vw,60px)}
+.contact-page .contact-view{height:100%;min-height:0;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(16px,2vw,28px);padding:0}
+.contact-page .contact-left{min-width:0;min-height:0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);grid-template-rows:1fr auto;gap:clamp(18px,2vw,30px);align-items:end;padding:clamp(24px,3vw,46px) 0}
+.contact-identity{grid-column:1/-1;align-self:start}
+.contact-page .contact-identity h1{font-size:14px;font-weight:600;line-height:1.2}
+.contact-identity p{margin-top:10px;font-family:var(--serif);font-style:italic;font-size:clamp(17px,1.4vw,22px)}
+.contact-main{min-width:0}
+.contact-page .contact-main .editorial-title{max-width:11em;margin:0;font-size:clamp(32px,3vw,56px);line-height:1.08}
+.contact-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:30px;min-width:220px;min-height:56px;margin-top:clamp(22px,3vw,44px);padding:14px 20px;border:1px solid #171717;border-radius:0;background:#171717;color:#fff;font-family:var(--sans);font-size:15px;font-weight:600;line-height:1.2;transition:background .2s ease,color .2s ease,border-color .2s ease}
+.contact-cta svg{width:21px;height:21px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.contact-cta:hover,.contact-cta:focus-visible{background:var(--accent);border-color:var(--accent);color:#111}
+.contact-page .contact-details h2{font-size:14px;font-weight:600;line-height:1.25}
+.contact-page .contact-details address{display:flex;flex-direction:column;gap:10px;margin-top:16px;font-family:var(--serif);font-size:clamp(14px,1.15vw,19px);font-style:italic;line-height:1.28}
+.contact-details address div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.contact-details address span{font-family:var(--sans);font-size:11px;font-style:normal;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.contact-details address a{overflow-wrap:anywhere;text-decoration:none}
+.contact-details address a:hover,.contact-details address a:focus-visible{text-decoration:underline;text-underline-offset:3px}
+.contact-page .contact-image{display:block;width:100%;height:100%;min-height:0;object-fit:cover}
+@media(min-width:769px) and (max-width:1100px){
+  .contact-page .contact-left{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto;gap:0}
+  .contact-identity{grid-column:1}
+  .contact-main{align-self:center}
+  .contact-page .contact-main .editorial-title{font-size:clamp(30px,3vw,40px)}
+  .contact-page .contact-details address{gap:5px;margin-top:8px;font-size:14px}
+}
+@media(min-width:769px) and (max-height:640px){
+  .contact-page{padding-block:14px}
+  .contact-page .contact-left{padding-block:clamp(18px,2vw,28px)}
+  .contact-page .contact-main .editorial-title{font-size:clamp(30px,2.65vw,44px)}
+  .contact-cta{min-height:48px;margin-top:18px;padding:10px 18px}
+  .contact-page .contact-details address{gap:5px;margin-top:9px;font-size:14px}
+}
+@media(max-width:768px){
+  .contact-page{height:auto;min-height:100dvh;margin-right:0;overflow:visible;padding:94px 20px 30px}
+  .contact-page .contact-view{height:auto;min-height:0;display:flex;flex-direction:column;gap:42px}
+  .contact-page .contact-left{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0}
+  .contact-main{margin-top:55px}
+  .contact-page .contact-main .editorial-title{font-size:clamp(34px,9vw,52px)}
+  .contact-cta{min-width:0;width:100%;margin-top:28px}
+  .contact-details{margin-top:58px}
+  .contact-page .contact-details address{font-size:17px}
+  .contact-page .contact-image{height:clamp(330px,65svh,550px);min-height:0}
+  body:has(.contact-view):not(.menu-open) .menu-toggle{color:#111}
+}
+@media(prefers-reduced-motion:reduce){.contact-cta{transition:none}}

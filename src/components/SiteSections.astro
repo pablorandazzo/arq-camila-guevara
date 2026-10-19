@@ -25,6 +25,26 @@ const featuredProjects = (ids: string[]) => ids.map(id => {
     : section.type === 'home_projects'
     ? <section class="home-featured-projects"><div class="project-strip">{featuredProjects(section.featuredProjects).map(project => <article><a href={`/projects/${project.id}/`}><div class="card-image"><img {...imageProps(project.data.image, '(max-width: 768px) 100vw, 40vw')} alt={project.data.alt} loading="lazy" decoding="async" /></div><div class="card-caption"><h3>{project.data.title}</h3><span class="text-link">{section.projectLinkLabel}</span></div></a></article>)}</div><div class="home-featured-heading"><h2 class="section-label">Proyectos</h2><a class="text-link" href="/projects/">Ver todos los proyectos</a></div></section>
     : section.type === 'contact_details'
-      ? <section class="contact-view"><div class="contact-left"><section><h1>{section.heading}</h1><p class="editorial-title">{section.statement}</p><button class="text-link" type="button" data-open-contact>{section.cta}</button></section><section><h2>{section.detailsLabel}</h2><address><a href={section.mapUrl} target="_blank" rel="noreferrer" style="white-space:pre-line">{section.address}</a><br /><br /><a href={`mailto:${section.email}`}>{section.email}</a><br /><a href={`tel:${section.phoneHref}`}>{section.phoneDisplay}</a><br /><a href={section.instagram} target="_blank" rel="noreferrer">Instagram</a>, <a href={section.twitter} target="_blank" rel="noreferrer">Twitter</a>, <a href={section.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></address></section></div><img {...imageProps(section.image, '(max-width: 768px) 100vw, 50vw')} alt={section.imageAlt} decoding="async" /></section>
+      ? <section class="contact-view" aria-labelledby="contact-heading">
+          <div class="contact-left">
+            <div class="contact-identity">
+              <h1 id="contact-heading">{section.heading}</h1>
+              <p>{section.qualification}</p>
+            </div>
+            <div class="contact-main">
+              <p class="editorial-title">{section.statement}</p>
+              <button class="contact-cta" type="button" data-open-contact>{section.cta}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></button>
+            </div>
+            <div class="contact-details">
+              <h2>{section.detailsLabel}</h2>
+              <address>
+                <div><span>Mail</span><a href={`mailto:${section.email}`}>{section.email}</a></div>
+                <div><span>Cel</span><a href={`tel:${section.phoneHref}`}>{section.phoneDisplay}</a></div>
+                <div><span>LinkedIn</span><a href={section.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></div>
+              </address>
+            </div>
+          </div>
+          <img class="contact-image" {...imageProps(section.image, '(max-width: 768px) 100vw, 44vw')} alt={section.imageAlt} decoding="async" />
+        </section>
        : <ContentSections sections={[section]} context={context === 'home' ? 'home' : 'page'} />
 )}

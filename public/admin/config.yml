@@ -187,16 +187,13 @@ collections:
                     label: Datos de contacto y formulario
                     fields:
                       - { name: heading, label: Título, widget: string }
+                      - { name: qualification, label: Formación, widget: string }
                       - { name: statement, label: Frase principal, widget: string }
                       - { name: cta, label: Botón de contacto, widget: string }
                       - { name: detailsLabel, label: Título de datos de contacto, widget: string }
-                      - { name: address, label: Dirección, widget: text }
-                      - { name: mapUrl, label: Enlace del mapa, widget: string }
                       - { name: email, label: Correo destinatario, widget: string, hint: 'También se muestra como enlace y recibe las consultas del formulario.' }
                       - { name: phoneDisplay, label: Teléfono visible, widget: string }
                       - { name: phoneHref, label: Teléfono para llamar, widget: string }
-                      - { name: instagram, label: Enlace de Instagram, widget: string }
-                      - { name: twitter, label: Enlace de Twitter, widget: string }
                       - { name: linkedin, label: Enlace de LinkedIn, widget: string }
                       - { name: image, label: Imagen de contacto, widget: image }
                       - { name: imageAlt, label: Descripción de la imagen, widget: string }

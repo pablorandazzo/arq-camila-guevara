@@ -10,7 +10,7 @@ const homeSection = z.discriminatedUnion('type', [
 ]);
 const contactSection = z.discriminatedUnion('type', [
   ...basic,
-  z.object({ type: z.literal('contact_details'), heading: z.string(), statement: z.string(), cta: z.string(), detailsLabel: z.string(), address: z.string(), mapUrl: z.url(), email: z.email(), phoneDisplay: z.string(), phoneHref: z.string(), instagram: z.url(), twitter: z.url(), linkedin: z.url(), image: imagePath, imageAlt: z.string().min(1) }),
+  z.object({ type: z.literal('contact_details'), heading: z.string(), qualification: z.string().min(1), statement: z.string(), cta: z.string(), detailsLabel: z.string(), email: z.email(), phoneDisplay: z.string(), phoneHref: z.string(), linkedin: z.url(), image: imagePath, imageAlt: z.string().min(1) }),
 ]);
 function requireOne<T extends { type: string }>(type: string, kind = 'sección') {
   return (sections: T[], ctx: z.RefinementCtx) => {

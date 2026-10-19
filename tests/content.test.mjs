@@ -244,7 +244,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   const about = site.home.sections.find(section => section.type === 'home_about');
   for (const [route, values] of [
     ['index.html', [site.brand, hero.title, 'Contactarme', site.menu.find(item => item.id === 'cv').label, about.label, about.title, ...site.menu.map(item => item.label), site.creditLabel]],
-    ['contact/index.html', [site.contact.sections[0].statement, site.contact.sections[0].email]],
+    ['contact/index.html', [site.contact.sections[0].qualification, site.contact.sections[0].statement, site.contact.sections[0].email]],
   ]) {
     const html = await readFile(new URL(`../dist/${route}`, import.meta.url), 'utf8');
     for (const value of values) assert.ok(html.includes(value), `${route}: ${value}`);
@@ -254,6 +254,13 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     }
   }
   const homepage = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const contact = await readFile(new URL('../dist/contact/index.html', import.meta.url), 'utf8');
+  const contactDetails = site.contact.sections.find(section => section.type === 'contact_details');
+  assert.match(contact, /class="contact-cta"[^>]*data-open-contact/, 'Hablemos opens the contact form');
+  assert.ok(contact.includes(`tel:${contactDetails.phoneHref}`));
+  assert.ok(contact.includes(contactDetails.linkedin));
+  assert.doesNotMatch(contact, /href="https:\/\/maps\.google\.com/, 'the removed address is not displayed');
+  assert.ok(contact.includes(`src="${images[contactDetails.image].sources.at(-1).src}"`), 'the existing architectural image remains on the contact page');
   assert.deepEqual([...homepage.matchAll(/class="menu-link-label"><span>([^<]+)<\/span>/g)].map(match => match[1]), site.menu.map(item => item.label), 'the rendered menu respects the CMS item order');
   await access(new URL(`../dist${site.home.sections.find(section => section.type === 'home_hero').image}`, import.meta.url));
   assert.doesNotMatch(homepage, /Ver mis proyectos/, 'the obsolete about-section CTA is not rendered');

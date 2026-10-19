@@ -54,17 +54,14 @@
     "sections": [
       {
         "type": "contact_details",
-        "heading": "Consulta de proyecto",
+        "heading": "Contacto",
+        "qualification": "Arquitecta / UBA",
         "statement": "¿Quieres construir más allá?",
         "cta": "Hablemos",
         "detailsLabel": "Datos de contacto",
-        "address": "Studio RHE\n4 Green Mews\nBevenden Street\nLondres\nN1 6AS",
-        "mapUrl": "https://maps.google.com/?q=4+Green+Mews+Bevenden+Street+London+N1+6AS",
         "email": "architect@studiorhe.com",
         "phoneDisplay": "+44 (0) 20 7253 5358",
         "phoneHref": "+442072535358",
-        "instagram": "https://www.instagram.com/studiorhe/",
-        "twitter": "https://twitter.com/studiorhe",
         "linkedin": "https://www.linkedin.com/company/studio-rhe",
         "image": "/assets/images/rhe-contact-hero.jpg",
         "imageAlt": "Vista aérea de un resort tropical diseñado por Studio RHE"
