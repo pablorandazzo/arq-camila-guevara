@@ -206,7 +206,7 @@ body.contact-open{overflow:hidden}
   .main-menu.is-open .menu-link,.main-menu.is-open .menu-meta{transition-delay:0ms!important}
 }
 
-/* Studio RHE-inspired motion language: diagonal tile menu, clipped link reveals,
+/* Editorial motion language: diagonal tile menu, clipped link reveals,
    oversized image settle and restrained editorial easing. */
 :root{--ease-expo-out:cubic-bezier(.23,1,.32,1);--ease-expo-inout:cubic-bezier(.87,0,.13,1)}
 .menu-shade{transition:opacity .35s cubic-bezier(.23,1,.32,1),visibility 0s linear 1.4s}

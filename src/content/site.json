@@ -26,7 +26,7 @@
       {
         "type": "home_hero",
         "image": "/assets/images/1665158307-studio-rhe-hero.jpg",
-        "alt": "Residencia de Studio RHE frente al océano en Seychelles",
+        "alt": "Residencia frente al océano en Seychelles",
         "title": "Portfolio Camila Guevara"
       },
       {
@@ -71,12 +71,12 @@
         "statement": "¿Quieres construir más allá?",
         "cta": "Hablemos",
         "detailsLabel": "Datos de contacto",
-        "email": "architect@studiorhe.com",
-        "phoneDisplay": "+44 (0) 20 7253 5358",
-        "phoneHref": "+442072535358",
-        "linkedin": "https://www.linkedin.com/company/studio-rhe",
+        "email": "hola@camilaguevara.com",
+        "phoneDisplay": "+54 11 0000 0000",
+        "phoneHref": "+541100000000",
+        "linkedin": "https://www.linkedin.com/in/camila-guevara",
         "image": "/assets/images/rhe-contact-hero.jpg",
-        "imageAlt": "Vista aérea de un resort tropical diseñado por Studio RHE"
+        "imageAlt": "Vista aérea de un resort tropical frente al mar"
       }
     ]
   }

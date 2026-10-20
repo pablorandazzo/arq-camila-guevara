@@ -65,20 +65,13 @@
       "assets/site.css",
       "assets/site.js",
       "brand-spec.md",
-      "CLONE_AUDIT.md",
-      "CLONE_REPORT.md",
       "contact.html",
       "favicon.ico",
       "index.html",
       "journal.html",
-      "NOTES.md",
       "privacy.html",
       "project.html",
-      "projects.html",
-      "RECON/screenshots/clone-1440.png",
-      "RECON/screenshots/clone-390.png",
-      "RECON/screenshots/original-1440.png",
-      "RECON/screenshots/original-390.png"
+      "projects.html"
     ],
     "html": [
       "about.html",
@@ -154,14 +147,7 @@
       "assets/images/rhe-contact-hero.jpg",
       "assets/logo.svg",
       "brand-spec.md",
-      "CLONE_AUDIT.md",
-      "CLONE_REPORT.md",
-      "favicon.ico",
-      "NOTES.md",
-      "RECON/screenshots/clone-1440.png",
-      "RECON/screenshots/clone-390.png",
-      "RECON/screenshots/original-1440.png",
-      "RECON/screenshots/original-390.png"
+      "favicon.ico"
     ]
   },
   "screens": [

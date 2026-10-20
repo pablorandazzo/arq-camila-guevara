@@ -1,24 +1,23 @@
-# Architecture portfolio prototype
+# Portfolio de arquitectura
 
-Static Astro site with Sveltia CMS. The current Spanish copy, Studio RHE branding, imagery, address and article links are **local prototype material**, not verified information about Camila Guevara. Do not publish or represent these assets as yours without replacing the content and confirming the necessary rights (including the logo and fonts).
+Sitio estático en Astro con CMS Sveltia.
 
-## Local setup
+## Puesta en marcha local
 
-Requires Node.js 22.22+ (or newer). Run `npm install`, then `npm run dev` and open `http://localhost:4321/`. Run `npm run check` and `npm run build` before deploying; `dist/` is the static output. `npm run preview` serves that output locally. The original binary assets remain under `assets/` and are served at their original `/assets/...` URLs in development and copied into `dist/assets/` during build. Do not add Git LFS for CMS media.
+Requiere Node.js 22.22 o superior. Ejecutar `npm install`, luego `npm run dev` y abrir `http://localhost:4321/`. Antes de desplegar, ejecutar `npm run check` y `npm run build`; `dist/` es la salida estática. `npm run preview` sirve esa salida localmente. Los recursos binarios se guardan en `assets/` y se publican en las mismas rutas `/assets/...` durante el desarrollo; el build los copia a `dist/assets/`. No agregar Git LFS para los medios del CMS.
 
-## Editing content
+## Edición de contenido
 
-- `src/content/projects/*.json`: one project per file, rendered at `/projects/<filename>/`. Category is `resorts` or `commercial`. The numeric `order` controls the listing.
-- `src/content/articles/*.json`: one article per file, rendered at `/journal/<filename>/`. `categories` controls filters; `originalSlug` adds an optional original-site link. The original prototype only had three article summaries and six project descriptions; entries without those fields intentionally show no invented body copy.
-- `src/content/site.json`: home and contact copy, images and the four reorderable main-menu items. Each item keeps its destination (`id`) when moved. Featured IDs must match existing filenames exactly; the build fails on a missing featured entry. The optional `cv` field points to a PDF under `/cv/`.
-- Cover images and gallery items need meaningful `alt` text. Use `/assets/images/<filename>` for existing or uploaded media. The CMS limits new image uploads to 3 MB and converts raster uploads to WebP, at most 1800 × 1800. Existing larger prototype files are retained for layout fidelity.
+- `src/content/projects/*.json`: un proyecto por archivo, renderizado en `/projects/<archivo>/`. La categoría es `resorts` o `commercial`. El campo numérico `order` define el orden del listado.
+- `src/content/site.json`: textos de portada, perfil y contacto, imágenes y los cuatro ítems reordenables del menú principal. Cada ítem conserva su destino (`id`) al moverlo. Los IDs destacados deben coincidir exactamente con nombres de archivo existentes; el build falla si falta uno. El campo opcional `cv` apunta a un PDF dentro de `/cv/`.
+- Las imágenes de portada y las galerías necesitan texto `alt` significativo. Usar `/assets/images/<archivo>` para medios existentes o subidos. El CMS limita las subidas nuevas a 3 MB y convierte las imágenes raster a WebP, con un máximo de 1800 × 1800.
 
-For a visual editor, run the Astro dev server and open `http://localhost:4321/admin/index.html` in Chrome or Edge. To edit local files without remote credentials, choose **Work with Local Repository** and pick this folder. Editing JSON directly also works. Check the page after saving; refresh if needed.
+Para editar visualmente, ejecutar el servidor de desarrollo de Astro y abrir `http://localhost:4321/admin/index.html` en Chrome o Edge. Para editar archivos locales sin credenciales remotas, elegir **Work with Local Repository** y seleccionar esta carpeta. También se puede editar el JSON directamente. Revisar la página después de guardar y refrescar si es necesario.
 
-In Sveltia, open **Páginas del sitio → Contenido del sitio → CV (PDF)** to upload or replace the CV (up to 10 MB). The file is stored in `public/cv/`; after saving and rebuilding, the profile-page CV button opens it in a new tab. With no file selected, that button stays disabled.
+En Sveltia, abrir **Páginas del sitio → Contenido del sitio → CV (PDF)** para subir o reemplazar el CV (hasta 10 MB). El archivo se guarda en `public/cv/`; después de guardar y reconstruir, el botón de CV de la página de perfil lo abre en una pestaña nueva. Si no hay archivo, el botón permanece deshabilitado.
 
-## Connecting GitHub and deploying
+## Conexión con GitHub y despliegue
 
-The private repository is `pablorandazzo/arq-camila-guevara` on the `main` branch. Sveltia is configured for GitHub **token sign-in**; give editors write access to the repository. To sign in, use the CMS login screen to create a fine-grained token for this repository with **Contents: read and write** (metadata read is automatic), then paste it into the browser prompt. Do not save tokens in this repository. A Git-connected static host should build with `npm install && npm run build` and publish `dist/` on content commits. Host the site at the domain root because links and media use root-relative URLs; verify the host serves generated directory `index.html` pages and `/admin/index.html`. The CMS does not itself deploy the built site.
+El repositorio privado es `pablorandazzo/arq-camila-guevara`, rama `main`. Sveltia está configurado con **inicio de sesión por token** de GitHub; hay que dar acceso de escritura a los editores. Para ingresar, crear desde la pantalla de login del CMS un token fine-grained para este repositorio con **Contents: read and write** (la lectura de metadatos es automática) y pegarlo en el prompt del navegador. No guardar tokens en el repositorio. Un hosting estático conectado a Git debe construir con `npm install && npm run build` y publicar `dist/` en cada commit de contenido. Publicar el sitio en la raíz del dominio, porque los enlaces y medios usan rutas relativas a la raíz; verificar que el hosting sirva los `index.html` generados por directorio y `/admin/index.html`. El CMS no despliega el sitio construido por sí solo.
 
-Legacy `/about.html`, `/projects.html?filter=...`, `/journal.html`, `/contact.html`, `/project.html?id=...` and `/article.html?id=...` are compatibility entries in the static output. Known detail IDs redirect client-side to their static pages; unknown IDs show a missing-entry message, not another entry. JavaScript is required for the old query-string detail URLs. The canonical collection routes are fully static.
+Las rutas heredadas `/about.html`, `/projects.html?filter=...`, `/journal.html`, `/contact.html`, `/project.html?id=...` y `/article.html?id=...` son entradas de compatibilidad en la salida estática. Los IDs de detalle conocidos redirigen del lado del cliente a sus páginas estáticas; los IDs desconocidos muestran un mensaje de entrada inexistente. Las URL antiguas con query string requieren JavaScript. Las rutas canónicas de las colecciones son completamente estáticas.

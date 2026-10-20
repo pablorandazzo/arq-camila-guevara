@@ -14,7 +14,7 @@ const legacyHtml = (name, ids = []) => {
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${name} — Portfolio Camila Guevara</title><script>${script}</script></head><body><main><h1>${target ? 'Redirigiendo…' : 'Proyecto no encontrado'}</h1><a href="${target || back}">Volver</a></main></body></html>`;
 };
 
-// Keep the prototype's original binary assets in place; serve them at their old URLs.
+// Keep the original binary assets in place; serve them at their existing URLs.
 function prototypeAssets() {
   return {
     name: 'prototype-assets',
