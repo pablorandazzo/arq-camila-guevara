@@ -282,7 +282,7 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   assert.doesNotMatch(homepage, /Proyectos destacados/, 'the heading is removed from the rendered home page');
   const featuredIds = site.home.sections.find(section => section.type === 'home_projects').featuredProjects;
   const lastFeatured = catalogs.projects.find(project => project.id === featuredIds.at(-1));
-  assert.ok(homepage.indexOf(lastFeatured.title) < homepage.indexOf('home-featured-heading'), 'the projects heading follows the last featured project in the built homepage');
+  assert.ok(homepage.indexOf(lastFeatured.title) < homepage.indexOf('class="home-featured-heading"'), 'the projects heading follows the last featured project in the built homepage');
   assert.doesNotMatch(homepage, /Mi enfoque|approach-panel/, 'the approach section is absent from the built homepage');
   assert.doesNotMatch(homepage, /Conocer nuestro trabajo/, 'the redundant services CTA is removed with the old section');
   assert.ok(homepage.includes('Ver todos los proyectos'), 'the projects section keeps its dedicated all-projects CTA');

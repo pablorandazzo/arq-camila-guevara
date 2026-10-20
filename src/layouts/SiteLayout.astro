@@ -1,6 +1,13 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import site from '../lib/site';
+
+// The stylesheet ships inside the document so the first paint does not wait for a
+// render-blocking request. Font URLs inside it are absolute and resolve from the site root.
+// Resolve from the build root: this module is bundled before the copy step runs.
+const siteCss = readFileSync(resolve(process.cwd(), 'assets/site.css'), 'utf8');
 const { title, description, home = false, navigation = true } = Astro.props;
 const destinations = { home: '/', cv: '/perfil/', projects: '/projects/', contact: '/contact/' };
 const navItems = site.menu.map(item => ({ label: item.label, href: destinations[item.id], external: false }));
@@ -27,7 +34,7 @@ const footerSecondary = onContact || onProjects
       } catch {}
     </script>
     <link rel="preload" href="/assets/fonts/Reckless-Light.c765955.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/site.css" />
+    <style is:inline set:html={siteCss}></style>
     <link rel="icon" href="/assets/logo.svg" type="image/svg+xml" />
     <ClientRouter />
   </head>
