@@ -284,14 +284,14 @@
       window.setTimeout(() => {
         const heroImage = document.querySelector('.home-hero picture img');
         const imageDecoded = heroImage?.decode ? heroImage.decode().catch(() => {}) : Promise.resolve();
-        const imageFallback = new Promise((resolve) => window.setTimeout(resolve, 1800));
+        const imageFallback = new Promise((resolve) => window.setTimeout(resolve, 600));
         Promise.race([imageDecoded, imageFallback]).then(() => {
           if (!entryMask.isConnected) return;
           document.body.classList.add('is-entering');
           entryMask.classList.add('is-leaving');
-          window.setTimeout(() => entryMask.remove(), 2700);
+          window.setTimeout(() => entryMask.remove(), 1400);
         });
-      }, 500);
+      }, 150);
     }
   }
   const motionScales = [...document.querySelectorAll('.intro-top img, .project-strip img, .article-card img, .split-hero .hero-visual img, .about-section>img, .project-story-hero img, .project-story-image img, .article-detail>img, .content-section--image img')].filter((image) => !image.closest('[data-project-story]'));

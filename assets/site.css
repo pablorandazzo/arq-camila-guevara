@@ -227,14 +227,14 @@ body.contact-open{overflow:hidden}
 .main-menu .menu-meta{opacity:0;transform:translateY(-110%);transition:transform .5s var(--ease-expo-inout),opacity .5s var(--ease-expo-inout)}
 .main-menu.is-open .menu-meta{opacity:1;transform:translateY(0);transition-duration:.75s;transition-delay:.75s}
 .main-menu.is-closing .menu-meta{opacity:0;transform:translateY(-110%);transition-duration:.5s;transition-delay:0s}
-.home-hero>img{scale:1.5;animation:hero-image-settle 3s cubic-bezier(.77,0,.175,1) both}
+.home-hero>img{scale:1.5;animation:hero-image-settle 1s cubic-bezier(.77,0,.175,1) both}
 .is-scroll-reveal-pending{scale:1.35;transition:scale 2s cubic-bezier(.215,.61,.355,1)}
 .is-scroll-reveal-pending.is-scroll-revealed{scale:1}
 @keyframes hero-image-settle{to{scale:1}}
 .home-hero .hero-title{overflow:hidden;animation:none}
-.home-hero .hero-character{display:inline-block;animation:hero-character-in 2s var(--ease-expo-out) calc(1.25s + var(--char-index) * 35ms) both}
+.home-hero .hero-character{display:inline-block;animation:hero-character-in .6s var(--ease-expo-out) calc(.18s + var(--char-index) * 14ms) both}
 @keyframes hero-character-in{from{transform:translate3d(0,110%,0)}to{transform:translate3d(0,0,0)}}
-.home-hero .hero-intro{animation:hero-copy-in 2s var(--ease-expo-out) 2s both}
+.home-hero .hero-intro{animation:hero-copy-in .7s var(--ease-expo-out) .25s both}
 @media(max-width:768px){
   .main-menu{right:0;width:100%;background:#3d4442;transform:translateX(-100%);transition:transform .85s var(--ease-expo-out),visibility 0s linear 1.4s}
   .main-menu.is-open,.main-menu.is-closing{transform:translateX(0)}
@@ -249,7 +249,7 @@ body.contact-open{overflow:hidden}
   .main-menu.is-closing .menu-link{transform:translateY(-110%);transition-delay:0s,0s}
   .main-menu .menu-link-label>span{transform:none;opacity:1;transition:none}
   .main-menu .menu-meta{transform:none;opacity:1;transition:none}
-  .home-hero>img{animation-duration:3s}
+  .home-hero>img{animation-duration:1s}
 }
 @media(prefers-reduced-motion:reduce){
   .home-hero>img{animation:none!important;scale:1!important}
@@ -258,12 +258,12 @@ body.contact-open{overflow:hidden}
   .entry-mask{display:none!important}
 }
 .entry-mask{position:fixed;inset:0;z-index:1000;display:flex;overflow:hidden;pointer-events:auto}
-.entry-mask>span{position:relative;width:33.333333%;height:100%;flex:0 0 33.333333%;background:#f06446;transform:translate3d(0,0,0);transition:transform 2s cubic-bezier(.87,0,.13,1)}
+.entry-mask>span{position:relative;width:33.333333%;height:100%;flex:0 0 33.333333%;background:#f06446;transform:translate3d(0,0,0);transition:transform .55s cubic-bezier(.87,0,.13,1)}
 .entry-mask>span+span{border-left:1px solid rgba(255,255,255,.03)}
 .entry-mask.is-leaving>span{transform:translate3d(0,-101%,0)}
-.entry-mask.is-leaving>span:nth-child(1){transition-delay:250ms}
-.entry-mask.is-leaving>span:nth-child(2){transition-delay:400ms}
-.entry-mask.is-leaving>span:nth-child(3){transition-delay:550ms}
+.entry-mask.is-leaving>span:nth-child(1){transition-delay:0ms}
+.entry-mask.is-leaving>span:nth-child(2){transition-delay:60ms}
+.entry-mask.is-leaving>span:nth-child(3){transition-delay:120ms}
 ::view-transition-group(project-page){animation-duration:250ms;animation-timing-function:cubic-bezier(.22,.61,.36,1)}
 html:has(.project-detail--editorial)::view-transition-group(project-page){animation-duration:780ms}
 ::view-transition-old(project-page){animation:project-page-to-section 250ms ease-out both}
