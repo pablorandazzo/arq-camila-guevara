@@ -5,3 +5,6 @@ dist/
 .env.*
 !.env.example
 assets/images/optimized/
+.wrangler/
+.dev.vars*
+!.dev.vars.example

@@ -122,6 +122,18 @@ El repositorio privado es `pablorandazzo/arq-camila-guevara`, rama `main`. Svelt
 
 Un hosting estático conectado a Git debe construir con `npm install && npm run build` y publicar `dist/` en cada commit de contenido. Publicar el sitio en la raíz del dominio, porque los enlaces y medios usan rutas relativas a la raíz; verificar que el hosting sirva los `index.html` generados por directorio y `/admin/index.html`. El CMS no despliega el sitio por sí solo. No agregar Git LFS para los medios del CMS.
 
+### Cloudflare Workers
+
+El sitio se publica como **assets estáticos**, sin Worker ni adapter: `wrangler.jsonc` declara `assets.directory` apuntando a `./dist` y nada más. Por eso no hay `@astrojs/cloudflare` entre las dependencias. No borrar ese archivo: sin configuración de Wrangler, la versión 4.68 o superior ejecuta configuración automática, agrega el adapter de Astro, modifica `astro.config.mjs` y abre un pull request con esos cambios.
+
+| Ajuste en Workers Builds | Valor |
+| --- | --- |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Preview command | `npx wrangler versions upload` |
+
+`npx wrangler preview` no es una preview local: crea un Preview remoto de la rama y exige Previews habilitado en la cuenta. Para probar en local usar `npm run preview` (Astro) o `npx wrangler dev`. La versión de Wrangler se toma de `package.json` y está fijada a propósito, para que los deploys sean reproducibles.
+
 ## Checklist antes de publicar
 
 - [ ] `npm run check` sin errores

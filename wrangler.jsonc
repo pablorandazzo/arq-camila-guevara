@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "arq-camila-guevara",
+  // Static site only: Astro writes the whole site to dist/, so there is no
+  // Worker script. Declaring assets here keeps Wrangler from running
+  // automatic configuration (which would add @astrojs/cloudflare and
+  // change astro.config.mjs) and makes builds reproducible.
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "./dist"
+  }
+}
