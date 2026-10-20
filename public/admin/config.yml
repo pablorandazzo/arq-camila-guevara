@@ -95,7 +95,7 @@ collections:
                 readonly: true
                 options:
                   - { label: Inicio, value: home }
-                  - { label: CV, value: cv }
+                  - { label: Mi perfil, value: cv }
                   - { label: Proyectos, value: projects }
                   - { label: Contacto, value: contact }
               - { name: label, label: Texto del menú, widget: string }

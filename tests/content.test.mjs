@@ -205,7 +205,10 @@ test('CMS exposes every site singleton field in its matching section', async () 
   assert.equal(menu.allow_add, false);
   assert.equal(menu.allow_remove, false);
   assert.deepEqual(names(menu.fields), ['id', 'label'], 'each menu option keeps its destination and text when reordered');
-  assert.equal(menu.fields.find(field => field.name === 'id').readonly, true);
+  const destination = menu.fields.find(field => field.name === 'id');
+  assert.equal(destination.readonly, true);
+  assert.ok(destination.options.some(option => option.label === 'Mi perfil' && option.value === 'cv'), 'Sveltia labels the existing profile destination correctly without changing its route key');
+  assert.ok(!destination.options.some(option => option.label === 'CV' || option.value === 'CV'), 'Sveltia no longer presents CV as the menu destination');
   const cv = page.fields.find(field => field.name === 'cv');
   assert.equal(cv.widget, 'file');
   assert.equal(cv.accept, 'application/pdf,.pdf');
