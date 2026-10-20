@@ -9,9 +9,18 @@ interface Props {
 }
 const { sections: inputSections, context = 'page' } = Astro.props;
 const sections = inputSections ?? [];
+
+// Mirrors the rendered width of each context in assets/site.css so the browser
+// picks the smallest variant that still covers the box at the current pixel ratio.
+const sizesByContext = {
+  story: '(max-width: 768px) 100vw, (max-width: 1920px) 80vw, calc(100vw - 390px)',
+  page: '(max-width: 1100px) 100vw, 1000px',
+  home: '(max-width: 768px) 100vw, (max-width: 1833px) 60vw, 1100px',
+};
+const sizes = sizesByContext[context];
 ---
 {sections.map(section => section.type === 'image'
-  ? <figure class:list={['content-section', `content-section--${context}`, 'content-section--image', { 'project-story-image': context === 'story' }]}><img {...imageProps(section.image, '100vw')} alt={section.alt} loading="lazy" decoding="async" /></figure>
+  ? <figure class:list={['content-section', `content-section--${context}`, 'content-section--image', { 'project-story-image': context === 'story' }]}><img {...imageProps(section.image, sizes)} alt={section.alt} loading="lazy" decoding="async" /></figure>
   : section.type === 'text'
     ? <section class:list={['content-section', `content-section--${context}`, 'content-section--text']}><h2>{section.heading}</h2><p>{section.body}</p></section>
     : <section class:list={['content-section', `content-section--${context}`, 'content-section--quote']}><blockquote>{section.quote}</blockquote>{section.attribution && <p>{section.attribution}</p>}</section>

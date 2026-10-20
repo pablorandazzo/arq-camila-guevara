@@ -8,6 +8,7 @@ export async function getStaticPaths() {
   return projects.map((project, index) => ({ params: { id: project.id }, props: { project, nextProject: projects[(index + 1) % projects.length] } }));
 }
 const { project, nextProject } = Astro.props;
+const storySizes = '(max-width: 768px) 100vw, (max-width: 1920px) 80vw, calc(100vw - 390px)';
 const labels = project.data.language === 'en'
   ? { location: 'Location', next: 'Next Project' }
   : { location: 'Ubicación', next: 'Siguiente proyecto' };
@@ -15,14 +16,14 @@ const labels = project.data.language === 'en'
 <SiteLayout title={project.data.title} description={project.data.description || project.data.title}>
   <main class="page project-detail--editorial" data-project-story lang={project.data.language} transition:name="project-page" transition:animate="none">
     <div class="project-story-scroll" id="project-story-scroll">
-      <figure class="project-story-hero" transition:name="project-hero" transition:animate="none"><picture>{mobileHeroSource(project.data.image) && <source media="(max-width: 768px)" srcset={mobileHeroSource(project.data.image)?.src} type="image/avif" />}<img {...imageProps(project.data.image, '100vw')} alt={project.data.alt} fetchpriority="high" decoding="async" /></picture></figure>
+      <figure class="project-story-hero" transition:name="project-hero" transition:animate="none"><picture>{mobileHeroSource(project.data.image) && <source media="(max-width: 768px)" srcset={mobileHeroSource(project.data.image)?.src} type="image/avif" />}<img {...imageProps(project.data.image, storySizes)} alt={project.data.alt} fetchpriority="high" decoding="async" /></picture></figure>
       <div class="project-story-mobile-copy">
         <h1>{project.data.title}</h1>
         {project.data.description && <p>{project.data.description}</p>}
         {project.data.location && <p class="project-story-location"><span>{labels.location}</span><span>{project.data.location}</span></p>}
       </div>
       <ContentSections sections={project.data.sections} context="story" />
-      <a class="project-story-next-image" href={`/projects/${nextProject.id}/`} aria-label={`${labels.next}: ${nextProject.data.title}`}><img {...imageProps(nextProject.data.image, '100vw')} alt={nextProject.data.alt} loading="lazy" decoding="async" /></a>
+      <a class="project-story-next-image" href={`/projects/${nextProject.id}/`} aria-label={`${labels.next}: ${nextProject.data.title}`}><img {...imageProps(nextProject.data.image, storySizes)} alt={nextProject.data.alt} loading="lazy" decoding="async" /></a>
       <a class="project-story-mobile-next" href={`/projects/${nextProject.id}/`}><span>Siguiente proyecto</span><h2>{nextProject.data.title}</h2></a>
     </div>
     <aside class="project-story-aside">

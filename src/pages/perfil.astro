@@ -9,7 +9,7 @@ if (!about || about.type !== 'home_about') throw new Error('The home about secti
 <SiteLayout title="Mi perfil" description={site.profile.meta}>
   <main class="profile-page" aria-label="Perfil de Camila Guevara">
     <section class="profile-identity" aria-label="Fotografía de presentación">
-      <img {...imageProps(about.image, '(max-width: 768px) 100vw, 40vw')} alt={about.alt} decoding="async" />
+      <img {...imageProps(about.image, '(max-width: 768px) 100vw, (max-width: 1800px) 40vw, 720px')} alt={about.alt} decoding="async" />
     </section>
     <div class="profile-content" tabindex="0" role="region" aria-label="Contenido del perfil">
       <section class="profile-introduction" aria-labelledby="profile-title">

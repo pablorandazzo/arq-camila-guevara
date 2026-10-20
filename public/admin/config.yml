@@ -16,8 +16,8 @@ media_libraries:
         raster_image:
           format: webp
           quality: 82
-          width: 1800
-          height: 1800
+          width: 2400
+          height: 2400
 editor:
   preview: false
 collections:
