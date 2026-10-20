@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import SiteLayout from '../../../layouts/SiteLayout.astro';
+import ProjectListing from '../../../components/ProjectListing.astro';
+
+export async function getStaticPaths() {
+  return (await getCollection('categories')).filter(category => category.data.showInFilters).map(category => ({
+    params: { slug: category.id },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const label = category.data.label;
+---
+<SiteLayout title={`Proyectos ${label.toLowerCase()}`} description={`Explora proyectos de la categoría ${label.toLowerCase()} de Camila Guevara.`}>
+  <ProjectListing category={category.id} />
+</SiteLayout>

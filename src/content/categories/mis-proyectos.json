@@ -1,5 +1,6 @@
 {
   "slug": "mis-proyectos",
   "label": "Mis Proyectos",
-  "order": 1
+  "order": 1,
+  "showInFilters": true
 }

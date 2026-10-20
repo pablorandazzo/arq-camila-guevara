@@ -21,6 +21,19 @@ media_libraries:
 editor:
   preview: false
 collections:
+  - name: categories
+    label: Categorías de proyectos
+    label_singular: Categoría
+    folder: src/content/categories
+    format: json
+    create: true
+    slug: '{{slug}}'
+    identifier_field: slug
+    fields:
+      - { name: slug, label: Identificador de URL, widget: string, hint: 'En minúsculas, sin espacios. Conserva el mismo identificador al cambiar el nombre para mantener las asignaciones.' }
+      - { name: label, label: Nombre visible, widget: string }
+      - { name: showInFilters, label: Mostrar en filtros, widget: boolean, default: true }
+      - { name: order, label: Orden en filtros, widget: number, value_type: int, min: 1, hint: 'Usa un número distinto para cada categoría.' }
   - name: projects
     label: Proyectos
     label_singular: Proyecto
@@ -35,10 +48,11 @@ collections:
       - { name: alt, label: Descripción de la portada, widget: string }
       - name: category
         label: Categoría
-        widget: select
-        options:
-          - { label: Turísticos, value: resorts }
-          - { label: Comerciales, value: commercial }
+        widget: relation
+        collection: categories
+        search_fields: [label]
+        value_field: slug
+        display_fields: [label]
       - { name: location, label: Ubicación, widget: string, required: false }
       - { name: description, label: Descripción, widget: text, required: false }
       - name: language

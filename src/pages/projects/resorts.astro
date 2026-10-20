@@ -1,7 +1,10 @@
 ---
+import { getCollection } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import ProjectListing from '../../components/ProjectListing.astro';
+const category = (await getCollection('categories')).find(item => item.id === 'resorts');
+const label = category?.data.label ?? 'Turísticos';
 ---
-<SiteLayout title="Proyectos turísticos" description="Explora proyectos turísticos de Camila Guevara.">
+<SiteLayout title={`Proyectos ${label.toLowerCase()}`} description={`Explora proyectos de la categoría ${label.toLowerCase()} de Camila Guevara.`}>
   <ProjectListing category="resorts" />
 </SiteLayout>

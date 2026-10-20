@@ -9,6 +9,8 @@ const root = new URL('../', import.meta.url);
 const site = JSON.parse(await readFile(new URL('../src/content/site.json', import.meta.url), 'utf8'));
 const images = JSON.parse(await readFile(new URL('../src/lib/image-manifest.json', import.meta.url), 'utf8'));
 const catalogs = {};
+const categoriesDir = new URL('../src/content/categories/', import.meta.url);
+const categories = await Promise.all((await readdir(categoriesDir)).filter(name => name.endsWith('.json')).map(async name => ({ id: name.slice(0, -5), ...JSON.parse(await readFile(new URL(name, categoriesDir), 'utf8')) })));
 
 test('mobile project navigation is labeled in Spanish regardless of project language', async () => {
   const template = await readFile(new URL('../src/pages/projects/[id].astro', import.meta.url), 'utf8');
@@ -36,6 +38,20 @@ test('all migrated records have unique ordering and real image files', async () 
       }
     }
   }
+});
+
+test('managed project categories preserve existing IDs and cover every project', () => {
+  const alphabeta = catalogs.projects.find(project => project.id === 'alphabeta');
+  assert.equal(alphabeta?.category, 'mis-proyectos', 'hiding defaults must not change project assignments');
+  const categoryIds = categories.map(category => category.id);
+  assert.ok(categoryIds.includes('commercial') && categoryIds.includes('resorts'), 'hidden categories remain available for existing assignments');
+  assert.ok(categoryIds.includes('mis-proyectos'), 'newly added categories remain in the taxonomy');
+  assert.equal(categories.find(category => category.id === 'commercial')?.showInFilters, false);
+  assert.equal(categories.find(category => category.id === 'resorts')?.showInFilters, false);
+  assert.notEqual(categories.find(category => category.id === 'mis-proyectos')?.showInFilters, false, 'new categories appear by default');
+  assert.equal(new Set(categories.map(category => category.slug)).size, categories.length);
+  for (const category of categories) assert.ok(category.slug === category.id && category.label && Number.isInteger(category.order), category.id);
+  for (const project of catalogs.projects) assert.ok(categories.some(category => category.slug === project.category), `${project.id}: ${project.category}`);
 });
 
 test('the home retains its about section and featured project cards without removed sections', () => {
@@ -221,6 +237,18 @@ test('CMS exposes every site singleton field in its matching section', async () 
   assert.deepEqual(names(profile.fields), Object.keys(site.profile).sort());
   assert.equal(profile.fields.find(field => field.name === 'skills').widget, 'list');
   assert.deepEqual(names(projects.fields), ['title', 'image', 'alt', 'category', 'location', 'description', 'language', 'order', 'sections'].sort(), 'project editor exposes only fields used by pages and sorting');
+  const projectCategory = projects.fields.find(field => field.name === 'category');
+  assert.equal(projectCategory.widget, 'relation', 'each project selects a managed category instead of a hard-coded radio choice');
+  assert.equal(projectCategory.collection, 'categories');
+  assert.equal(projectCategory.value_field, 'slug');
+  assert.deepEqual(projectCategory.search_fields, ['label']);
+  const categories = config.collections.find(collection => collection.name === 'categories');
+  assert.equal(categories.folder, 'src/content/categories');
+  assert.equal(categories.create, true, 'categories can be added in Sveltia');
+  assert.deepEqual(names(categories.fields), ['label', 'order', 'showInFilters', 'slug']);
+  const categoryVisibility = categories.fields.find(field => field.name === 'showInFilters');
+  assert.equal(categoryVisibility.widget, 'boolean');
+  assert.equal(categoryVisibility.default, true, 'categories created in Sveltia appear in the public filters by default');
   for (const key of ['home', 'contact']) {
     const object = page.fields.find(field => field.name === key);
     assert.equal(object.widget, 'object');
@@ -327,8 +355,8 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
   }
   for (const [category, label] of [['resorts', 'Turísticos'], ['commercial', 'Comerciales']]) {
     const html = await readFile(new URL(`../dist/projects/${category}/index.html`, import.meta.url), 'utf8');
-    assert.ok(html.includes(`href="/projects/${category}/" aria-current="page"`), category);
-    assert.ok(html.includes(label), category);
+    assert.ok(html.toLowerCase().includes(label.toLowerCase()), category);
+    assert.doesNotMatch(html, new RegExp(`href="/projects/${category}/" aria-current="page"`), `${category} is retained for existing links but not exposed as a filter`);
     const titles = catalogs.projects.filter(project => project.category === category).map(project => project.title);
     assert.equal((html.match(/class="project-choice/g) || []).length, titles.length, category);
     for (const title of titles) assert.ok(html.includes(title), title);
@@ -337,7 +365,17 @@ test('fresh build emits catalog routes and legacy redirect contracts', async () 
     assert.equal((html.match(/class="projects-mobile-list"/g) || []).length, 1, category);
     assert.equal((html.match(/loading="lazy"/g) || []).length, titles.length, category);
   }
+  for (const category of categories.filter(item => item.showInFilters !== false)) {
+    const html = await readFile(new URL(`../dist/projects/categories/${category.slug}/index.html`, import.meta.url), 'utf8');
+    const titles = catalogs.projects.filter(project => project.category === category.slug).map(project => project.title);
+    assert.ok(html.includes(category.label), `categories/${category.slug}: CMS label is rendered`);
+    assert.equal((html.match(/class="project-choice/g) || []).length, titles.length, `categories/${category.slug}: all assigned projects are shown`);
+    for (const title of titles) assert.ok(html.includes(title), title);
+  }
   const listing = await readFile(new URL('../dist/projects/index.html', import.meta.url), 'utf8');
+  const filterNav = listing.match(/<nav class="filters"[^>]*>[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.match(filterNav, /Mis Proyectos/, 'user-created categories appear in the project filters');
+  assert.doesNotMatch(filterNav, /Turísticos|Comerciales/, 'default categories stay out of the project filters');
   assert.match(footer(listing), /class="mobile-footer-primary" href="\/contact\/"/, 'project footer offers contact');
   assert.match(motionCss, /body:has\(\.projects-view\) \.mobile-footer\{padding-bottom:calc\(98px/, 'footer clears fixed mobile filters');
   assert.equal((listing.match(/class="project-choice/g) || []).length, catalogs.projects.length);

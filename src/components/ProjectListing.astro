@@ -6,10 +6,14 @@ const { category = 'all' } = Astro.props;
 const projects = (await getCollection('projects'))
   .filter(project => category === 'all' || project.data.category === category)
   .sort((a, b) => a.data.order - b.data.order);
+const categories = (await getCollection('categories')).filter(item => item.data.showInFilters).sort((a, b) => a.data.order - b.data.order);
 const filters = [
   { id: 'all', label: 'Todos', href: '/projects/' },
-  { id: 'resorts', label: 'Turísticos', href: '/projects/resorts/' },
-  { id: 'commercial', label: 'Comerciales', href: '/projects/commercial/' },
+  ...categories.map(item => ({
+    id: item.data.slug,
+    label: item.data.label,
+    href: ['resorts', 'commercial'].includes(item.data.slug) ? `/projects/${item.data.slug}/` : `/projects/categories/${item.data.slug}/`,
+  })),
 ];
 ---
 <main class="page projects-view">

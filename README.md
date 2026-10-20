@@ -63,7 +63,8 @@ El contenido se valida dos veces: en la colección de proyectos y al cargar `sit
 | `/` | `src/pages/index.astro` |
 | `/perfil/` | `src/pages/perfil.astro` |
 | `/projects/` | Listado completo |
-| `/projects/resorts/`, `/projects/commercial/` | Listados por categoría |
+| `src/content/projects/*.json` | Un proyecto por archivo, publicado en `/projects/<id>/`. El campo `category` referencia una categoría administrada en Sveltia. |
+| `src/content/categories/*.json` | Categorías de proyectos; Sveltia permite crearlas, cambiar su nombre y orden. Se generan filtros y páginas `/projects/categories/<id>/`; se conservan las rutas históricas `/projects/resorts/` y `/projects/commercial/`. |
 | `/projects/<archivo>/` | Una ruta por archivo de `src/content/projects/` |
 | `/contact/` | `src/pages/contact.astro` |
 
@@ -95,7 +96,7 @@ Astro sirve `/assets/...` en desarrollo mediante un middleware que resuelve arch
 
 ## Edición de contenido
 
-- `src/content/projects/*.json`: un proyecto por archivo, renderizado en `/projects/<archivo>/`. La categoría es `resorts` o `commercial`. El campo numérico `order` define el orden del listado. `language` acepta `es` o `en`.
+- `src/content/projects/*.json`: un proyecto por archivo, renderizado en `/projects/<archivo>/`. El campo `category` guarda el ID de una categoría gestionada en `src/content/categories/*.json` y por Sveltia. El campo numérico `order` define el orden del listado. `language` acepta `es` o `en`.
 - `src/content/site.json`: textos de portada, perfil y contacto, imágenes y los cuatro ítems reordenables del menú principal. Cada ítem conserva su destino (`id`) al moverlo; se exige exactamente un ítem por destino. Los IDs destacados deben coincidir con nombres de archivo existentes: el build falla si falta uno. El campo opcional `cv` apunta a un PDF dentro de `/cv/`.
 - Las imágenes de portada y las galerías necesitan texto `alt` significativo. Usar `/assets/images/<archivo>` para medios existentes o subidos.
 
