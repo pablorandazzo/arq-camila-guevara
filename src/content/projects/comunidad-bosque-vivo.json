@@ -12,6 +12,16 @@
       "type": "image",
       "image": "/assets/images/prueba.webp",
       "alt": "Acceso al edificio"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/7-de-5.webp",
+      "alt": "c"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/4-de-3.webp",
+      "alt": "4 de 3"
     }
   ]
 }
