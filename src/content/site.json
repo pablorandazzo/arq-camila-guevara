@@ -25,8 +25,8 @@
     "sections": [
       {
         "type": "home_hero",
-        "image": "/assets/images/1665158307-studio-rhe-hero.jpg",
-        "alt": "Residencia frente al océano en Seychelles",
+        "image": "/assets/images/entrega-exterior1.webp",
+        "alt": "Proyecto en Aguas Verdes",
         "title": "Portfolio Camila Guevara"
       },
       {
@@ -43,7 +43,8 @@
           "zil-residences",
           "zil-resort",
           "gramophone-works",
-          "macka-istanbul"
+          "macka-istanbul",
+          "comunidad-bosque-vivo"
         ],
         "projectLinkLabel": "Ver proyecto"
       }
@@ -52,14 +53,58 @@
   "profile": {
     "meta": "Perfil de Camila Guevara: arquitectura, herramientas de trabajo e idiomas.",
     "skills": [
-      { "label": "2D · GIS · BIM", "tools": ["AutoCAD", "QGis", "Revit"] },
-      { "label": "Modelado 3D", "tools": ["Rhinoceros + Grasshopper", "Sketchup"] },
-      { "label": "Renderizado", "tools": ["Vray", "Lumion", "D5", "Enscape"] },
-      { "label": "Visuales", "tools": ["Photoshop", "Illustrator", "InDesign"] },
-      { "label": "Animación", "tools": ["Premiere", "After Effects", "Bongo (Rhino)"] },
-      { "label": "Otros", "tools": ["Fotografía (EOS R100)", "Maquette"] }
+      {
+        "label": "2D · GIS · BIM",
+        "tools": [
+          "AutoCAD",
+          "QGis",
+          "Revit"
+        ]
+      },
+      {
+        "label": "Modelado 3D",
+        "tools": [
+          "Rhinoceros + Grasshopper",
+          "Sketchup"
+        ]
+      },
+      {
+        "label": "Renderizado",
+        "tools": [
+          "Vray",
+          "Lumion",
+          "D5",
+          "Enscape"
+        ]
+      },
+      {
+        "label": "Visuales",
+        "tools": [
+          "Photoshop",
+          "Illustrator",
+          "InDesign"
+        ]
+      },
+      {
+        "label": "Animación",
+        "tools": [
+          "Premiere",
+          "After Effects",
+          "Bongo (Rhino)"
+        ]
+      },
+      {
+        "label": "Otros",
+        "tools": [
+          "Fotografía (EOS R100)",
+          "Maquette"
+        ]
+      }
     ],
-    "languages": ["Español nativo", "Inglés B2+"]
+    "languages": [
+      "Español nativo",
+      "Inglés B2+"
+    ]
   },
   "contact": {
     "meta": "Página de contacto del portfolio de Camila Guevara. Formulario de consulta y datos de contacto.",

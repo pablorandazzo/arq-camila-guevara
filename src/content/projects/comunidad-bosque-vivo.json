@@ -1,0 +1,17 @@
+{
+  "title": "Comunidad Bosque Vivo",
+  "image": "/assets/images/ext.webp",
+  "alt": "¿Cómo crecer sin perder la calma? El desafío en la tranquilidad de Aguas Verdes",
+  "category": "mis-proyectos",
+  "location": "Aguas Verdes, Buenos Aires.",
+  "description": "Aguas Verdes, ubicada en el Partido de La Costa, se caracteriza por su tranquilidad, su bosque y su entorno natural. Sin embargo, su pequeña población y la falta de espacios culturales, educativos y comerciales generan la necesidad de trasladarse a localidades vecinas para satisfacer diversas necesidades. A partir de encuestas a los habitantes, surge la propuesta de crear espacios de encuentro que fortalezcan la vida comunitaria y fomenten el turismo durante todo el año, preservando la identidad natural del lugar.\nEl proyecto se organiza en dos volúmenes conectados mediante una pasarela, con una estructura de madera elevada para minimizar la interferencia con la dinámica natural de los médanos. Implantado en relación con la última calle de la ciudad, establece una conexión entre el tejido urbano y la playa. Su modulación de 5 × 5 metros organiza los espacios y permite una construcción flexible y adaptable.\nEl 70 % del programa se destina a actividades comunitarias, mediante módulos de 25 m² con paneles móviles que permiten distintas configuraciones para talleres, exposiciones, ferias, eventos y actividades deportivas. El 30 % restante se orienta al turismo, incorporando un mirador y un restaurante. De esta manera, Comunidad Bosque Vivo propone una arquitectura que promueve el encuentro y el crecimiento colectivo sin perder la tranquilidad y el vínculo con la naturaleza que caracterizan a Aguas Verdes.",
+  "language": "es",
+  "order": 1,
+  "sections": [
+    {
+      "type": "image",
+      "image": "/assets/images/2.webp",
+      "alt": "Acceso al edificio"
+    }
+  ]
+}
