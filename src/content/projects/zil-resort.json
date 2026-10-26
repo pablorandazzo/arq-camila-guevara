@@ -7,5 +7,57 @@
   "description": "El proyecto se implanta en un claro del Vivero Florentino Ameghino, en Miramar, un bosque artificial de pinos creado para proteger la ciudad del viento y la arena. Frente a la pérdida de biodiversidad y la degradación del ecosistema, propone recuperar la flora y fauna nativas mediante un espacio de conservación, educación y encuentro comunitario.\n\nLa propuesta se organiza en torno a un parche de vegetación nativa, rodeado por un anillo arquitectónico que integra espacios productivos, educativos, administrativos y sociales. Las circulaciones y pasarelas permiten recorrer y contemplar este núcleo natural, preservando las áreas de trabajo y recuperación del ecosistema.\n\nEl edificio combina hormigón y acero, e incorpora una cubierta inclinada para recolectar agua de lluvia destinada al riego. Así, la arquitectura se convierte en una herramienta para restaurar el paisaje, promover la biodiversidad y generar conciencia ambiental.",
   "language": "es",
   "order": 2,
+  "sections": [
+    {
+      "type": "image",
+      "image": "/assets/images/17-axonometria-portf.webp",
+      "alt": "Implantación"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/12.-esquema-impl-2.webp",
+      "alt": "Esquema implantación"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/ext-acceso.webp",
+      "alt": "Acceso"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/portada-a.webp",
+      "alt": "Render"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/foto-ecosistemas.webp",
+      "alt": "Idea principal"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/desde-pasarela.webp",
+      "alt": "Render desde pasarela"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/20-programa.webp",
+      "alt": "Programa"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/foto-planta-esq.webp",
+      "alt": "Planta con esquemas de circulación"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/39-corte-constructivo.webp",
+      "alt": "Corte constructivo"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/final.webp",
+      "alt": "Render desde parche"
+    }
+  ],
   "type": "Resort"
 }
