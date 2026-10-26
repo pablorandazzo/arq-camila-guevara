@@ -131,6 +131,8 @@ body.contact-open{overflow:hidden}
 .project-story-copy h1,.project-story-next h2{font-family:var(--serif);font-size:21px;line-height:1.1;font-weight:300}
 .project-story-copy p{font-size:12px;line-height:1.5}
 .project-story-copy>div>p{margin-top:18px}
+/* Preserve the line and paragraph breaks entered in the CMS in both layouts. */
+.project-story-copy>div>p,.project-story-mobile-copy>p:not(.project-story-location){white-space:pre-line}
 .project-story-location{display:flex;flex-direction:column;font-family:var(--serif);font-style:italic;line-height:1.1!important}
 .project-story-next{transform:translateY(100%);border-top:1px solid var(--border)}
 .project-story-next a{display:flex;flex:1;flex-direction:column;justify-content:space-between;font-size:13px;font-weight:600}
