@@ -15,13 +15,18 @@
     },
     {
       "type": "image",
-      "image": "/assets/images/modulo-ii-_escobedo-guevara_page-0010.webp",
+      "image": "/assets/images/foto-3.webp",
       "alt": "c"
     },
     {
       "type": "image",
-      "image": "/assets/images/4-de-3.webp",
+      "image": "/assets/images/foto-1.webp",
       "alt": "4 de 3"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/foto-2.webp",
+      "alt": "x"
     }
   ]
 }
