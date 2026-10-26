@@ -1,1 +1,11 @@
-{"title":"Zil Resort","image":"/assets/images/1659949646-studio-rhe_zil-pasyon-island-1-1-1.jpg","alt":"Zil Resort en la isla de Félicité","category":"resorts","location":"Seychelles","type":"Resort","description":"Six Senses Zil Pasyon se extiende por la costa de la isla privada de Félicité. Su arquitectura reinterpreta el lenguaje local y se integra en el paisaje tropical.","order":2}
+{
+  "title": "Centro Cultural de Conservación",
+  "image": "/assets/images/parche.webp",
+  "alt": "Refugio para la biodiversidad: recuperar lo nativo, conservar el paisaje",
+  "category": "resorts",
+  "location": "Miramar, Buenos Aires",
+  "description": "El proyecto se implanta en un claro del Vivero Florentino Ameghino, en Miramar, un bosque artificial de pinos creado para proteger la ciudad del viento y la arena. Frente a la pérdida de biodiversidad y la degradación del ecosistema, propone recuperar la flora y fauna nativas mediante un espacio de conservación, educación y encuentro comunitario.\n\nLa propuesta se organiza en torno a un parche de vegetación nativa, rodeado por un anillo arquitectónico que integra espacios productivos, educativos, administrativos y sociales. Las circulaciones y pasarelas permiten recorrer y contemplar este núcleo natural, preservando las áreas de trabajo y recuperación del ecosistema.\n\nEl edificio combina hormigón y acero, e incorpora una cubierta inclinada para recolectar agua de lluvia destinada al riego. Así, la arquitectura se convierte en una herramienta para restaurar el paisaje, promover la biodiversidad y generar conciencia ambiental.",
+  "language": "es",
+  "order": 2,
+  "type": "Resort"
+}
