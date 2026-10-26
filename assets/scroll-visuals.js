@@ -2,7 +2,7 @@ export function initScrollVisuals({ listen, signal, reducedMotion }) {
   if (!('IntersectionObserver' in window)) return;
 
   const images = document.querySelectorAll(
-    '.home-about>img, .home-featured-projects .card-image img, .projects-mobile-list .card-image img, .project-story-hero img, .project-story-image img, .project-story-next-image img, .contact-image-frame img'
+    '.home-about>img, .home-featured-projects .card-image img, .projects-mobile-list .card-image img, .contact-image-frame img'
   );
   if (!images.length) return;
 
