@@ -16,12 +16,47 @@
     {
       "type": "image",
       "image": "/assets/images/foto-1.webp",
-      "alt": "4 de 3"
+      "alt": "Programa"
     },
     {
       "type": "image",
       "image": "/assets/images/foto-2.webp",
-      "alt": "x"
+      "alt": "Axonométrica"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/modulo-ii-_escobedo-guevara_page-0007.webp",
+      "alt": "Planta"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/foto-4.webp",
+      "alt": "Módulos"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/entrega-interior.webp",
+      "alt": "Módulos en uso"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/foto-6.webp",
+      "alt": "Detalle módulos"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/entrega-interior1.webp",
+      "alt": "Acceso a módulos"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/foto-5.webp",
+      "alt": "Corte perspectivado"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/interior-ag_11-foto.webp",
+      "alt": "Módulo exposición"
     }
   ]
 }
