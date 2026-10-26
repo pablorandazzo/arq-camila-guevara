@@ -55,6 +55,11 @@
     },
     {
       "type": "image",
+      "image": "/assets/images/ejemplo.webp",
+      "alt": "x"
+    },
+    {
+      "type": "image",
       "image": "/assets/images/interior-ag_11-foto.webp",
       "alt": "Módulo exposición"
     }
