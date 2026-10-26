@@ -143,7 +143,8 @@ collections:
                   - name: home_hero
                     label: Portada
                     fields:
-                      - { name: image, label: Imagen, widget: image }
+                      - { name: image, label: Imagen de escritorio, widget: image }
+                      - { name: mobileImage, label: Imagen para celular (opcional), widget: image, required: false, hint: 'Se usa en pantallas de hasta 768 px. Si queda vacía, se mantiene la imagen de escritorio con el encuadre móvil actual.' }
                       - { name: alt, label: Descripción de la imagen, widget: string }
                       - { name: title, label: Título, widget: string, hint: 'La primera palabra se muestra más pequeña; el resto aparece destacado.' }
 

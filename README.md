@@ -100,6 +100,12 @@ Astro sirve `/assets/...` en desarrollo mediante un middleware que resuelve arch
 - `src/content/site.json`: textos de portada, perfil y contacto, imágenes y los cuatro ítems reordenables del menú principal. Cada ítem conserva su destino (`id`) al moverlo; se exige exactamente un ítem por destino. Los IDs destacados deben coincidir con nombres de archivo existentes: el build falla si falta uno. El campo opcional `cv` apunta a un PDF dentro de `/cv/`.
 - Las imágenes de portada y las galerías necesitan texto `alt` significativo. Usar `/assets/images/<archivo>` para medios existentes o subidos.
 
+### Portada distinta para celular
+
+En **Páginas del sitio → Contenido del sitio → Inicio → Portada**, cargar la **Imagen de escritorio** y, opcionalmente, una **Imagen para celular**. La segunda se usa en pantallas de hasta 768 px; conviene elegir una composición vertical. Si se deja vacía o se elimina, se conserva el encuadre móvil automático de la imagen de escritorio. Ambas usan la descripción de imagen del mismo bloque.
+
+En JSON, la imagen móvil se guarda en `mobileImage` dentro del bloque `home_hero`. El pipeline genera sus variantes WebP sin recortarlas previamente. Este campo solo afecta la portada del inicio, no las fotos del detalle de proyectos.
+
 Para editar visualmente, ejecutar el servidor de desarrollo y abrir `http://localhost:4321/admin/index.html` en Chrome o Edge. Para editar archivos locales sin credenciales remotas, elegir **Work with Local Repository** y seleccionar esta carpeta. También se puede editar el JSON directamente. Revisar la página después de guardar y refrescar si es necesario.
 
 En Sveltia, las subidas nuevas se limitan a 3 MB y se convierten a WebP con un máximo de 1800 × 1800. Para el CV, abrir **Páginas del sitio → Contenido del sitio → CV (PDF)** (hasta 10 MB). El archivo se guarda en `public/cv/`; después de guardar y reconstruir, el botón de CV de la página de perfil lo abre en una pestaña nueva. Si no hay archivo, el botón queda deshabilitado.

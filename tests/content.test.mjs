@@ -261,7 +261,8 @@ test('CMS exposes every site singleton field in its matching section', async () 
     for (const section of site[key].sections) {
       const type = blocks.types.find(block => block.name === section.type);
       assert.ok(type, `${key}: ${section.type}`);
-      assert.deepEqual(names(type.fields), Object.keys(section).filter(name => name !== 'type').sort(), `${key}: ${section.type} fields match visible content`);
+      const optionalFields = section.type === 'home_hero' && !('mobileImage' in section) ? ['mobileImage'] : [];
+      assert.deepEqual(names(type.fields), [...Object.keys(section).filter(name => name !== 'type'), ...optionalFields].sort(), `${key}: ${section.type} fields match visible content`);
     }
   }
   const featured = page.fields.find(field => field.name === 'home').fields.find(field => field.name === 'sections').types

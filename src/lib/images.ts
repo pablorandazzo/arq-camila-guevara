@@ -17,3 +17,12 @@ export function mobileHeroSource(path: string) {
   if (!image) throw new Error(`Missing optimized image: ${path}. Run npm run prepare:images.`);
   return 'mobileHero' in image ? image.mobileHero : null;
 }
+
+export function homeHeroMobileProps(desktopPath: string, mobilePath?: string | null) {
+  if (mobilePath) {
+    const { srcset, sizes, width, height } = imageProps(mobilePath, '100vw');
+    return { srcset, sizes, width, height };
+  }
+  const crop = mobileHeroSource(desktopPath);
+  return crop ? { srcset: crop.src, type: 'image/avif', width: crop.width, height: crop.height } : null;
+}

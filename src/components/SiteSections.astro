@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import ContentSections from './ContentSections.astro';
 import type { SiteSection } from '../lib/site-schema';
-import { imageProps, mobileHeroSource } from '../lib/images';
+import { imageProps, homeHeroMobileProps } from '../lib/images';
 
 interface Props {
   sections: SiteSection[];
@@ -17,7 +17,7 @@ const featuredProjects = (ids: string[]) => ids.map(id => {
 });
 ---
 {sections.map(section => section.type === 'home_hero'
-  ? <section class="home-hero"><picture>{mobileHeroSource(section.image) && <source media="(max-width: 768px)" srcset={mobileHeroSource(section.image)?.src} type="image/avif" />}<img {...imageProps(section.image, '100vw')} alt={section.alt} fetchpriority="high" decoding="async" /></picture><div class="home-hero-content"><h1 class="hero-title" aria-label={section.title}><span class="hero-title-line">{section.title.split(/\s+/)[0]}</span>{' '}<span class="hero-title-line">{section.title.split(/\s+/).slice(1).join(' ')}</span></h1><div class="home-hero-actions" aria-label="Acciones principales"><a class="home-hero-button outlined-arrow-cta" href="/contact/">Contactarme<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a></div></div></section>
+  ? <section class="home-hero"><picture>{homeHeroMobileProps(section.image, section.mobileImage) && <source media="(max-width: 768px)" {...homeHeroMobileProps(section.image, section.mobileImage)} />}<img {...imageProps(section.image, '100vw')} alt={section.alt} fetchpriority="high" decoding="async" /></picture><div class="home-hero-content"><h1 class="hero-title" aria-label={section.title}><span class="hero-title-line">{section.title.split(/\s+/)[0]}</span>{' '}<span class="hero-title-line">{section.title.split(/\s+/).slice(1).join(' ')}</span></h1><div class="home-hero-actions" aria-label="Acciones principales"><a class="home-hero-button outlined-arrow-cta" href="/contact/">Contactarme<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a></div></div></section>
   : section.type === 'home_about'
      ? <section class="home-about" aria-labelledby="home-about-label"><h2 id="home-about-label" class="section-label">{section.label}</h2><img {...imageProps(section.image, '(max-width: 768px) 38vw, 210px')} alt={section.alt} loading="lazy" decoding="async" /><div class="home-about-copy"><h3 class="editorial-title">{section.title}</h3><a class="home-profile-link outlined-arrow-cta" href="/perfil/">Mi perfil<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a><p>{section.text}</p></div></section>
     : section.type === 'home_projects'

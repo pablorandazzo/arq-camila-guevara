@@ -17,11 +17,14 @@ test('Sveltia WebP uploads and SVG media produce usable image metadata', async (
     await mkdir(join(root, 'src/content/projects'), { recursive: true });
     await mkdir(join(root, 'src/lib'), { recursive: true });
     const photo = '/assets/images/cms-photo.webp';
+    const mobilePhoto = '/assets/images/cms-mobile.webp';
     const vector = '/assets/images/cms-diagram.svg';
     await sharp({ create: { width: 1800, height: 1200, channels: 3, background: '#c4ae9d' } })
       .webp({ quality: 82 }).toFile(join(root, photo.slice(1)));
     await writeFile(join(root, vector.slice(1)), '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120"/></svg>');
-    await writeFile(join(root, 'src/content/site.json'), JSON.stringify({ home: { sections: [{ type: 'home_hero', image: photo }, { image: vector }] } }));
+    await sharp({ create: { width: 700, height: 1100, channels: 3, background: '#9dabc4' } })
+      .webp({ quality: 82 }).toFile(join(root, mobilePhoto.slice(1)));
+    await writeFile(join(root, 'src/content/site.json'), JSON.stringify({ home: { sections: [{ type: 'home_hero', image: photo, mobileImage: mobilePhoto }, { image: vector }] } }));
 
     await promisify(execFile)(process.execPath, [fileURLToPath(new URL('../scripts/prepare-images.mjs', import.meta.url))], { cwd: root });
     const manifest = JSON.parse(await readFile(join(root, 'src/lib/image-manifest.json'), 'utf8'));
@@ -35,6 +38,12 @@ test('Sveltia WebP uploads and SVG media produce usable image metadata', async (
     assert.equal((await sharp(await readFile(mobileHero)).metadata()).format, 'heif');
     assert.ok(manifest[photo].mobileHero.height > manifest[photo].mobileHero.width * 2, 'mobile hero uses a portrait crop');
     assert.deepEqual(manifest[vector], { width: 240, height: 120, sources: [{ width: 240, src: vector }] });
+    assert.equal(manifest[mobilePhoto].width, 700);
+    assert.equal(manifest[mobilePhoto].height, 1100);
+    assert.equal(manifest[mobilePhoto].mobileHero, undefined, 'a custom mobile upload is not pre-cropped');
+    const mobileVariant = await sharp(await readFile(join(root, manifest[mobilePhoto].sources.at(-1).src.slice(1)))).metadata();
+    assert.equal(mobileVariant.width, 700);
+    assert.equal(mobileVariant.height, 1100);
   } finally {
     await rm(root, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
   }

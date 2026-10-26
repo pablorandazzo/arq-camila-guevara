@@ -4,7 +4,7 @@ import { imagePath, imageSection, textSection, quoteSection } from './sections';
 const basic = [imageSection, textSection, quoteSection] as const;
 const homeSection = z.discriminatedUnion('type', [
   ...basic,
-  z.object({ type: z.literal('home_hero'), image: imagePath, alt: z.string().min(1), title: z.string().min(1) }),
+  z.object({ type: z.literal('home_hero'), image: imagePath, mobileImage: imagePath.or(z.literal('')).optional().nullable(), alt: z.string().min(1), title: z.string().min(1) }),
   z.object({ type: z.literal('home_about'), label: z.string().min(1), image: imagePath, alt: z.string().min(1), title: z.string().min(1), text: z.string().min(1) }),
   z.object({ type: z.literal('home_projects'), featuredProjects: z.array(z.string().min(1)).min(1), projectLinkLabel: z.string().min(1) }),
 ]);
