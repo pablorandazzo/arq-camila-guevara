@@ -17,6 +17,17 @@ test('mobile project navigation is labeled in Spanish regardless of project lang
   assert.match(template, /class="project-story-mobile-next"[^>]*><span>Siguiente proyecto<\/span>/);
 });
 
+test('next project is introduced before its preview in a separate mobile block', async () => {
+  const template = await readFile(new URL('../src/pages/projects/[id].astro', import.meta.url), 'utf8');
+  const css = await readFile(new URL('../assets/site.css', import.meta.url), 'utf8');
+  const preview = template.match(/<div class="project-story-next-preview">([\s\S]*?)<\/div>/)?.[1];
+  assert.ok(preview, 'next-project heading and image share a separate preview block');
+  assert.ok(preview.indexOf('project-story-mobile-next') < preview.indexOf('project-story-next-image'), 'label comes before the image, not after it');
+  assert.match(preview, /<svg[^>]*aria-hidden="true"/, 'navigation has a decorative arrow');
+  assert.match(css, /\.project-story-next-preview\{display:contents\}/, 'desktop keeps the original gallery layout');
+  assert.match(css, /@media\(max-width:768px\)\{[\s\S]*?\.project-story-next-preview\{[^}]*display:block[^}]*margin-top:48px[^}]*border-top:1px solid var\(--border\)/, 'mobile separates the next project from the current gallery');
+});
+
 for (const kind of ['projects']) {
   const dir = new URL(`../src/content/${kind}/`, import.meta.url);
   catalogs[kind] = await Promise.all((await readdir(dir)).filter(name => name.endsWith('.json')).map(async name => ({ id: name.slice(0, -5), ...JSON.parse(await readFile(new URL(name, dir), 'utf8')) })));
