@@ -5,5 +5,27 @@
   "category": "mis-proyectos",
   "language": "es",
   "order": 10,
+  "sections": [
+    {
+      "type": "image",
+      "image": "/assets/images/escena-2_upscale01.webp",
+      "alt": "Terraza de acceso"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/escena-5-1-_upscale01.webp",
+      "alt": "Patios internos"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/axo-final_page-0001.webp",
+      "alt": "Axonometría"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/axo-estructural-final_page-0001.webp",
+      "alt": "Axonometría estructural"
+    }
+  ],
   "type": "Comercial"
 }
