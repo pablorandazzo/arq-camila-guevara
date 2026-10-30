@@ -10,48 +10,48 @@
   "sections": [
     {
       "type": "image",
-      "image": "/assets/images/1665560150-dl-rhe-zp-0213-online_cropped-1-2.jpg",
-      "alt": "Residence nestled in the rocks at sunset"
+      "image": "/assets/images/2-1.webp",
+      "alt": "Expansión San Martin de los Andes"
     },
     {
       "type": "image",
-      "image": "/assets/images/1665487849-plan_zil_pasyon.jpg",
-      "alt": "Architectural plan of the Zil Pasyon residences"
+      "image": "/assets/images/3-1.webp",
+      "alt": "Master plan de parque lineal"
     },
     {
       "type": "image",
-      "image": "/assets/images/1659949784-felicite_aerial_view5-6793-original-1.jpg",
-      "alt": "Aerial view of Félicité Island"
+      "image": "/assets/images/5-1.webp",
+      "alt": "Axonométrica Foro Patagónico"
     },
     {
       "type": "image",
-      "image": "/assets/images/1674212795-studio-rhe-zil-residences-07-1-copy.jpg",
-      "alt": "Residence exterior among the granite boulders"
+      "image": "/assets/images/6-1.webp",
+      "alt": "Planta baja"
     },
     {
       "type": "image",
-      "image": "/assets/images/1665559919-four-bedroom_residence_entrance_evening-1.jpg",
-      "alt": "Four-bedroom residence entrance at dusk"
+      "image": "/assets/images/9-1.webp",
+      "alt": "Cortes"
     },
     {
       "type": "image",
-      "image": "/assets/images/1674061021-studio-rhe-zil-residences-02-1.jpg",
-      "alt": "Zil Residences architecture and landscape"
+      "image": "/assets/images/11-1.webp",
+      "alt": "Corte perspectivado"
     },
     {
       "type": "image",
-      "image": "/assets/images/1674213225-four-bedroom_residence_living_and_dining_room-7852-original-1-copy.jpg",
-      "alt": "Living and dining room in a four-bedroom residence"
+      "image": "/assets/images/escena-9_upscale01.webp",
+      "alt": "Acceso desde parque lineal"
     },
     {
       "type": "image",
-      "image": "/assets/images/1674061166-three-bedroom_residence_dining_room-evening-7883-original-1.jpg",
-      "alt": "Three-bedroom residence dining room in the evening"
+      "image": "/assets/images/escena-24_upscale01.webp",
+      "alt": "Acceso por R40"
     },
     {
       "type": "image",
-      "image": "/assets/images/1674213505-studio-rhe-zil-residences-09-1-copy.jpg",
-      "alt": "Interior of a Zil Pasyon residence"
+      "image": "/assets/images/escena-27_upscale01.webp",
+      "alt": "Parlamento"
     }
   ],
   "type": "Residencias"
