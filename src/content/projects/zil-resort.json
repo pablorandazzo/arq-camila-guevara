@@ -20,6 +20,11 @@
     },
     {
       "type": "image",
+      "image": "/assets/images/eesquema-clima.webp",
+      "alt": "Condicion Climatica"
+    },
+    {
+      "type": "image",
       "image": "/assets/images/ext-acceso.webp",
       "alt": "Acceso"
     },
@@ -47,6 +52,11 @@
       "type": "image",
       "image": "/assets/images/foto-planta-esq.webp",
       "alt": "Planta con esquemas de circulación"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/corte-long-persp.webp",
+      "alt": "Corte longitudinal perspectivado"
     },
     {
       "type": "image",
