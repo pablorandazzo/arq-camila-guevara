@@ -1,22 +1,58 @@
 {
-  "title": "Zil Residences",
-  "image": "/assets/images/1665559885-zil-pasyon-r1_1-2.jpg",
-  "alt": "Zil Residences nestled among granite boulders on Félicité Island",
+  "title": "Foro patagónico",
+  "image": "/assets/images/escena-1-2-_upscale01.webp",
+  "alt": "San Martin de los Andes como centro de debate sobre la Patagonia",
   "category": "resorts",
   "location": "Seychelles",
-  "type": "Residencias",
-  "language": "en",
   "description": "Zil Pasyon's architecture is designed and built to settle discretely among the Islands' unique granite boulders. The phrase, \"We will have succeeded if nothing can be seen from outside the Island\" was a starting point for this project which began with a Concept Design before reaching final completion. The Residences are part of the Six Senses resort in the Seychelles Islands on the private island of Félicité.\n\nEach of the 14 Residences are unique and contoured to follow the natural landscape. The residences are clad in black granite to blend in with the island rock. At the same time their geometric forms contrast with the soft weathered forms of the island, defining the emerging structures as man-made. Cool filtered light is delivered deep into the reception from glass floored roof top swimming pools. Angled wings force coastal breezes through the interiors providing natural cooling",
+  "language": "en",
   "order": 1,
   "sections": [
-    { "type": "image", "image": "/assets/images/1665560150-dl-rhe-zp-0213-online_cropped-1-2.jpg", "alt": "Residence nestled in the rocks at sunset" },
-    { "type": "image", "image": "/assets/images/1665487849-plan_zil_pasyon.jpg", "alt": "Architectural plan of the Zil Pasyon residences" },
-    { "type": "image", "image": "/assets/images/1659949784-felicite_aerial_view5-6793-original-1.jpg", "alt": "Aerial view of Félicité Island" },
-    { "type": "image", "image": "/assets/images/1674212795-studio-rhe-zil-residences-07-1-copy.jpg", "alt": "Residence exterior among the granite boulders" },
-    { "type": "image", "image": "/assets/images/1665559919-four-bedroom_residence_entrance_evening-1.jpg", "alt": "Four-bedroom residence entrance at dusk" },
-    { "type": "image", "image": "/assets/images/1674061021-studio-rhe-zil-residences-02-1.jpg", "alt": "Zil Residences architecture and landscape" },
-    { "type": "image", "image": "/assets/images/1674213225-four-bedroom_residence_living_and_dining_room-7852-original-1-copy.jpg", "alt": "Living and dining room in a four-bedroom residence" },
-    { "type": "image", "image": "/assets/images/1674061166-three-bedroom_residence_dining_room-evening-7883-original-1.jpg", "alt": "Three-bedroom residence dining room in the evening" },
-    { "type": "image", "image": "/assets/images/1674213505-studio-rhe-zil-residences-09-1-copy.jpg", "alt": "Interior of a Zil Pasyon residence" }
-  ]
+    {
+      "type": "image",
+      "image": "/assets/images/1665560150-dl-rhe-zp-0213-online_cropped-1-2.jpg",
+      "alt": "Residence nestled in the rocks at sunset"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/1665487849-plan_zil_pasyon.jpg",
+      "alt": "Architectural plan of the Zil Pasyon residences"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/1659949784-felicite_aerial_view5-6793-original-1.jpg",
+      "alt": "Aerial view of Félicité Island"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/1674212795-studio-rhe-zil-residences-07-1-copy.jpg",
+      "alt": "Residence exterior among the granite boulders"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/1665559919-four-bedroom_residence_entrance_evening-1.jpg",
+      "alt": "Four-bedroom residence entrance at dusk"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/1674061021-studio-rhe-zil-residences-02-1.jpg",
+      "alt": "Zil Residences architecture and landscape"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/1674213225-four-bedroom_residence_living_and_dining_room-7852-original-1-copy.jpg",
+      "alt": "Living and dining room in a four-bedroom residence"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/1674061166-three-bedroom_residence_dining_room-evening-7883-original-1.jpg",
+      "alt": "Three-bedroom residence dining room in the evening"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/1674213505-studio-rhe-zil-residences-09-1-copy.jpg",
+      "alt": "Interior of a Zil Pasyon residence"
+    }
+  ],
+  "type": "Residencias"
 }
