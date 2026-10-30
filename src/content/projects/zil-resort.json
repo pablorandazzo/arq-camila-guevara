@@ -10,18 +10,23 @@
   "sections": [
     {
       "type": "image",
-      "image": "/assets/images/17-axonometria-portf.webp",
-      "alt": "Implantación"
-    },
-    {
-      "type": "image",
       "image": "/assets/images/12.-esquema-impl-2.webp",
       "alt": "Esquema implantación"
     },
     {
       "type": "image",
+      "image": "/assets/images/17-axonometria-portf.webp",
+      "alt": "Implantación"
+    },
+    {
+      "type": "image",
       "image": "/assets/images/ext-acceso.webp",
       "alt": "Acceso"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/20-programa.webp",
+      "alt": "Programa"
     },
     {
       "type": "image",
@@ -37,11 +42,6 @@
       "type": "image",
       "image": "/assets/images/desde-pasarela.webp",
       "alt": "Render desde pasarela"
-    },
-    {
-      "type": "image",
-      "image": "/assets/images/20-programa.webp",
-      "alt": "Programa"
     },
     {
       "type": "image",
