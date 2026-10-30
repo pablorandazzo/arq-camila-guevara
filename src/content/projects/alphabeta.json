@@ -25,6 +25,11 @@
       "type": "image",
       "image": "/assets/images/axo-estructural-final_page-0001.webp",
       "alt": "Axonometría estructural"
+    },
+    {
+      "type": "image",
+      "image": "/assets/images/corte-escantillon-ps_page-0001.webp",
+      "alt": "Escantillón"
     }
   ],
   "type": "Comercial"
