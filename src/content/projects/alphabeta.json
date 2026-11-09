@@ -1,8 +1,10 @@
 {
-  "title": "Estuario Rio de la plata",
+  "title": "Condensador del Estuario del Río de la Plata",
   "image": "/assets/images/escena-7_upscale01.webp",
-  "alt": "Proyecto Alphabeta",
+  "alt": "Una nueva centralidad costera que conecta ciudad, paisaje y comunidad",
   "category": "mis-proyectos",
+  "location": "Montevideo, Uruguay.",
+  "description": "El proyecto se ubica en la Fortaleza del Cerro, Montevideo, y propone transformar el borde costero en un nuevo nodo urbano que conecte la ciudad con el Río de la Plata. A través de una propuesta de usos mixtos, busca revitalizar el sector incorporando actividades culturales, deportivas, recreativas y turísticas, generando nuevos espacios de encuentro para la comunidad.\n\nLa estrategia arquitectónica consiste en enterrar los programas de grandes luces y extender la rambla existente mediante terrazas y espacios públicos. El edificio se organiza como un sistema de basamento y torre: el basamento concentra las actividades deportivas, culturales y de transporte, como piscina, cancha, sala de espectáculos, circo y terminales de transporte, con accesos independientes desde distintos niveles y patios que acompañan la topografía.\n\nSobre este basamento se desarrolla una torre destinada a oficinas y hotel. En el nivel de acceso se ubican los ingresos a las distintas actividades, mientras que los niveles superiores contienen oficinas comunes y privadas, y un hotel de cinco plantas con 48 habitaciones. De esta manera, el proyecto integra programas públicos y privados, aprovechando la topografía para minimizar su impacto visual y generar una arquitectura que se extiende hacia el paisaje costero.",
   "language": "es",
   "order": 10,
   "sections": [
