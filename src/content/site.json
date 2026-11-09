@@ -21,7 +21,7 @@
   "creditLabel": "Diseño web",
   "creditUrl": "https://wa.me/+541122527577",
   "home": {
-    "meta": "Portfolio de Camila Guevara, arquitecta. Proyectos de arquitectura que exploran la luz, los materiales y la relación con el contexto.",
+    "meta": "Portfolio de Camila Guevara, arquitecta. Proyectos de arquitectura que exploran las problemáticas del sitio, las necesidades y la relación con el entorno.",
     "sections": [
       {
         "type": "home_hero",
@@ -41,8 +41,8 @@
         "type": "home_projects",
         "featuredProjects": [
           "zil-residences",
-          "zil-resort",
-          "comunidad-bosque-vivo"
+          "comunidad-bosque-vivo",
+          "zil-resort"
         ],
         "projectLinkLabel": "Ver proyecto"
       }
@@ -62,7 +62,7 @@
       {
         "label": "Modelado 3D",
         "tools": [
-          "Rhinoceros + Grasshopper",
+          "Rhinoceros",
           "Sketchup"
         ]
       },
@@ -71,8 +71,7 @@
         "tools": [
           "Vray",
           "Lumion",
-          "D5",
-          "Enscape"
+          "D5"
         ]
       },
       {
@@ -87,21 +86,18 @@
         "label": "Animación",
         "tools": [
           "Premiere",
-          "After Effects",
-          "Bongo (Rhino)"
+          "After Effects"
         ]
       },
       {
         "label": "Otros",
         "tools": [
-          "Fotografía (EOS R100)",
-          "Maquette"
+          "Fotografía (EOS R100)"
         ]
       }
     ],
     "languages": [
-      "Español nativo",
-      "Inglés B2+"
+      "Español nativo"
     ]
   },
   "contact": {
